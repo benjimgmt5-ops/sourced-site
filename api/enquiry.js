@@ -2,6 +2,37 @@ import { put, list, del, requireAdmin, storageReady, readJSON } from './_lib.js'
 
 const FIELDS = ['name', 'company', 'email', 'phone', 'date', 'location', 'categories', 'items', 'details', 'budget', 'transcript', 'source', 'summary'];
 
+const LABELS = { name: 'Name', company: 'Company', email: 'Email', phone: 'Phone', date: 'Dates', location: 'Location',
+  categories: 'Needs', items: 'Items', budget: 'Budget', summary: 'Summary', details: 'Details', transcript: 'Amelia transcript' };
+
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+
+// Sends a copy of each brief to the admin inbox through Resend (https://resend.com).
+// Env: RESEND_API_KEY (required), NOTIFY_EMAIL (default sourced.admin@gmail.com),
+//      NOTIFY_FROM (default Resend's test sender, which only delivers to the Resend account's own email).
+async function emailAdmin(e, req) {
+  const key = process.env.RESEND_API_KEY;
+  if (!key) { console.warn('RESEND_API_KEY not set: brief saved but not emailed'); return; }
+  const to = (process.env.NOTIFY_EMAIL || 'sourced.admin@gmail.com').split(',').map(s => s.trim()).filter(Boolean);
+  const from = process.env.NOTIFY_FROM || 'Sourced. <onboarding@resend.dev>';
+  const host = req.headers['x-forwarded-host'] || req.headers.host || 'wearesourcedit.com';
+  const rows = Object.keys(LABELS).filter(k => e[k]);
+  const text = `New brief via ${e.source}\n\n` + rows.map(k => `${LABELS[k]}: ${e[k]}`).join('\n') + `\n\nOpen the back end: https://${host}/admin`;
+  const html = `<div style="font-family:Arial,sans-serif;font-size:15px;color:#000">`
+    + `<p style="font-size:18px"><b>New brief</b> via ${esc(e.source)}</p><table cellpadding="6" style="border-collapse:collapse">`
+    + rows.map(k => `<tr><td valign="top" style="color:#666;white-space:nowrap">${LABELS[k]}</td><td style="white-space:pre-wrap">${esc(e[k])}</td></tr>`).join('')
+    + `</table><p><a href="https://${host}/admin" style="color:#000">Open the back end</a></p></div>`;
+  const who = e.name || e.company || e.email || e.phone || 'website';
+  const r = await fetch('https://api.resend.com/emails', {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${key}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ from, to, subject: `New Sourced. brief from ${who}`, text, html,
+      ...(e.email && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e.email) ? { reply_to: e.email } : {}) }),
+    signal: AbortSignal.timeout(8000)
+  });
+  if (!r.ok) throw new Error(`Resend ${r.status}: ${(await r.text()).slice(0, 300)}`);
+}
+
 export default async function handler(req, res) {
   res.setHeader('Cache-Control', 'no-store');
   try {
@@ -21,6 +52,8 @@ export default async function handler(req, res) {
       await put('enquiries/' + id + '.json', JSON.stringify(e), {
         access: 'public', contentType: 'application/json', addRandomSuffix: true
       });
+      // copy every brief to the admin inbox; a failed email never loses the brief, it's already saved
+      try { await emailAdmin(e, req); } catch (err) { console.error('Admin email failed:', err.message); }
       return res.json({ ok: true });
     }
     if (!requireAdmin(req, res)) return;
