@@ -94,7 +94,7 @@ def footer():
     return f"""<footer><div class="wrap cols">
 <div><div class="logo" style="font-size:24px;color:#fff">Sourced.</div><p>See it. Say it. Sourced.<br>Production sourcing across London and the UK.</p></div>
 <div><strong style="color:#fff">Services</strong><br>{svc}</div>
-<div><strong style="color:#fff">Contact</strong><br><a href="mailto:{EMAIL}">{EMAIL}</a><br><a href="tel:{PHONE_INTL}">{PHONE_DISPLAY}</a><br><a href="/guides/">Guides</a></div>
+<div><strong style="color:#fff">Contact</strong><br><a href="mailto:{EMAIL}">{EMAIL}</a><br><a href="tel:{PHONE_INTL}">{PHONE_DISPLAY}</a><br><a href="https://www.instagram.com/sourced_uk/" target="_blank" rel="noopener">Instagram</a><br><a href="/guides/">Guides</a></div>
 </div><div class="wrap"><p>© {datetime.date.today().year} Sourced.</p></div></footer>"""
 
 
@@ -152,7 +152,7 @@ def build_service(s):
                   "serviceType": s["nav"], "description": s["description"], "url": SITE + path,
                   "areaServed": [{"@type": "City", "name": "London"}, {"@type": "Country", "name": "United Kingdom"}],
                   "provider": {"@type": "ProfessionalService", "name": "Sourced.", "url": SITE + "/",
-                               "telephone": PHONE_INTL, "email": EMAIL}}
+                               "telephone": PHONE_INTL, "email": EMAIL, "sameAs": ["https://www.instagram.com/sourced_uk/"]}}
     ld = [service_ld, breadcrumb_ld([("Home", "/"), (s["nav"], path)])]
     if s.get("faqs"):
         ld.append(faq_ld(s["faqs"]))
