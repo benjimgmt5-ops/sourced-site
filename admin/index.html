@@ -388,7 +388,7 @@ function renderEnquiries() {
       <div class="enq-top"><h3>${esc(e.name || 'No name given')}</h3>
         <div style="display:flex;gap:8px;align-items:center"><span class="pill ${e.status === 'done' ? '' : 'new'}">${e.status === 'done' ? 'Done' : 'New'}</span><span class="pill">${esc(e.source || 'Website')}</span><span class="muted" style="font-size:13px">${esc(fmt(e.at))}</span></div></div>
       <dl>${F.filter(([k]) => e[k]).map(([k, l]) => `<dt>${l}</dt><dd>${k === 'email' ? `<a href="mailto:${esc(e.email)}">${esc(e.email)}</a>` : k === 'phone' ? `<a href="tel:${esc(e.phone)}">${esc(e.phone)}</a>` : esc(e[k])}</dd>`).join('')}</dl>
-      ${e.transcript ? `<details class="tr"><summary>Conversation with Amelia</summary><pre>${esc(e.transcript)}</pre></details>` : ''}
+      ${e.transcript && /^conv_\w+$/.test(e.transcript) ? `<p style="margin:12px 0 0"><a href="https://elevenlabs.io/app/agents/history/${esc(e.transcript)}" target="_blank" rel="noopener">Listen to the call and read the transcript →</a></p>` : e.transcript ? `<details class="tr"><summary>Conversation with Amelia</summary><pre>${esc(e.transcript)}</pre></details>` : ''}
       <div class="acts">
         ${e.email ? `<a class="btn small primary" href="mailto:${esc(e.email)}?subject=${encodeURIComponent('Your Sourced. quote')}&body=${encodeURIComponent('Hi ' + (e.name || '').split(' ')[0] + ',\n\nThanks for your brief.\n\n')}">Reply by email</a>` : ''}
         <button class="btn small" data-act="toggle" data-i="${i}">${e.status === 'done' ? 'Mark as new' : 'Mark as done'}</button>
