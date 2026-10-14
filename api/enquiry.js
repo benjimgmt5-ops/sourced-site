@@ -9,7 +9,7 @@ const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;',
 
 const VALID_EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const adminInbox = () => (process.env.NOTIFY_EMAIL || 'sourced.admin@gmail.com').split(',').map(s => s.trim()).filter(Boolean);
-// NOTIFY_FROM: sender on the verified domain, e.g. "Sourced. <hello@wearesourcedit.com>".
+// NOTIFY_FROM: sender on the verified domain, e.g. "Sourced. <hello@wearesourced.co.uk>".
 // Unset = Resend's test sender, which only delivers to the Resend account's own email.
 const sender = () => process.env.NOTIFY_FROM || 'Sourced. <onboarding@resend.dev>';
 const domainVerified = () => !/@resend\.dev>?\s*$/i.test(sender());
@@ -49,7 +49,7 @@ async function emailAdmin(e, req) {
   const key = process.env.RESEND_API_KEY;
   if (!key) { console.warn('RESEND_API_KEY not set: brief saved but not emailed'); return; }
   const to = adminInbox();
-  const host = req.headers['x-forwarded-host'] || req.headers.host || 'wearesourcedit.com';
+  const host = req.headers['x-forwarded-host'] || req.headers.host || 'www.wearesourced.co.uk';
   const rows = Object.keys(LABELS).filter(k => e[k]);
   const text = `New brief via ${e.source}\n\n` + rows.map(k => `${LABELS[k]}: ${e[k]}`).join('\n') + `\n\nOpen the back end: https://${host}/admin`;
   const html = `<div style="font-family:Arial,sans-serif;font-size:15px;color:#000">`
