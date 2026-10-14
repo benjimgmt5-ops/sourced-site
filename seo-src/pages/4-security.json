@@ -1,0 +1,41 @@
+{
+  "slug": "set-security-close-protection",
+  "nav": "Security",
+  "browse": "/#/security",
+  "title": "Set Security & Close Protection for Shoots and Artists | Sourced.",
+  "description": "SIA-licensed close protection, set security and overnight guards for music videos, film shoots, artists and events in London and across the UK.",
+  "kicker": "Security · SIA-licensed",
+  "h1": "Set security and close protection",
+  "lede": "SIA-licensed close protection officers, set security teams and overnight guards for artists, shoots and events, vetted and insured.",
+  "hero": {"src": "/media/event-night.jpg", "alt": "Event night with security on site"},
+  "cta": "Need security for your shoot or artist?",
+  "sections": [
+    {
+      "h2": "Keep the set and the talent safe",
+      "text": "Music videos, public shoots and launches attract attention. Sourced. supplies SIA-licensed security so the crew can focus on the work: close protection for artists and talent on set and on the move, perimeter and access control for locations, and overnight guards to protect houses, cars and kit between shoot days.\n\nOfficers are vetted and insured, with backgrounds including the armed forces, the police, touring protection, festivals and fashion week events. We match the team to the job, from one close protection officer to a full set security team."
+    },
+    {
+      "h2": "What we source",
+      "cards": [
+        {"t": "Close protection", "d": "Officers for artists and talent on set, at venues and between locations, including protection drivers."},
+        {"t": "Set security", "d": "Perimeter, crowd and access control for locations and street shoots."},
+        {"t": "Door and access", "d": "Guest lists and access for launches, parties and VIP events."},
+        {"t": "Overnight guards", "d": "Static guards, mobile patrols and CCTV cover for locations, cars and kit between shoot days."}
+      ]
+    },
+    {
+      "h2": "How it works",
+      "text": "Tell us the date, the location, who or what needs protecting and the expected crowd. We recommend the right team size and send one quote, alongside your location, cars and transport if you need them."
+    }
+  ],
+  "gallery": [
+    {"src": "/media/night-location.jpg", "alt": "Night location shoot"},
+    {"src": "/media/music-video-set.jpg", "alt": "Music video set"}
+  ],
+  "faqs": [
+    {"q": "Are your officers licensed?", "a": "Yes. All officers hold the relevant SIA licence for their role, such as close protection, door supervision or security guarding, and are vetted and insured."},
+    {"q": "Can you protect an artist across a whole day?", "a": "Yes. Close protection can cover pickup, set, venue and drop-off, and we can supply protection-trained drivers."},
+    {"q": "Do you cover kit and cars overnight?", "a": "Yes. Static guards and mobile patrols can secure locations, picture cars and equipment between shoot days."},
+    {"q": "How many officers will I need?", "a": "It depends on the location, crowd and profile of the talent. Send the details and we'll recommend a team size."}
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "slug": "location-houses-london",
+  "nav": "Locations",
+  "browse": "/#/properties",
+  "title": "Location Houses & Mansions for Shoots in London | Sourced.",
+  "description": "Location houses, mansions and architectural homes for music videos, fashion shoots, film and events in London and the Home Counties. One brief, one quote.",
+  "kicker": "Locations · London & Home Counties",
+  "h1": "Location houses and mansions for shoots",
+  "lede": "Mansions with pools, glass houses, modern homes and gated estates across London and the Home Counties, for music videos, fashion shoots, film and private events.",
+  "hero": {"src": "/media/mansion-hall.jpg", "alt": "Mansion hallway location for a shoot"},
+  "cta": "Need a location for your shoot?",
+  "sections": [
+    {
+      "h2": "The right house for the shot",
+      "text": "Finding a location that looks right on camera, allows filming and is free on your date usually takes days of calls. Sourced. does that work for you. Tell us the look, the date and the size of your crew, and we come back with houses that fit, along with the cars, transport and security you need, in one quote.\n\nOur current list covers stone and glass houses with indoor-outdoor pools, mansions with screening rooms and gardens, courtyard villas with indoor pools and bars, hillside houses with terraces and hot tubs, and gated family homes with cinemas and gyms, from Greater London out to Rickmansworth and Radlett. If what you need isn't listed, we find it."
+    },
+    {
+      "h2": "What we source",
+      "cards": [
+        {"t": "Mansions", "d": "Large houses with pools, gardens, staircases and screening rooms for music videos, runway shows and fashion shoots."},
+        {"t": "Architectural homes", "d": "Glass pavilions, stone and glass houses and modern builds with floor-to-ceiling windows and clean lines."},
+        {"t": "Pools and gardens", "d": "Indoor and outdoor pools, terraces and landscaped gardens for summer looks in any season."},
+        {"t": "Event and overnight stays", "d": "Houses for launches, private events and crew stays, with parking for unit bases."},
+        {"t": "Warehouses and studios", "d": "Raw spaces, infinity coves and green screen studios when the brief needs something industrial."},
+        {"t": "Anything else", "d": "Listed or not, if it exists we can find it. Describe it in your brief."}
+      ]
+    },
+    {
+      "h2": "How it works",
+      "text": "Send a brief with your shoot date, location area, crew size and the look you're after. You can add specific houses from our listings, or leave it open. We check availability and filming terms, then send one quote that covers the location and anything else you've asked for. Nothing is booked until you accept."
+    }
+  ],
+  "gallery": [
+    {"src": "/media/totteridge.jpg", "alt": "Luxury home location in Totteridge"},
+    {"src": "/media/belvedere.jpg", "alt": "Belvedere luxury house location"},
+    {"src": "/media/neon-pool.jpg", "alt": "Indoor pool location lit with neon"},
+    {"src": "/media/luxury-home.jpg", "alt": "Open-plan luxury home interior"}
+  ],
+  "faqs": [
+    {"q": "Where are your locations?", "a": "Mostly London and the Home Counties, including Greater London, Rickmansworth and Radlett. We can source further afield across the UK on request."},
+    {"q": "Can I book a location for one day?", "a": "Yes. Most shoots are booked by the day or half day. Tell us your hours and crew size and we'll price it."},
+    {"q": "Can you also sort cars, transport and security for the same shoot?", "a": "Yes. That's the point of Sourced. One brief covers the location, picture cars, crew transport, security and anything else, with one quote."},
+    {"q": "How quickly can you find a house?", "a": "Send the brief as early as you can. We'll tell you straight away what's realistic for your date."}
+  ]
+}

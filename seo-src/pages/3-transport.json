@@ -1,0 +1,45 @@
+{
+  "slug": "vip-sprinter-hire-london",
+  "nav": "Transport",
+  "browse": "/#/transport",
+  "title": "VIP Sprinter, V-Class & Coach Hire for Talent and Crew | Sourced.",
+  "description": "VIP Sprinters, Maybach-style V-Classes, executive coaches and private jets for artists, talent and crew. Festivals, tours, shoots and events across London and the UK.",
+  "kicker": "Transport · Talent and crew",
+  "h1": "VIP Sprinter, V-Class and coach hire",
+  "lede": "Starlight-roof Sprinters, Maybach-style V-Classes, executive coaches and private jets to move artists, talent and crew between set, venue and hotel.",
+  "hero": {"src": "/media/vip-sprinter.jpg", "alt": "VIP Sprinter interior with starlight roof"},
+  "cta": "Need to move talent or crew?",
+  "sections": [
+    {
+      "h2": "Arrive like the headliner",
+      "text": "How talent travels sets the tone before they reach set. Sourced. supplies VIP people carriers and coaches for artists, entourages, crews and guests, for shoot days, festival weekends, tours and events across London and the UK.\n\nOur current list includes Mercedes-Maybach-style V-Classes with starlight lounges and screens, VIP Sprinters with captain seats, starlight roofs and ambient lighting, executive Sprinters, a 16 to 17 seat Sprinter XL, executive coaches for 32 and more with rear lounges and bars, a VIP party coach, and private jets from light jets to large-cabin aircraft."
+    },
+    {
+      "h2": "What we source",
+      "cards": [
+        {"t": "V-Classes", "d": "Maybach-style and VIP V-Classes with lounge seating, starlight roofs and screens for small groups."},
+        {"t": "VIP Sprinters", "d": "Captain seats, starlight roofs, screens and lighting for artists and entourages."},
+        {"t": "Executive Sprinters", "d": "Leather seating and ambient lighting for crew shuttles, up to 16 to 17 seats."},
+        {"t": "Coaches", "d": "Executive and luxury coaches for 32 and more, with lounges and bars, for cast, crew and guests."},
+        {"t": "Private jets", "d": "Phenom 300, Learjet 60, Challenger 605 and Legacy 650 for fast moves between cities."},
+        {"t": "Chauffeur cars", "d": "Rolls-Royce and Maybach with drivers for single arrivals."}
+      ]
+    },
+    {
+      "h2": "How it works",
+      "text": "Tell us how many people, the pickup and drop-off points, timings and the feel you want. We match the right vehicles, with drivers, and send one quote. Running a festival or multi-day shoot? We can plan the whole movement schedule."
+    }
+  ],
+  "gallery": [
+    {"src": "/media/sprinters-vclasses.jpg", "alt": "Sprinters and V-Classes lined up"},
+    {"src": "/media/coaches.jpg", "alt": "Executive coaches for crew"},
+    {"src": "/media/vip-coach.jpg", "alt": "VIP coach interior"},
+    {"src": "/media/starlight.jpg", "alt": "Starlight roof in a VIP vehicle"}
+  ],
+  "faqs": [
+    {"q": "Do vehicles come with drivers?", "a": "Yes. All Sprinters, V-Classes, coaches and chauffeur cars come with professional drivers."},
+    {"q": "Can you cover festivals and multi-day events?", "a": "Yes. We supply transport for festival weekends, tours and multi-day shoots, including shuttles between hotel, site and venue."},
+    {"q": "How many people can you move?", "a": "From a single artist in a V-Class to full cast and crew in 32-plus seat coaches. Tell us your numbers and we'll plan the mix of vehicles."},
+    {"q": "Do you arrange private jets?", "a": "Yes. We can source light, midsize and large-cabin jets for moves between cities."}
+  ]
+}

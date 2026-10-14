@@ -1,0 +1,43 @@
+{
+  "slug": "film-crew-and-kit-hire-london",
+  "nav": "Crew & Kit",
+  "browse": "/#/crew",
+  "title": "Film Crew, Camera Kit & Production Services in London | Sourced.",
+  "description": "Film crews, directors, DOPs, photographers, glam teams, camera and lighting kit, plus catering, facilities, models and extras for shoots in London. One brief, one quote.",
+  "kicker": "Crew, kit and everything else",
+  "h1": "Film crew, kit and production services",
+  "lede": "Crews, cameras, lighting, glam teams, catering, facilities, models and extras: everything else your shoot needs, sourced alongside the location and cars.",
+  "hero": {"src": "/media/music-video-set.jpg", "alt": "Music video set with crew and lighting"},
+  "cta": "Need crew or kit for your shoot?",
+  "sections": [
+    {
+      "h2": "The people and kit behind the camera",
+      "text": "A great location and hero car still need the right people and equipment. Sourced. puts together crews and kit for music videos, campaigns, short films and events, from a full crew with heads of department to a single videographer for behind-the-scenes.\n\nWe also cover the parts of a shoot that are easy to forget until the day: catering and craft services, dressing rooms and hair and makeup trailers, toilets, power, radios, permits and unit base parking."
+    },
+    {
+      "h2": "What we source",
+      "cards": [
+        {"t": "Crew", "d": "Film crews, directors and DOPs, videographers, photographers, runners and PAs."},
+        {"t": "Glam and styling", "d": "Hair, makeup and wardrobe teams, plus set stylists and florists."},
+        {"t": "Camera and lighting", "d": "Cinema cameras and lenses, monitors and playback, drones, gimbals, LED and HMI lighting, grip and sound."},
+        {"t": "Studios", "d": "Green screen and infinity cove studios with backdrops."},
+        {"t": "Facilities and catering", "d": "Hot meals, coffee carts, special diets, dressing rooms, trailers, marquees, generators and toilets."},
+        {"t": "Talent and extras", "d": "Models, dancers, extras and crowds, hosts and promoters, and trained animals with handlers."}
+      ]
+    },
+    {
+      "h2": "How it works",
+      "text": "List the roles and kit you need, or describe the shoot and we'll suggest a setup. We send one quote covering crew, kit and everything else in your brief."
+    }
+  ],
+  "gallery": [
+    {"src": "/media/talent-styling.jpg", "alt": "Talent and styling on set"},
+    {"src": "/media/interior.jpg", "alt": "Interior location set up for filming"}
+  ],
+  "faqs": [
+    {"q": "Can you supply a full crew?", "a": "Yes. From a full crew with heads of department to individual roles such as a DOP, photographer or runner."},
+    {"q": "Do you handle filming permits?", "a": "Yes. We can arrange filming permits and road closures as part of the brief."},
+    {"q": "Can you cater for special diets?", "a": "Yes. Vegan, halal and allergy-safe menus are available."},
+    {"q": "Can you supply models, dancers and extras?", "a": "Yes. We source fashion, commercial and fitness models, dancers and choreographers, and extras for crowd scenes."}
+  ]
+}

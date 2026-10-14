@@ -1,0 +1,47 @@
+{
+  "slug": "music-video-shoot-checklist-london",
+  "date": "2026-10-15",
+  "title": "Music Video Shoot Checklist for London: Locations, Cars, Crew & Permits | Sourced.",
+  "description": "A practical checklist for planning a music video shoot in London, from finding a location and hero cars to permits, security, transport and catering.",
+  "h1": "Music video shoot checklist for London",
+  "lede": "Everything to line up before shoot day, in the order it usually needs booking.",
+  "hero": {"src": "/media/music-video-set.jpg", "alt": "Music video set in London"},
+  "services": ["location-houses-london", "supercar-hire-music-videos", "set-security-close-protection", "vip-sprinter-hire-london"],
+  "sections": [
+    {
+      "h2": "1. Lock the date and the look",
+      "text": "Start with the treatment: the mood, the key scenes and how many setups you need in a day. That decides everything else, from how many locations you need to whether the cars have to move on camera. Pick a date with a backup, because houses, cars and crew all book up, especially in summer and around fashion weeks."
+    },
+    {
+      "h2": "2. Find the location",
+      "text": "Houses are usually the first thing to book because everything else works around them. Check the basics before you fall in love with a place:",
+      "bullets": [
+        "Is filming allowed, and for how many hours?",
+        "Is there parking for cars, kit vans and a unit base?",
+        "Are there noise limits or neighbours to think about?",
+        "Is there power, and space for hair, makeup and wardrobe?"
+      ]
+    },
+    {
+      "h2": "3. Book the hero cars",
+      "text": "Decide whether each car is static or moving in shot, and whether you need several in matching colours. Moving shots on public roads need extra planning and may need permission, so tell your supplier early. Book delivery to set, not just the car."
+    },
+    {
+      "h2": "4. Check permits",
+      "text": "Filming on private property needs the owner's permission. Filming on public streets in London usually needs permission from the local council's film office, and some boroughs need more notice than others. Flying a drone needs a registered operator and pilot and has its own rules, so use a licensed drone team."
+    },
+    {
+      "h2": "5. Security and transport",
+      "text": "Music videos with a known artist draw a crowd fast once word gets out. Plan close protection for the artist and set security for the location. Book transport for talent and crew, especially if you are moving between locations during the day."
+    },
+    {
+      "h2": "6. Crew, catering and facilities",
+      "text": "Confirm your crew list, kit list, catering numbers and special diets, toilets and dressing space. Share a call sheet the day before with addresses, parking, timings and contacts."
+    }
+  ],
+  "faqs": [
+    {"q": "How far ahead should I book a music video location?", "a": "As early as you can. A couple of weeks gives you real choice, but short-notice shoots are often possible, so it's always worth asking."},
+    {"q": "Do I need a permit to film a music video in London?", "a": "On private property you need the owner's permission. On public streets you normally need permission from the local council's film office."},
+    {"q": "Can one company source the location, cars and security together?", "a": "Yes. Sourced. handles the location, hero cars, transport, security, crew and extras from one brief, with one quote."}
+  ]
+}
