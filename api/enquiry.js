@@ -7,14 +7,48 @@ const LABELS = { name: 'Name', company: 'Company', email: 'Email', phone: 'Phone
 
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
-// Sends a copy of each brief to the admin inbox through Resend (https://resend.com).
-// Env: RESEND_API_KEY (required), NOTIFY_EMAIL (default sourced.admin@gmail.com),
-//      NOTIFY_FROM (default Resend's test sender, which only delivers to the Resend account's own email).
+const VALID_EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const adminInbox = () => (process.env.NOTIFY_EMAIL || 'sourced.admin@gmail.com').split(',').map(s => s.trim()).filter(Boolean);
+// NOTIFY_FROM: sender on the verified domain, e.g. "Sourced. <hello@wearesourcedit.com>".
+// Unset = Resend's test sender, which only delivers to the Resend account's own email.
+const sender = () => process.env.NOTIFY_FROM || 'Sourced. <onboarding@resend.dev>';
+const domainVerified = () => !/@resend\.dev>?\s*$/i.test(sender());
+
+async function sendEmail(msg) {
+  const r = await fetch('https://api.resend.com/emails', {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${process.env.RESEND_API_KEY}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ from: sender(), ...msg }),
+    signal: AbortSignal.timeout(8000)
+  });
+  if (!r.ok) throw new Error(`Resend ${r.status}: ${(await r.text()).slice(0, 300)}`);
+}
+
+// Thank-you email to the client. Only sent once a verified sender domain is set (NOTIFY_FROM),
+// because Resend's test sender can't deliver to clients.
+async function emailClient(e) {
+  if (!process.env.RESEND_API_KEY || !domainVerified() || !e.email || !VALID_EMAIL.test(e.email)) return;
+  const first = (e.name || '').trim().split(/\s+/)[0];
+  const asked = ['date', 'location', 'categories', 'items', 'budget'].filter(k => e[k]);
+  const text = `Hi${first ? ' ' + first : ''},\n\nThanks for your brief. We've got it, and our team will review what you need and come back to you with a quote.\n\n`
+    + (asked.length ? 'What you asked for:\n' + asked.map(k => `${LABELS[k]}: ${e[k]}`).join('\n') + '\n\n' : '')
+    + `Nothing is booked until you accept a quote. If anything changes, just reply to this email.\n\nSourced.\nSee it. Say it. Sourced.`;
+  const html = `<div style="font-family:Arial,sans-serif;font-size:15px;line-height:1.5;color:#000;max-width:560px">`
+    + `<p style="font-size:26px;font-weight:bold;margin:0 0 20px">Sourced.</p>`
+    + `<p>Hi${first ? ' ' + esc(first) : ''},</p><p>Thanks for your brief. We've got it, and our team will review what you need and come back to you with a quote.</p>`
+    + (asked.length ? `<table cellpadding="6" style="border-collapse:collapse;margin:8px 0 16px">`
+      + asked.map(k => `<tr><td valign="top" style="color:#666;white-space:nowrap">${LABELS[k]}</td><td style="white-space:pre-wrap">${esc(e[k])}</td></tr>`).join('') + `</table>` : '')
+    + `<p>Nothing is booked until you accept a quote. If anything changes, just reply to this email.</p>`
+    + `<p style="color:#666">Sourced.<br>See it. Say it. Sourced.</p></div>`;
+  await sendEmail({ to: [e.email], reply_to: adminInbox()[0], subject: 'We\'ve got your brief | Sourced.', text, html });
+}
+
+// Copy of each brief to the admin inbox through Resend (https://resend.com).
+// Env: RESEND_API_KEY (required), NOTIFY_EMAIL (default sourced.admin@gmail.com), NOTIFY_FROM (see above).
 async function emailAdmin(e, req) {
   const key = process.env.RESEND_API_KEY;
   if (!key) { console.warn('RESEND_API_KEY not set: brief saved but not emailed'); return; }
-  const to = (process.env.NOTIFY_EMAIL || 'sourced.admin@gmail.com').split(',').map(s => s.trim()).filter(Boolean);
-  const from = process.env.NOTIFY_FROM || 'Sourced. <onboarding@resend.dev>';
+  const to = adminInbox();
   const host = req.headers['x-forwarded-host'] || req.headers.host || 'wearesourcedit.com';
   const rows = Object.keys(LABELS).filter(k => e[k]);
   const text = `New brief via ${e.source}\n\n` + rows.map(k => `${LABELS[k]}: ${e[k]}`).join('\n') + `\n\nOpen the back end: https://${host}/admin`;
@@ -23,14 +57,8 @@ async function emailAdmin(e, req) {
     + rows.map(k => `<tr><td valign="top" style="color:#666;white-space:nowrap">${LABELS[k]}</td><td style="white-space:pre-wrap">${esc(e[k])}</td></tr>`).join('')
     + `</table><p><a href="https://${host}/admin" style="color:#000">Open the back end</a></p></div>`;
   const who = e.name || e.company || e.email || e.phone || 'website';
-  const r = await fetch('https://api.resend.com/emails', {
-    method: 'POST',
-    headers: { Authorization: `Bearer ${key}`, 'Content-Type': 'application/json' },
-    body: JSON.stringify({ from, to, subject: `New Sourced. brief from ${who}`, text, html,
-      ...(e.email && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e.email) ? { reply_to: e.email } : {}) }),
-    signal: AbortSignal.timeout(8000)
-  });
-  if (!r.ok) throw new Error(`Resend ${r.status}: ${(await r.text()).slice(0, 300)}`);
+  await sendEmail({ to, subject: `New Sourced. brief from ${who}`, text, html,
+    ...(e.email && VALID_EMAIL.test(e.email) ? { reply_to: e.email } : {}) });
 }
 
 export default async function handler(req, res) {
@@ -54,6 +82,7 @@ export default async function handler(req, res) {
       });
       // copy every brief to the admin inbox; a failed email never loses the brief, it's already saved
       try { await emailAdmin(e, req); } catch (err) { console.error('Admin email failed:', err.message); }
+      try { await emailClient(e); } catch (err) { console.error('Client email failed:', err.message); }
       return res.json({ ok: true });
     }
     if (!requireAdmin(req, res)) return;
