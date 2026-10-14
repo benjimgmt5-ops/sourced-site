@@ -103,6 +103,11 @@ dialog h3{font-family:var(--display);font-weight:400;font-size:28px;margin:0 0 1
 .prog{height:4px;background:var(--steel);margin-top:10px}.prog i{display:block;height:100%;width:0;background:var(--white);transition:width .2s}
 .ver{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--steel);padding:10px 0;gap:10px}
 @media (max-width:700px){
+  nav.tabs button{white-space:nowrap;padding:10px 11px;font-size:14px}nav.tabs{-webkit-overflow-scrolling:touch;scrollbar-width:none}nav.tabs::-webkit-scrollbar{display:none}
+  .editbar .hint{display:none}.editbar select{flex:1;min-width:0}
+  .cards{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.lcard .b{padding:8px 10px}.lcard .acts{padding:0 10px 10px}
+  .head h2{font-size:28px}.filters{flex-wrap:wrap}
+
   header.top{padding:10px 14px}nav.tabs{margin-left:0;width:100%;overflow-x:auto;flex-wrap:nowrap}
   main{padding:18px 14px 50px}.enq dl{grid-template-columns:1fr}.enq dt{margin-top:6px}
   .row{grid-template-columns:72px 1fr}.row .thumb{width:72px}.row .acts{grid-column:1/-1;justify-content:flex-start}
@@ -111,6 +116,8 @@ dialog h3{font-family:var(--display);font-weight:400;font-size:28px;margin:0 0 1
 </style>
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="apple-touch-icon" href="/media/apple-touch-icon.png">
+<meta name="theme-color" content="#000000">
+<meta name="apple-mobile-web-app-title" content="Sourced. Admin">
 </head>
 <body>
 

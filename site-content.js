@@ -144,7 +144,16 @@
   }
   function lazyVideos() {
     var vs = document.querySelectorAll('.reelgrid video[data-src]:not([data-obs])');
-    function go(v) { if (!v.getAttribute('src')) v.src = v.dataset.src; var p = v.play(); if (p && p.catch) p.catch(function () {}); }
+    // phones get lighter 720p copies (media/m/…) of the built-in clips; uploads and desktops get the full file
+    var small = Math.min(screen.width || 9999, window.innerWidth || 9999) < 760;
+    function srcFor(v) { var s = v.dataset.src || ''; return small && /^\/?media\/[\w-]+\.mp4$/.test(s) ? s.replace(/media\//, 'media/m/') : s; }
+    function go(v) {
+      if (!v.getAttribute('src')) {
+        var s = srcFor(v); v.src = s;
+        if (s !== v.dataset.src) v.addEventListener('error', function () { v.src = v.dataset.src; v.play && v.play().catch(function () {}); }, { once: true });
+      }
+      var p = v.play(); if (p && p.catch) p.catch(function () {});
+    }
     if (!('IntersectionObserver' in window)) { vs.forEach(go); return; }
     var io = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) go(e.target); else if (e.target.getAttribute('src')) e.target.pause(); }); }, { rootMargin: '300px 0px' });
     vs.forEach(function (v) { v.dataset.obs = '1'; io.observe(v); });
