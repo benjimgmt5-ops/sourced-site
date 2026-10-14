@@ -177,7 +177,7 @@ def build_service(s):
 <div class="wrap"><p class="crumbs"><a href="/">Home</a> / {E(s['nav'])}</p><p class="kicker">{E(s['kicker'])}</p><h1>{E(s['h1'])}</h1>
 <p class="lede">{E(s['lede'])}</p>
 <div class="ctas"><a class="btn" href="/#brief">Get a quote</a><a class="btn ghost" href="{E(s['browse'])}">See what's available</a></div></div></section>
-<main class="wrap">{sections}{gallery}{faqs}{cta_block(s['cta'])}{related}</main>{footer()}</body></html>"""
+<main class="wrap">{sections}{vehicle_links_html(s['slug'])}{gallery}{faqs}{cta_block(s['cta'])}{related}</main>{footer()}</body></html>"""
     write(path, doc)
     return path
 
@@ -239,8 +239,73 @@ def build_sitemap(paths):
     (ROOT / "sitemap.xml").write_text('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + body + "</urlset>\n")
 
 
+# ---- Vehicle pages: one per model, built from vehicles.json + the home page's own listings ----
+import re as _re
+
+def _home_data():
+    s = (ROOT / "index.html").read_text()
+    gals = json.loads(_re.search(r"const GALS=(\{.*?\});?\n", s).group(1))
+    imgs = json.loads(_re.search(r"const IMGS=(\{.*?\});?\n", s).group(1))
+    return gals, imgs
+
+VEHICLES = json.loads((SRC / "vehicles.json").read_text()) if (SRC / "vehicles.json").exists() else []
+
+
+def _img(imgs, key):
+    v = imgs.get(key, "")
+    return "/" + v if v.startswith("media/") else None
+
+
+def build_vehicle(v, gals, imgs):
+    path = f"/{v['slug']}/"
+    parent = next((s for s in SERVICES if s["slug"] == v["parent"]), SERVICES[0])
+    items = [gals[g] for g in v["groups"] if g in gals]
+    photos = []
+    for it in items:
+        for k in it["imgs"]:
+            src = _img(imgs, k)
+            if src and src not in [p for p, _ in photos]:
+                photos.append((src, it["name"]))
+    hero = photos[0][0]
+    cards = "".join(f'<div class="card"><h3>{E(it["name"])}</h3><p>{E(it.get("sub") or it.get("meta") or "")}</p></div>' for it in items)
+    gallery = '<div class="gallery">' + "".join(
+        f'<img src="{E(src)}" alt="{E(alt)}" loading="lazy" width="800" height="600">' for src, alt in photos[1:9]) + "</div>"
+    faqs = "<h2>Questions</h2>" + "".join(
+        f"<details><summary>{E(q['q'])}</summary><p>{E(q['a'])}</p></details>" for q in v["faqs"])
+    siblings = [o for o in VEHICLES if o["slug"] != v["slug"] and o["parent"] == v["parent"]][:6]
+    related = '<h2>Also available</h2><ul class="related">' + "".join(
+        f'<li><a href="/{E(o["slug"])}/">{E(o["name"])}</a></li>' for o in siblings) + \
+        f'<li><a href="/{E(parent["slug"])}/">All {E(parent["nav"].lower())}</a></li></ul>'
+    product = {"@context": "https://schema.org", "@type": "Service", "name": v["h1"], "description": v["description"],
+               "url": SITE + path, "image": SITE + hero,
+               "areaServed": [{"@type": "City", "name": "London"}, {"@type": "Country", "name": "United Kingdom"}],
+               "provider": {"@type": "ProfessionalService", "name": "Sourced.", "url": SITE + "/", "telephone": PHONE_INTL,
+                            "email": EMAIL, "sameAs": ["https://www.instagram.com/sourced_uk/"]}}
+    ld = [product, breadcrumb_ld([("Home", "/"), (parent["nav"], f"/{parent['slug']}/"), (v["name"], path)]), faq_ld(v["faqs"])]
+    doc = head(v["title"], v["description"], path, hero, ld) + f"""<body>{nav()}
+<section class="hero"><img src="{E(hero)}" alt="{E(v['name'])}" fetchpriority="high">
+<div class="wrap"><p class="crumbs"><a href="/">Home</a> / <a href="/{E(parent['slug'])}/">{E(parent['nav'])}</a> / {E(v['name'])}</p><p class="kicker">{E(parent['nav'])} · London and UK</p><h1>{E(v['h1'])}</h1>
+<p class="lede">{E(v['lede'])}</p>
+<div class="ctas"><a class="btn" href="/#brief">Get a quote</a><a class="btn ghost" href="{E(parent['browse'])}">See all {E(parent['nav'].lower())}</a></div></div></section>
+<main class="wrap"><h2>About the {E(v['name'])}</h2><div class="prose">{para(v['intro'])}</div>
+<h2>Available now</h2><div class="grid">{cards}</div>
+<h2>Good for</h2><div class="prose"><p>{E(v['good'])}</p></div>
+{gallery}{faqs}{cta_block('Want the ' + v['name'] + ' on your shoot?')}{related}</main>{footer()}</body></html>"""
+    write(path, doc)
+    return path
+
+
+def vehicle_links_html(service_slug):
+    vs = [v for v in VEHICLES if v["parent"] == service_slug]
+    if not vs:
+        return ""
+    return '<h2>Popular picks</h2><ul class="related">' + "".join(
+        f'<li><a href="/{E(v["slug"])}/">{E(v["name"])}</a></li>' for v in vs) + "</ul>"
+
+
 if __name__ == "__main__":
-    paths = {"services": [build_service(s) for s in SERVICES], "guides": [build_guide(g) for g in GUIDES]}
+    _g, _i = _home_data()
+    paths = {"services": [build_service(s) for s in SERVICES] + [build_vehicle(v, _g, _i) for v in VEHICLES], "guides": [build_guide(g) for g in GUIDES]}
     build_guides_index()
     build_sitemap(paths)
     print(f"Built {len(paths['services'])} service pages, {len(paths['guides'])} guides, sitemap.xml")
