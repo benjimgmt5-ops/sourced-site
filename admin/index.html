@@ -1,0 +1,568 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Sourced. Back end</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&display=swap" rel="stylesheet">
+<style>
+:root{--black:#000;--ink:#0d0d0d;--graphite:#1a1a1a;--steel:#2e2e2e;--ash:#8f8f8f;--mist:#c9c9c9;--white:#fff;--go:#3ddc84;--warn:#ffc400;--bad:#ff5a5a;
+--display:Anton,'Arial Narrow',Impact,sans-serif;--body:'DM Sans',system-ui,-apple-system,'Segoe UI',sans-serif}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--black);color:var(--white);font:15px/1.5 var(--body)}
+button,input,select,textarea{font:inherit;color:inherit}
+a{color:var(--white)}
+[hidden]{display:none!important}
+.brand{font-family:var(--display);font-size:28px;letter-spacing:.01em;line-height:1}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:40px;padding:0 16px;border:1px solid var(--steel);background:var(--graphite);cursor:pointer;font-weight:500;text-decoration:none;white-space:nowrap}
+.btn:hover{border-color:var(--ash)}
+.btn.primary{background:var(--white);color:var(--black);border-color:var(--white);font-weight:700}
+.btn.primary:hover{background:var(--mist)}
+.btn.danger{color:var(--bad)}
+.btn.small{min-height:32px;padding:0 10px;font-size:13px}
+.btn:disabled{opacity:.45;cursor:default}
+input[type=text],input[type=password],input[type=email],textarea,select{width:100%;background:var(--ink);border:1px solid var(--steel);padding:10px 12px;outline:none}
+input:focus,textarea:focus,select:focus{border-color:var(--white)}
+label{display:block;font-size:13px;color:var(--mist);margin:0 0 6px;font-weight:500}
+.field{margin-bottom:14px}
+.muted{color:var(--ash)}
+/* login */
+#login{min-height:100vh;display:grid;place-items:center;padding:20px}
+.login-box{width:100%;max-width:380px;border:1px solid var(--steel);background:var(--ink);padding:32px}
+.login-box h1{margin:0 0 4px}.login-box p{margin:0 0 22px}
+.err{color:var(--bad);min-height:1.5em;font-size:14px;margin-top:10px}
+/* shell */
+#app{min-height:100vh;display:flex;flex-direction:column}
+header.top{display:flex;align-items:center;gap:16px;padding:12px 20px;border-bottom:1px solid var(--steel);position:sticky;top:0;background:var(--black);z-index:20;flex-wrap:wrap}
+header.top .brand{font-size:24px}
+header.top .tag{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--ash)}
+nav.tabs{display:flex;gap:2px;margin-left:auto;flex-wrap:wrap}
+nav.tabs button{background:none;border:0;border-bottom:2px solid transparent;padding:10px 14px;cursor:pointer;color:var(--mist);font-weight:500}
+nav.tabs button[aria-selected=true]{color:var(--white);border-bottom-color:var(--white)}
+nav.tabs .badge{display:inline-block;min-width:20px;padding:0 6px;margin-left:6px;background:var(--white);color:var(--black);font-size:12px;font-weight:700;border-radius:10px}
+main{flex:1;padding:24px 20px 60px;max-width:1200px;width:100%;margin:0 auto}
+main.wide{max-width:none;padding:0}
+.head{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:20px}
+.head h2{font-family:var(--display);font-weight:400;font-size:34px;margin:0;line-height:1.05;letter-spacing:.01em}
+.head p{margin:4px 0 0;color:var(--ash)}
+.banner{border:1px solid var(--warn);color:var(--warn);padding:12px 16px;margin:16px 20px 0;font-size:14px}
+/* enquiries */
+.filters{display:flex;gap:8px}
+.enq{border:1px solid var(--steel);background:var(--ink);padding:18px 20px;margin-bottom:12px}
+.enq.done{opacity:.6}
+.enq-top{display:flex;gap:12px;align-items:baseline;flex-wrap:wrap;justify-content:space-between}
+.enq-top h3{margin:0;font-size:18px}
+.pill{font-size:12px;padding:2px 8px;border:1px solid var(--steel);color:var(--mist);text-transform:uppercase;letter-spacing:.06em}
+.pill.new{background:var(--white);color:var(--black);border-color:var(--white);font-weight:700}
+.enq dl{display:grid;grid-template-columns:140px 1fr;gap:6px 16px;margin:14px 0 0}
+.enq dt{color:var(--ash);font-size:13px}.enq dd{margin:0;white-space:pre-wrap;word-break:break-word}
+.enq .acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+details.tr summary{cursor:pointer;color:var(--mist);margin-top:10px}
+details.tr pre{white-space:pre-wrap;font:13px/1.5 var(--body);color:var(--mist);background:var(--black);padding:12px;border:1px solid var(--steel);max-height:320px;overflow:auto}
+.empty{border:1px dashed var(--steel);padding:40px;text-align:center;color:var(--ash)}
+/* edit site */
+.editbar{display:flex;align-items:center;gap:10px;padding:10px 20px;border-bottom:1px solid var(--steel);flex-wrap:wrap;background:var(--ink);position:sticky;top:57px;z-index:15}
+.editbar select{width:auto;min-width:180px}
+.editbar .hint{color:var(--ash);font-size:13px;flex:1;min-width:200px}
+.editbar .count{color:var(--warn);font-size:13px}
+#frame{width:100%;height:calc(100vh - 118px);border:0;display:block;background:#000}
+/* videos + listings */
+.rows{display:flex;flex-direction:column;gap:10px}
+.row{display:grid;grid-template-columns:96px 1fr auto;gap:16px;align-items:center;border:1px solid var(--steel);background:var(--ink);padding:10px}
+.row .thumb{width:96px;aspect-ratio:3/4;object-fit:cover;background:var(--graphite);display:block}
+.row .acts{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+.row .meta{min-width:0}
+.row .meta b{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.row.hid{opacity:.45}
+.drop{border:1px dashed var(--ash);padding:22px;text-align:center;cursor:pointer;color:var(--mist)}
+.drop:hover,.drop.over{border-color:var(--white);color:var(--white)}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px}
+.lcard{border:1px solid var(--steel);background:var(--ink);display:flex;flex-direction:column}
+.lcard img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;background:var(--graphite)}
+.lcard .b{padding:10px 12px;flex:1}
+.lcard .b b{display:block;font-size:14px}.lcard .b span{font-size:13px;color:var(--ash)}
+.lcard .acts{display:flex;gap:6px;padding:0 12px 12px;flex-wrap:wrap}
+.lcard.hid{opacity:.4}
+.group-title{font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--ash);margin:26px 0 10px}
+.photos{display:flex;flex-wrap:wrap;gap:8px}
+.ph{position:relative;width:96px}
+.ph img{width:96px;height:72px;object-fit:cover;display:block;border:1px solid var(--steel)}
+.ph .x{position:absolute;top:2px;right:2px;background:rgba(0,0,0,.8);border:0;width:24px;height:24px;cursor:pointer;color:#fff}
+.ph .l{position:absolute;bottom:2px;left:2px;background:rgba(0,0,0,.8);border:0;height:22px;font-size:12px;cursor:pointer;color:#fff;padding:0 6px}
+dialog{background:var(--ink);color:var(--white);border:1px solid var(--steel);padding:0;width:min(640px,94vw);max-height:90vh}
+dialog::backdrop{background:rgba(0,0,0,.75)}
+dialog form{padding:24px;overflow:auto;max-height:90vh}
+dialog h3{font-family:var(--display);font-weight:400;font-size:28px;margin:0 0 18px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.dlg-acts{display:flex;gap:10px;justify-content:flex-end;margin-top:20px}
+/* toast + progress */
+#toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--white);color:var(--black);padding:12px 18px;font-weight:500;z-index:100;max-width:90vw;box-shadow:0 8px 30px rgba(0,0,0,.5)}
+#toast.bad{background:var(--bad);color:#fff}
+.prog{height:4px;background:var(--steel);margin-top:10px}.prog i{display:block;height:100%;width:0;background:var(--white);transition:width .2s}
+.ver{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--steel);padding:10px 0;gap:10px}
+@media (max-width:700px){
+  header.top{padding:10px 14px}nav.tabs{margin-left:0;width:100%;overflow-x:auto;flex-wrap:nowrap}
+  main{padding:18px 14px 50px}.enq dl{grid-template-columns:1fr}.enq dt{margin-top:6px}
+  .row{grid-template-columns:72px 1fr}.row .thumb{width:72px}.row .acts{grid-column:1/-1;justify-content:flex-start}
+  .two{grid-template-columns:1fr}.editbar{top:auto;position:static}#frame{height:75vh}
+}
+</style>
+</head>
+<body>
+
+<section id="login" hidden>
+  <form class="login-box" id="loginForm">
+    <div class="brand">Sourced.</div>
+    <h1 class="muted" style="font-size:14px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;margin-top:10px">Back end</h1>
+    <p class="muted" id="loginNote">Log in to manage your website.</p>
+    <div class="field"><label for="pw">Password</label><input id="pw" type="password" autocomplete="current-password" required></div>
+    <button class="btn primary" style="width:100%" id="loginBtn">Log in</button>
+    <div class="err" id="loginErr" role="alert"></div>
+  </form>
+</section>
+
+<div id="app" hidden>
+  <header class="top">
+    <div><div class="brand">Sourced.</div><div class="tag">Back end</div></div>
+    <nav class="tabs" role="tablist">
+      <button role="tab" data-tab="enquiries" aria-selected="true">Enquiries<span class="badge" id="newCount" hidden>0</span></button>
+      <button role="tab" data-tab="edit" aria-selected="false">Edit text &amp; photos</button>
+      <button role="tab" data-tab="videos" aria-selected="false">Videos</button>
+      <button role="tab" data-tab="listings" aria-selected="false">Listings</button>
+      <button role="tab" data-tab="more" aria-selected="false">More</button>
+    </nav>
+  </header>
+  <div class="banner" id="storageBanner" hidden>Storage isn't connected yet, so nothing can be saved. Connect a Blob store to this project in Vercel → Storage.</div>
+
+  <!-- ENQUIRIES -->
+  <main id="tab-enquiries">
+    <div class="head">
+      <div><h2>Enquiries</h2><p>Every brief sent from the website form or through Amelia lands here.</p></div>
+      <div class="filters">
+        <button class="btn small" data-f="new" aria-pressed="true">New</button>
+        <button class="btn small" data-f="all" aria-pressed="false">All</button>
+        <button class="btn small" id="refreshEnq">Refresh</button>
+      </div>
+    </div>
+    <div id="enqList"><div class="empty">Loading…</div></div>
+  </main>
+
+  <!-- EDIT SITE -->
+  <main id="tab-edit" class="wide" hidden>
+    <div class="editbar">
+      <select id="pageSel" aria-label="Page">
+        <option value="#/">Home page</option>
+        <option value="#/properties">Properties</option>
+        <option value="#/cars">Cars</option>
+        <option value="#/transport">Transport</option>
+        <option value="#/security">Security</option>
+        <option value="#/crew">Crew &amp; Kit</option>
+        <option value="#/misc">Miscellaneous</option>
+        <option value="#brief">Brief form</option>
+      </select>
+      <span class="hint">Click any text on the page to change it. Click any photo to replace it. Listings and videos have their own tabs.</span>
+      <span class="count" id="editCount"></span>
+      <button class="btn" id="editDiscard" disabled>Discard</button>
+      <button class="btn primary" id="editSave" disabled>Save &amp; publish</button>
+    </div>
+    <iframe id="frame" title="Your website in edit mode"></iframe>
+  </main>
+
+  <!-- VIDEOS -->
+  <main id="tab-videos" hidden>
+    <div class="head">
+      <div><h2>Videos</h2><p>The "Live from our shoots" section. Drag to reorder with the arrows, change captions, add or remove clips.</p></div>
+      <div style="display:flex;gap:8px"><button class="btn" id="vidReset">Undo changes</button><button class="btn primary" id="vidSave" disabled>Save &amp; publish</button></div>
+    </div>
+    <label class="drop" id="vidDrop" for="vidFile">
+      <b>+ Add videos</b><br><span class="muted">Drop MP4 files here or click to choose. Export from your phone or editor as MP4 (H.264) so every browser plays it.</span>
+      <input type="file" id="vidFile" accept="video/mp4,video/quicktime,video/webm" multiple hidden>
+      <div class="prog" id="vidProg" hidden><i></i></div>
+    </label>
+    <div class="rows" id="vidRows" style="margin-top:16px"></div>
+  </main>
+
+  <!-- LISTINGS -->
+  <main id="tab-listings" hidden>
+    <div class="head">
+      <div><h2>Listings</h2><p>Properties, cars, transport and everything clients can add to their brief.</p></div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <select id="catSel" style="width:auto">
+          <option value="properties">Properties</option><option value="cars">Cars</option><option value="transport">Transport</option>
+          <option value="security">Security</option><option value="crew">Crew &amp; Kit</option><option value="misc">Miscellaneous</option>
+        </select>
+        <button class="btn primary" id="addListing">+ Add listing</button>
+      </div>
+    </div>
+    <div id="listWrap"></div>
+  </main>
+
+  <!-- MORE -->
+  <main id="tab-more" hidden>
+    <div class="head"><div><h2>More</h2><p>Undo history and your account.</p></div></div>
+    <h3 class="group-title">Saved versions</h3>
+    <p class="muted" style="margin-top:0">Every time you save, the previous version is kept. Restore one to roll the site back.</p>
+    <div id="versions"><div class="muted">Loading…</div></div>
+    <h3 class="group-title">Account</h3>
+    <p class="muted" style="margin-top:0">To change the password, change <b>ADMIN_PASSWORD</b> in Vercel → sourced-site → Settings → Environment Variables, then redeploy.</p>
+    <div style="display:flex;gap:10px;flex-wrap:wrap"><a class="btn" href="/" target="_blank" rel="noopener">View live site</a><button class="btn danger" id="logout">Log out</button></div>
+  </main>
+</div>
+
+<dialog id="dlg">
+  <form method="dialog" id="dlgForm">
+    <h3 id="dlgTitle">Listing</h3>
+    <div class="two">
+      <div class="field"><label for="lCat">Category</label><select id="lCat"></select></div>
+      <div class="field"><label for="lGroup">Section</label><select id="lGroup"></select></div>
+    </div>
+    <div class="field" id="lNewGroupWrap" hidden><label for="lNewGroup">New section name</label><input type="text" id="lNewGroup" placeholder="e.g. Warehouses"></div>
+    <div class="field"><label for="lName">Name</label><input type="text" id="lName" required placeholder="e.g. Rolls-Royce Phantom, black"></div>
+    <div class="field"><label for="lSub">Short line under the name</label><input type="text" id="lSub" placeholder="e.g. Black with cream interior"></div>
+    <div class="field"><label for="lLoc">Location (optional)</label><input type="text" id="lLoc" placeholder="e.g. Hertfordshire"></div>
+    <div class="field"><label for="lDesc">Description</label><textarea id="lDesc" rows="4" placeholder="What makes it good for a shoot"></textarea></div>
+    <div class="field"><label>Photos <span class="muted">(first photo is the cover)</span></label>
+      <div class="photos" id="lPhotos"></div>
+      <label class="drop" for="lFile" style="margin-top:10px;padding:14px"><b>+ Add photos</b><input type="file" id="lFile" accept="image/*" multiple hidden><div class="prog" id="lProg" hidden><i></i></div></label>
+    </div>
+    <div class="err" id="dlgErr"></div>
+    <div class="dlg-acts"><button class="btn" value="cancel" formnovalidate>Cancel</button><button class="btn primary" id="dlgSave" value="save">Save &amp; publish</button></div>
+  </form>
+</dialog>
+
+<input type="file" id="imgPick" accept="image/*" hidden>
+<div id="toast" role="status" hidden></div>
+
+<script type="module">
+let blobUpload = null;
+async function getUploader() {
+  if (blobUpload) return blobUpload;
+  const srcs = ['https://esm.sh/@vercel/blob@1.1.1/client', 'https://cdn.jsdelivr.net/npm/@vercel/blob@1.1.1/dist/client.js/+esm'];
+  for (const s of srcs) { try { const m = await import(s); if (m.upload) return (blobUpload = m.upload); } catch (_) {} }
+  throw new Error('Upload tool could not load. Check your connection.');
+}
+const $ = s => document.querySelector(s);
+const abs = u => !u ? '' : /^(https?:|data:|blob:|\/)/.test(u) ? u : '/' + u;
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+function toast(msg, bad) { const t = $('#toast'); t.textContent = msg; t.className = bad ? 'bad' : ''; t.hidden = false; clearTimeout(toast.t); toast.t = setTimeout(() => t.hidden = true, bad ? 6000 : 3000); }
+async function api(path, opts = {}) {
+  const r = await fetch(path, { credentials: 'same-origin', headers: { 'Content-Type': 'application/json' }, ...opts, body: opts.body ? JSON.stringify(opts.body) : undefined });
+  let j = {}; try { j = await r.json(); } catch (_) {}
+  if (r.status === 401 && path !== '/api/login') { showLogin(); throw new Error('Please log in again.'); }
+  if (!r.ok) throw new Error(j.error || ('Something went wrong (' + r.status + ')'));
+  return j;
+}
+
+/* ---------- uploads ---------- */
+async function uploadFile(file, onPct) {
+  const upload = await getUploader();
+  const safe = file.name.toLowerCase().replace(/[^a-z0-9.\-]+/g, '-');
+  const folder = file.type.startsWith('video') ? 'videos/' : 'photos/';
+  const b = await upload(folder + safe, file, {
+    access: 'public', handleUploadUrl: '/api/upload', multipart: file.size > 20 * 1024 * 1024,
+    onUploadProgress: e => onPct && onPct(e.percentage)
+  });
+  return b.url;
+}
+function posterFrom(file) {
+  return new Promise(res => {
+    const v = document.createElement('video'); v.muted = true; v.playsInline = true; v.preload = 'auto';
+    v.src = URL.createObjectURL(file);
+    const done = b => { URL.revokeObjectURL(v.src); res(b); };
+    v.onloadeddata = () => { v.currentTime = Math.min(0.6, (v.duration || 1) / 3); };
+    v.onseeked = () => {
+      const w = Math.min(1080, v.videoWidth || 720), h = Math.round(w * (v.videoHeight || 1280) / (v.videoWidth || 720));
+      const c = document.createElement('canvas'); c.width = w; c.height = h;
+      c.getContext('2d').drawImage(v, 0, 0, w, h);
+      c.toBlob(b => done(b ? new File([b], file.name.replace(/\.\w+$/, '') + '-poster.jpg', { type: 'image/jpeg' }) : null), 'image/jpeg', 0.85);
+    };
+    v.onerror = () => done(null);
+    setTimeout(() => done(null), 15000);
+  });
+}
+
+/* ---------- state ---------- */
+let content = {}, frameApi = null, frameReady;
+function fresh() {
+  return {
+    text: { ...(content.text || {}) }, images: { ...(content.images || {}) },
+    reels: content.reels ? content.reels.map(r => ({ ...r })) : null,
+    listings: { added: (content.listings?.added || []).map(a => ({ ...a })), edits: { ...(content.listings?.edits || {}) }, hidden: [...(content.listings?.hidden || [])] }
+  };
+}
+async function publish(next, msg) {
+  await api('/api/content', { method: 'POST', body: next });
+  content = next; toast(msg || 'Saved. Your website is updated.');
+  reloadFrame();
+}
+
+/* ---------- login ---------- */
+function showLogin() { $('#app').hidden = true; $('#login').hidden = false; setTimeout(() => $('#pw').focus(), 50); }
+$('#loginForm').addEventListener('submit', async e => {
+  e.preventDefault(); $('#loginErr').textContent = ''; $('#loginBtn').disabled = true;
+  try { await api('/api/login', { method: 'POST', body: { password: $('#pw').value } }); $('#pw').value = ''; start(); }
+  catch (er) { $('#loginErr').textContent = er.message; }
+  $('#loginBtn').disabled = false;
+});
+$('#logout').addEventListener('click', async () => { await api('/api/login', { method: 'DELETE' }); location.reload(); });
+
+async function boot() {
+  const s = await api('/api/login');
+  if (!s.passwordSet) { showLogin(); $('#loginNote').innerHTML = 'The back end password hasn\'t been set yet. Add <b>ADMIN_PASSWORD</b> in Vercel → sourced-site → Settings → Environment Variables, then redeploy.'; $('#loginBtn').disabled = true; return; }
+  if (!s.loggedIn) return showLogin();
+  start(s);
+}
+async function start(s) {
+  s = s || await api('/api/login');
+  $('#login').hidden = true; $('#app').hidden = false;
+  $('#storageBanner').hidden = s.storage;
+  content = await api('/api/content');
+  frameReady = new Promise(r => (window.__frameResolve = r));
+  reloadFrame();
+  loadEnquiries();
+  setInterval(() => { if (!document.hidden && !$('#tab-enquiries').hidden) loadEnquiries(true); }, 60000);
+}
+
+/* ---------- tabs ---------- */
+document.querySelectorAll('nav.tabs button').forEach(b => b.addEventListener('click', () => openTab(b.dataset.tab)));
+function openTab(t) {
+  document.querySelectorAll('nav.tabs button').forEach(b => b.setAttribute('aria-selected', b.dataset.tab === t));
+  document.querySelectorAll('main[id^="tab-"]').forEach(m => m.hidden = m.id !== 'tab-' + t);
+  if (t === 'videos') renderVideos();
+  if (t === 'listings') renderListings();
+  if (t === 'more') renderVersions();
+  if (t === 'enquiries') loadEnquiries();
+}
+
+/* ---------- edit frame ---------- */
+window.SourcedAdmin = {
+  onFrameReady() { frameApi = $('#frame').contentWindow.__sourced; window.__frameResolve && window.__frameResolve(); setEditCount(0); },
+  onChange(n) { setEditCount(n); },
+  pickImage(cb) {
+    const inp = $('#imgPick'); inp.value = '';
+    inp.onchange = async () => {
+      const f = inp.files[0]; if (!f) return;
+      toast('Uploading photo…');
+      try { cb(await uploadFile(f)); toast('Photo added. Press Save & publish to make it live.'); }
+      catch (e) { toast(e.message, true); }
+    };
+    inp.click();
+  }
+};
+function reloadFrame() {
+  frameReady = new Promise(r => (window.__frameResolve = r));
+  $('#frame').src = '/?edit=1&t=' + Date.now() + ($('#pageSel').value || '#/');
+}
+function setEditCount(n) { $('#editCount').textContent = n ? n + ' unsaved change' + (n > 1 ? 's' : '') : ''; $('#editSave').disabled = !n; $('#editDiscard').disabled = !n; }
+$('#pageSel').addEventListener('change', () => { try { $('#frame').contentWindow.location.hash = $('#pageSel').value; } catch (_) {} });
+$('#editDiscard').addEventListener('click', () => { if (confirm('Throw away your unsaved changes?')) reloadFrame(); });
+$('#editSave').addEventListener('click', async () => {
+  const ch = frameApi && frameApi.changes; if (!ch) return;
+  const next = fresh();
+  Object.assign(next.text, ch.text); Object.assign(next.images, ch.images);
+  $('#editSave').disabled = true;
+  try { await publish(next); } catch (e) { toast(e.message, true); $('#editSave').disabled = false; }
+});
+
+/* ---------- enquiries ---------- */
+let enqs = [], enqFilter = 'new';
+document.querySelectorAll('[data-f]').forEach(b => b.addEventListener('click', () => {
+  enqFilter = b.dataset.f; document.querySelectorAll('[data-f]').forEach(x => x.setAttribute('aria-pressed', x === b)); renderEnquiries();
+}));
+$('#refreshEnq').addEventListener('click', () => loadEnquiries());
+async function loadEnquiries(quiet) {
+  try { enqs = (await api('/api/enquiry')).enquiries || []; renderEnquiries(); }
+  catch (e) { if (!quiet) $('#enqList').innerHTML = '<div class="empty">' + esc(e.message) + '</div>'; }
+}
+function fmt(d) { try { return new Date(d).toLocaleString('en-GB', { weekday: 'short', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }); } catch (_) { return d; } }
+function renderEnquiries() {
+  const n = enqs.filter(e => e.status !== 'done').length;
+  $('#newCount').hidden = !n; $('#newCount').textContent = n;
+  const list = enqFilter === 'new' ? enqs.filter(e => e.status !== 'done') : enqs;
+  if (!list.length) { $('#enqList').innerHTML = '<div class="empty">' + (enqFilter === 'new' ? 'No new enquiries. New briefs from the website and Amelia appear here.' : 'No enquiries yet.') + '</div>'; return; }
+  const F = [['company', 'Company'], ['email', 'Email'], ['phone', 'Phone'], ['date', 'Shoot date'], ['location', 'Location'], ['categories', 'Needs'], ['items', 'Items picked'], ['details', 'Details'], ['budget', 'Budget'], ['summary', 'Summary']];
+  $('#enqList').innerHTML = list.map((e, i) => `
+    <article class="enq ${e.status === 'done' ? 'done' : ''}">
+      <div class="enq-top"><h3>${esc(e.name || 'No name given')}</h3>
+        <div style="display:flex;gap:8px;align-items:center"><span class="pill ${e.status === 'done' ? '' : 'new'}">${e.status === 'done' ? 'Done' : 'New'}</span><span class="pill">${esc(e.source || 'Website')}</span><span class="muted" style="font-size:13px">${esc(fmt(e.at))}</span></div></div>
+      <dl>${F.filter(([k]) => e[k]).map(([k, l]) => `<dt>${l}</dt><dd>${k === 'email' ? `<a href="mailto:${esc(e.email)}">${esc(e.email)}</a>` : k === 'phone' ? `<a href="tel:${esc(e.phone)}">${esc(e.phone)}</a>` : esc(e[k])}</dd>`).join('')}</dl>
+      ${e.transcript ? `<details class="tr"><summary>Conversation with Amelia</summary><pre>${esc(e.transcript)}</pre></details>` : ''}
+      <div class="acts">
+        ${e.email ? `<a class="btn small primary" href="mailto:${esc(e.email)}?subject=${encodeURIComponent('Your Sourced. quote')}&body=${encodeURIComponent('Hi ' + (e.name || '').split(' ')[0] + ',\n\nThanks for your brief.\n\n')}">Reply by email</a>` : ''}
+        <button class="btn small" data-act="toggle" data-i="${i}">${e.status === 'done' ? 'Mark as new' : 'Mark as done'}</button>
+        <button class="btn small danger" data-act="del" data-i="${i}">Delete</button>
+      </div>
+    </article>`).join('');
+  $('#enqList').querySelectorAll('[data-act]').forEach(b => b.addEventListener('click', async () => {
+    const e = list[+b.dataset.i]; b.disabled = true;
+    try {
+      if (b.dataset.act === 'del') { if (!confirm('Delete this enquiry for good?')) { b.disabled = false; return; } await api('/api/enquiry', { method: 'DELETE', body: { url: e.url } }); }
+      else await api('/api/enquiry', { method: 'PATCH', body: { url: e.url, status: e.status === 'done' ? 'new' : 'done' } });
+      await loadEnquiries();
+    } catch (er) { toast(er.message, true); b.disabled = false; }
+  }));
+}
+
+/* ---------- videos ---------- */
+let reels = null;
+async function renderVideos(reset) {
+  await frameReady;
+  if (!reels || reset) reels = (content.reels || frameApi.defaults.reels).map(r => ({ ...r }));
+  const box = $('#vidRows');
+  if (!reels.length) { box.innerHTML = '<div class="empty">No videos. Add some above.</div>'; }
+  else box.innerHTML = reels.map((r, i) => `
+    <div class="row">
+      ${r.poster ? `<img class="thumb" src="${esc(abs(r.poster))}" alt="">` : `<video class="thumb" src="${esc(abs(r.src))}#t=0.5" muted preload="metadata"></video>`}
+      <div class="meta"><label for="cap${i}">Caption</label><input type="text" id="cap${i}" data-i="${i}" value="${esc(r.caption)}"></div>
+      <div class="acts">
+        <button class="btn small" data-mv="-1" data-i="${i}" ${i === 0 ? 'disabled' : ''} aria-label="Move up">↑</button>
+        <button class="btn small" data-mv="1" data-i="${i}" ${i === reels.length - 1 ? 'disabled' : ''} aria-label="Move down">↓</button>
+        <a class="btn small" href="${esc(abs(r.src))}" target="_blank" rel="noopener">Play</a>
+        <button class="btn small danger" data-rm="${i}">Remove</button>
+      </div>
+    </div>`).join('');
+  box.querySelectorAll('input[data-i]').forEach(inp => inp.addEventListener('input', () => { reels[+inp.dataset.i].caption = inp.value; dirtyVids(); }));
+  box.querySelectorAll('[data-mv]').forEach(b => b.addEventListener('click', () => { const i = +b.dataset.i, j = i + +b.dataset.mv; [reels[i], reels[j]] = [reels[j], reels[i]]; dirtyVids(); renderVideos(); }));
+  box.querySelectorAll('[data-rm]').forEach(b => b.addEventListener('click', () => { reels.splice(+b.dataset.rm, 1); dirtyVids(); renderVideos(); }));
+}
+function dirtyVids() { $('#vidSave').disabled = false; }
+$('#vidReset').addEventListener('click', () => { $('#vidSave').disabled = true; renderVideos(true); });
+$('#vidSave').addEventListener('click', async () => {
+  const next = fresh(); next.reels = reels.map(r => ({ src: r.src, poster: r.poster || '', caption: r.caption || '' }));
+  $('#vidSave').disabled = true;
+  try { await publish(next, 'Videos saved. Your website is updated.'); } catch (e) { toast(e.message, true); $('#vidSave').disabled = false; }
+});
+async function addVideos(files) {
+  await frameReady; if (!reels) await renderVideos();
+  const prog = $('#vidProg'), bar = prog.querySelector('i'); prog.hidden = false;
+  for (const f of files) {
+    if (!f.type.startsWith('video')) continue;
+    try {
+      toast('Uploading ' + f.name + '…');
+      const poster = await posterFrom(f);
+      const src = await uploadFile(f, p => bar.style.width = p + '%');
+      const purl = poster ? await uploadFile(poster) : '';
+      reels.unshift({ src, poster: purl, caption: f.name.replace(/\.\w+$/, '').replace(/[-_]+/g, ' ') });
+      dirtyVids(); renderVideos();
+    } catch (e) { toast(f.name + ': ' + e.message, true); }
+  }
+  prog.hidden = true; bar.style.width = '0'; toast('Upload done. Check the captions, then press Save & publish.');
+}
+$('#vidFile').addEventListener('change', e => addVideos([...e.target.files]));
+dropZone($('#vidDrop'), addVideos);
+function dropZone(el, fn) {
+  el.addEventListener('dragover', e => { e.preventDefault(); el.classList.add('over'); });
+  el.addEventListener('dragleave', () => el.classList.remove('over'));
+  el.addEventListener('drop', e => { e.preventDefault(); el.classList.remove('over'); fn([...e.dataTransfer.files]); });
+}
+
+/* ---------- listings ---------- */
+const TABS = { properties: 'Properties', cars: 'Cars', transport: 'Transport', security: 'Security', crew: 'Crew & Kit', misc: 'Miscellaneous' };
+function imgSrc(v) { return !v ? '' : /^(data:|https?:|\/)/.test(v) ? v : /^media\//.test(v) ? '/' + v : 'data:image/jpeg;base64,' + v; }
+function photoUrl(ref) { if (/^k:/.test(ref)) return imgSrc(frameApi.imgs()[ref.slice(2)]); return abs(ref); }
+$('#catSel').addEventListener('change', renderListings);
+async function renderListings() {
+  await frameReady;
+  const tab = $('#catSel').value, G = frameApi.gals(), L = content.listings || { added: [], edits: {}, hidden: [] };
+  const base = frameApi.defaults.listings.filter(x => x.tab === tab);
+  const groups = {};
+  base.forEach(x => (groups[x.group || 'Listings'] ||= []).push({ kind: 'base', id: x.id }));
+  (L.added || []).filter(a => a.tab === tab).forEach(a => (groups[a.group || 'More'] ||= []).push({ kind: 'added', id: a.id }));
+  const keys = Object.keys(groups);
+  if (!keys.length) { $('#listWrap').innerHTML = '<div class="empty">Nothing in ' + TABS[tab] + ' yet. Press + Add listing.</div>'; return; }
+  $('#listWrap').innerHTML = keys.map(g => `<h3 class="group-title">${esc(g)}</h3><div class="cards">${groups[g].map(it => {
+    let name, sub, cover, hidden = (L.hidden || []).includes(it.id);
+    if (it.kind === 'added') { const a = L.added.find(a => a.id === it.id); name = a.name; sub = a.sub; cover = abs(a.imgs[0]); }
+    else { const e = (L.edits || {})[it.id] || {}, gg = G[it.id] || {}; name = e.name || gg.name; sub = e.sub ?? gg.sub; cover = e.imgs ? photoUrl(e.imgs[0]) : imgSrc(frameApi.imgs()[(gg.imgs || [])[0]]); }
+    return `<div class="lcard ${hidden ? 'hid' : ''}"><img src="${esc(cover)}" alt="" loading="lazy"><div class="b"><b>${esc(name)}</b><span>${esc((sub || '').slice(0, 80))}</span></div>
+      <div class="acts"><button class="btn small" data-ed="${esc(it.id)}" data-k="${it.kind}">Edit</button>
+      ${it.kind === 'added' ? `<button class="btn small danger" data-del="${esc(it.id)}">Delete</button>` : `<button class="btn small" data-hide="${esc(it.id)}">${hidden ? 'Show on site' : 'Hide'}</button>`}</div></div>`;
+  }).join('')}</div>`).join('');
+  $('#listWrap').querySelectorAll('[data-ed]').forEach(b => b.addEventListener('click', () => openListing(b.dataset.ed, b.dataset.k)));
+  $('#listWrap').querySelectorAll('[data-hide]').forEach(b => b.addEventListener('click', async () => {
+    const next = fresh(), id = b.dataset.hide, h = next.listings.hidden;
+    if (h.includes(id)) next.listings.hidden = h.filter(x => x !== id); else h.push(id);
+    try { await publish(next, h.includes(id) ? 'Hidden from the site.' : 'Back on the site.'); renderListings(); } catch (e) { toast(e.message, true); }
+  }));
+  $('#listWrap').querySelectorAll('[data-del]').forEach(b => b.addEventListener('click', async () => {
+    if (!confirm('Delete this listing?')) return;
+    const next = fresh(); next.listings.added = next.listings.added.filter(a => a.id !== b.dataset.del);
+    try { await publish(next, 'Listing deleted.'); renderListings(); } catch (e) { toast(e.message, true); }
+  }));
+}
+
+let dlgState = null;
+function fillGroups(tab, sel) {
+  const gs = [...new Set([...(frameApi.defaults.groups[tab] || []), ...((content.listings?.added || []).filter(a => a.tab === tab).map(a => a.group))])].filter(Boolean);
+  $('#lGroup').innerHTML = gs.map(g => `<option>${esc(g)}</option>`).join('') + '<option value="__new">+ New section…</option>';
+  if (sel && gs.includes(sel)) $('#lGroup').value = sel;
+  if (!gs.length) $('#lGroup').value = '__new';
+  $('#lNewGroupWrap').hidden = $('#lGroup').value !== '__new';
+}
+$('#lCat').innerHTML = Object.entries(TABS).map(([k, v]) => `<option value="${k}">${esc(v)}</option>`).join('');
+$('#lCat').addEventListener('change', () => fillGroups($('#lCat').value));
+$('#lGroup').addEventListener('change', () => { $('#lNewGroupWrap').hidden = $('#lGroup').value !== '__new'; });
+$('#addListing').addEventListener('click', () => openListing(null, 'new'));
+async function openListing(id, kind) {
+  await frameReady;
+  const G = frameApi.gals(), L = content.listings || {};
+  let d = { tab: $('#catSel').value, group: '', name: '', sub: '', loc: '', desc: '', imgs: [] };
+  if (kind === 'added') d = { ...L.added.find(a => a.id === id) };
+  if (kind === 'base') {
+    const gg = G[id] || {}, e = (L.edits || {})[id] || {}, ix = frameApi.defaults.listings.find(x => x.id === id) || {};
+    d = { tab: ix.tab, group: ix.group, name: e.name || gg.name, sub: e.sub ?? gg.sub ?? '', loc: e.loc ?? gg.loc ?? '', desc: e.desc ?? gg.desc ?? '', imgs: e.imgs ? [...e.imgs] : (gg.imgs || []).map(k => 'k:' + k) };
+  }
+  dlgState = { id, kind, imgs: [...(d.imgs || [])] };
+  $('#dlgTitle').textContent = kind === 'new' ? 'Add listing' : 'Edit listing';
+  $('#lCat').value = d.tab; fillGroups(d.tab, d.group);
+  $('#lCat').disabled = $('#lGroup').disabled = kind === 'base';
+  $('#lName').value = d.name || ''; $('#lSub').value = d.sub || ''; $('#lLoc').value = d.loc || ''; $('#lDesc').value = d.desc || ''; $('#lNewGroup').value = '';
+  $('#dlgErr').textContent = ''; renderPhotos(); $('#dlg').showModal();
+}
+function renderPhotos() {
+  $('#lPhotos').innerHTML = dlgState.imgs.map((r, i) => `<div class="ph"><img src="${esc(photoUrl(r))}" alt="Photo ${i + 1}"><button type="button" class="x" data-x="${i}" aria-label="Remove photo">×</button>${i ? `<button type="button" class="l" data-c="${i}">Make cover</button>` : ''}</div>`).join('') || '<span class="muted">No photos yet.</span>';
+  $('#lPhotos').querySelectorAll('[data-x]').forEach(b => b.addEventListener('click', () => { dlgState.imgs.splice(+b.dataset.x, 1); renderPhotos(); }));
+  $('#lPhotos').querySelectorAll('[data-c]').forEach(b => b.addEventListener('click', () => { const [p] = dlgState.imgs.splice(+b.dataset.c, 1); dlgState.imgs.unshift(p); renderPhotos(); }));
+}
+$('#lFile').addEventListener('change', async e => {
+  const files = [...e.target.files]; e.target.value = '';
+  const prog = $('#lProg'), bar = prog.querySelector('i'); prog.hidden = false;
+  for (const f of files) { try { dlgState.imgs.push(await uploadFile(f, p => bar.style.width = p + '%')); renderPhotos(); } catch (er) { $('#dlgErr').textContent = f.name + ': ' + er.message; } }
+  prog.hidden = true; bar.style.width = '0';
+});
+$('#dlgForm').addEventListener('submit', async e => {
+  if (e.submitter && e.submitter.value === 'cancel') return;
+  e.preventDefault();
+  const name = $('#lName').value.trim();
+  if (!name) { $('#dlgErr').textContent = 'Give it a name.'; return; }
+  if (!dlgState.imgs.length) { $('#dlgErr').textContent = 'Add at least one photo.'; return; }
+  const group = $('#lGroup').value === '__new' ? ($('#lNewGroup').value.trim() || 'More') : $('#lGroup').value;
+  const vals = { name, sub: $('#lSub').value.trim(), loc: $('#lLoc').value.trim(), desc: $('#lDesc').value.trim(), imgs: dlgState.imgs };
+  const next = fresh();
+  if (dlgState.kind === 'new') next.listings.added.push({ id: 'x' + Date.now().toString(36), tab: $('#lCat').value, group, ...vals });
+  else if (dlgState.kind === 'added') { const a = next.listings.added.find(a => a.id === dlgState.id); Object.assign(a, { tab: $('#lCat').value, group }, vals); }
+  else next.listings.edits[dlgState.id] = vals;
+  $('#dlgSave').disabled = true;
+  try { await publish(next, 'Listing saved. Your website is updated.'); $('#dlg').close(); $('#catSel').value = dlgState.kind === 'base' ? $('#catSel').value : $('#lCat').value; await frameReady; renderListings(); }
+  catch (er) { $('#dlgErr').textContent = er.message; }
+  $('#dlgSave').disabled = false;
+});
+
+/* ---------- versions ---------- */
+async function renderVersions() {
+  try {
+    const v = (await api('/api/content?versions=1')).versions || [];
+    $('#versions').innerHTML = v.length ? v.map((x, i) => `<div class="ver"><span>${esc(fmt(x.at))}${i === 0 ? ' <span class="pill new">Live now</span>' : ''}</span>${i ? `<button class="btn small" data-r="${esc(x.url)}">Restore</button>` : ''}</div>`).join('') : '<div class="muted">No saved changes yet.</div>';
+    $('#versions').querySelectorAll('[data-r]').forEach(b => b.addEventListener('click', async () => {
+      if (!confirm('Roll the website back to this version?')) return;
+      try { await api('/api/content', { method: 'POST', body: { restore: b.dataset.r } }); content = await api('/api/content'); reels = null; reloadFrame(); toast('Restored.'); renderVersions(); } catch (e) { toast(e.message, true); }
+    }));
+  } catch (e) { $('#versions').textContent = e.message; }
+}
+
+boot().catch(e => { showLogin(); $('#loginErr').textContent = e.message; });
+</script>
+</body>
+</html>

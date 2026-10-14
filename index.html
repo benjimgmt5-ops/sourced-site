@@ -684,7 +684,7 @@ footer a:hover{color:var(--white)}
 
 <script>
 /* ============ SETTINGS — edit these two lines when you go live ============ */
-const FORM_ENDPOINT = "https://formspree.io/f/YOUR_FORM_ID"; // briefs are emailed to you via Formspree
+const FORM_ENDPOINT = "/api/enquiry"; // briefs are emailed to you via Formspree
 const AI_ENDPOINT   = "/api/brief";                          // serverless function in api/brief.js
 /* ========================================================================== */
 
@@ -782,7 +782,7 @@ form.addEventListener('submit',async e=>{
   const data=Object.fromEntries(new FormData(form).entries());
   data.categories=[...form.querySelectorAll('input[name="categories"]:checked')].map(i=>i.value).join(', ');
   data.transcript=convo.map(m=>(m.role==='user'?'Client: ':'Sourced: ')+m.content).join('\n');
-  data._subject='New Sourced. brief from '+name;
+  data._subject='New Sourced. brief from '+name;data.source='Website form';
   submitBtn.disabled=true;msg.textContent='Sending…';
   try{
     const r=await fetch(FORM_ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(data)});
@@ -1137,4 +1137,4 @@ async function startVoice(){
 </script>
 <script>(function(){var vs=document.querySelectorAll('.reelgrid video[data-src]');function go(v){if(!v.src){v.src=v.dataset.src;}var p=v.play();if(p&&p.catch)p.catch(function(){});}
 if(!('IntersectionObserver' in window)){vs.forEach(go);return;}
-var io=new IntersectionObserver(function(es){es.forEach(function(e){var v=e.target;if(e.isIntersecting)go(v);else if(v.src)v.pause();});},{rootMargin:'300px 0px'});vs.forEach(function(v){io.observe(v);});})();</script></body></html>
+var io=new IntersectionObserver(function(es){es.forEach(function(e){var v=e.target;if(e.isIntersecting)go(v);else if(v.src)v.pause();});},{rootMargin:'300px 0px'});vs.forEach(function(v){io.observe(v);});})();</script><script src="/site-content.js"></script></body></html>
