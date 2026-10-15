@@ -3,18 +3,44 @@
 Emails are queued in `api/_outreach.json` and sent by `/api/outreach` (Vercel Cron, every 10 minutes,
 5 per run) from hello@wearesourced.co.uk with replies to sourced.admin@gmail.com.
 `api/_suppress.json` lists addresses or "@domain" entries that must never be emailed.
+Email wording lives in `seo-src/outreach-templates.json`; replace `{name}` with the company name and change nothing else.
 
-## Each day
-1. Find at least 70 NEW businesses that book or produce shoots and events in the UK: music video and commercials
-   production companies, production services and fixers, location agencies and scouts, festivals, event and
-   experiential agencies, fashion show producers, fashion and music PR, artist management, record label video teams,
-   photo studios.
-2. Only use an email the business publishes itself (its own website, or a trade directory such as the APA members
-   list at a-p-a.net/members). Business addresses only. Never private individuals or homeowners, never emails
-   taken from booking platforms (Scouty, Giggster, etc.), never guessed addresses.
+## Each day: at least 70 NEW contacts, spread across ALL of these
+
+Sourced. covers anything a production needs: film, TV, music videos, runway and fashion shows, photo shoots,
+events, lifestyle management and transport. Every day must include a real mix. Aim for roughly:
+
+**Clients (people who book) - about 50 a day**
+| Template | Who | Daily |
+|---|---|---|
+| production_company | music video and commercials production companies | 10 |
+| tv_film | TV and film production companies | 6 |
+| production_services | production services companies, fixers, location managers and scouts | 5 |
+| event_fashion | event and experiential agencies, fashion show producers, fashion PR, brand launches | 8 |
+| festival | festivals and live event promoters | 5 |
+| music_management_label | artist management, record labels, music video commissioners, tour managers | 6 |
+| lifestyle_concierge | lifestyle management, concierge, luxury travel and VIP services, wedding and private event planners | 5 |
+| talent_model_agency / photo_studio_photographer | model and talent agencies, photo studios, photographers' agents | 5 |
+
+**Suppliers (people we book) - about 20 a day**
+| Template | Who | Daily |
+|---|---|---|
+| location_owner | location houses, warehouses, studios, venues, industrial and empty buildings, property and meanwhile-use companies that advertise filming hire themselves | 8 |
+| vehicle_transport_supplier | supercar hire, classic and picture car hire, chauffeur firms, Sprinter, V-Class and coach operators, private aviation | 7 |
+| site_services_supplier | security firms, film and event caterers, trailer and dressing room hire, portable toilets, generators, marquees | 5 |
+
+If one category runs short, top up from another, but never skip a category entirely two days in a row.
+Rotate across London, the Home Counties and other UK cities so the same areas aren't hit every day.
+
+## Rules
+1. Only use an email the business publishes itself: its own website, or a trade directory such as the APA members
+   list (www.a-p-a.net/members/, emails are Cloudflare-obfuscated in data-cfemail and can be decoded).
+2. Business addresses only. Never private individuals or homeowners. A location owner qualifies only if they run the
+   space as a business with its own website and contact details for filming or hire. Never take contact details from
+   booking platforms (Scouty, Giggster, Peerspace, Airbnb, etc.) and never guess addresses.
 3. Skip anyone already in `api/_outreach.json`, already in `api/_suppress.json`, or already emailed from Gmail
-   (search Gmail sent for the domain).
-4. Use the matching template already in the queue (production company, production services, festival,
-   event/fashion), changing only the company name. Keep the signature and the "reply remove" line.
-5. Before queueing, check Gmail for replies asking to be removed and add those addresses to `api/_suppress.json`.
-6. Append to the queue with ids `YYYY-MM-DD-<email-slug>`, validate the JSON, commit and push to main.
+   (search Gmail sent for their domain).
+4. Before queueing, check Gmail for replies asking to be removed and add those addresses to `api/_suppress.json`.
+5. Append to the queue with ids `YYYY-MM-DD-<email-slug>`, validate the JSON, `node --check api/outreach.js`,
+   commit and push to main.
+6. Report: total queued, count per template, and any removals handled.
