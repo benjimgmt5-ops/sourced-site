@@ -1,5 +1,18 @@
 # Daily outreach job
 
+## Step 0: leads first (every day, before anything else)
+Outreach replies are copied to benjimgmt5@gmail.com (reply-to includes it) and every website brief or partner
+sign-up is BCC'd there too. In Gmail (last 2 days):
+- Find replies to outreach emails (subjects from the queue, or "Re:" to hello@wearesourced.co.uk emails) and new
+  "New Sourced. brief" / "partner sign-up" alerts.
+- Add every address that replied to `api/_replied.json` (so follow-ups stop). If they asked to be removed or not
+  contacted, add them to `api/_suppress.json` instead.
+- For every genuine lead or interested reply, create a Gmail DRAFT reply (never send) that is short, warm and moves
+  to a quote or call: confirm what they need, ask for dates, location and budget, offer a quick call on 07590 474421.
+- The final summary must open with a LEADS section: who, what they want, and that a draft is waiting.
+
+Follow-ups at 5 and 12 days are sent automatically by the sender; never queue them by hand.
+
 Emails are queued in `api/_outreach.json` and sent by `/api/outreach` (Vercel Cron, every 10 minutes,
 5 per run) from hello@wearesourced.co.uk with replies to sourced.admin@gmail.com.
 `api/_suppress.json` lists addresses or "@domain" entries that must never be emailed.
@@ -28,6 +41,11 @@ events, lifestyle management and transport. Every day must include a real mix. A
 | location_owner | location houses, warehouses, studios, venues, industrial and empty buildings, property and meanwhile-use companies that advertise filming hire themselves | 8 |
 | vehicle_transport_supplier | supercar hire, classic and picture car hire, chauffeur firms, Sprinter, V-Class and coach operators, private aviation | 7 |
 | site_services_supplier | security firms, film and event caterers, trailer and dressing room hire, portable toilets, generators, marquees | 5 |
+
+**Upcoming productions radar:** each day, include at least 10 production companies with UK projects currently in
+pre-production or prep (public production listings such as productionlist.com, Kays, The Knowledge news, Screen Daily,
+Deadline, Variety production news). Use the production company's own published contact email and the tv_film or
+production_company template. Do not mention project details you can't confirm.
 
 If one category runs short, top up from another, but never skip a category entirely two days in a row.
 Rotate across London, the Home Counties and other UK cities so the same areas aren't hit every day.
