@@ -119,10 +119,23 @@ export default async function handler(req, res) {
     }
     if (req.method === 'PATCH') {
       // mark as done / new: rewrite the record under a new name, delete the old one
-      const { url, status } = req.body || {};
+      const { url, status, value, commission, note } = req.body || {};
       const e = await readJSON(url);
-      e.status = status === 'done' ? 'done' : 'new';
-      if (e.status === 'done' && config.reviewUrl && !e.reviewAsked && !isPartner(e) && e.email && VALID_EMAIL.test(e.email) && domainVerified()) {
+      const STAT = ['new', 'quoted', 'won', 'lost', 'done'];
+      const prev = e.status || 'new';
+      if (STAT.includes(status)) e.status = status;
+      const num = v => (v === '' || v == null ? undefined : Math.max(0, Math.round(Number(String(v).replace(/[^0-9.]/g, '')) || 0)));
+      if (value !== undefined) e.value = num(value);
+      if (commission !== undefined) e.commission = num(commission);
+      if (note !== undefined) e.note = String(note).slice(0, 2000);
+      const stamp = new Date().toISOString();
+      if (e.status !== prev) {
+        if (e.status === 'quoted') { e.quotedAt = stamp; delete e.chased; }
+        if (e.status === 'won') e.wonAt = e.wonAt || stamp;
+        if (e.status === 'lost') e.lostAt = stamp;
+        if (e.status === 'done') { e.doneAt = stamp; e.wonAt = e.wonAt || stamp; }
+      }
+      if (e.status === 'done' && prev !== 'done' && config.reviewUrl && !e.reviewAsked && !isPartner(e) && e.email && VALID_EMAIL.test(e.email) && domainVerified()) {
         try { await emailReview(e); e.reviewAsked = new Date().toISOString(); } catch (err) { console.error('Review email failed:', err.message); }
       }
       const path = new URL(url).pathname.slice(1).replace(/-[A-Za-z0-9]{20,}\.json$/, '.json');

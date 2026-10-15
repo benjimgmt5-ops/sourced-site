@@ -36,6 +36,14 @@
     {
       "path": "/api/outreach",
       "schedule": "*/10 * * * *"
+    },
+    {
+      "path": "/api/deals?task=chase",
+      "schedule": "17 * * * *"
+    },
+    {
+      "path": "/api/deals?task=scoreboard",
+      "schedule": "0 8 * * 1"
     }
   ]
 }

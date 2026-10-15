@@ -56,6 +56,15 @@ main.wide{max-width:none;padding:0}
 .enq-top h3{margin:0;font-size:18px}
 .pill{font-size:12px;padding:2px 8px;border:1px solid var(--steel);color:var(--mist);text-transform:uppercase;letter-spacing:.06em}
 .pill.new{background:var(--white);color:var(--black);border-color:var(--white);font-weight:700}
+.pill.quoted{border-color:#d4a72c;color:#f0c75e}.pill.won{background:#1f7a3f;border-color:#1f7a3f;color:#fff;font-weight:700}.pill.lost{opacity:.6}
+.score{border:1px solid var(--steel);background:var(--ink);padding:16px 20px;margin-bottom:14px;display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.score b{display:block;font-size:24px;color:var(--white)}.score span{font-size:12px;color:var(--ash);text-transform:uppercase;letter-spacing:.06em}
+.score .bar{grid-column:1/-1;height:8px;background:var(--steel)}.score .bar i{display:block;height:100%;background:#1f7a3f}
+.deal{display:flex;gap:10px;flex-wrap:wrap;align-items:end;margin-top:14px;padding-top:14px;border-top:1px solid var(--steel)}
+.deal label{font-size:12px;color:var(--ash);display:flex;flex-direction:column;gap:4px}
+.deal input{width:110px;background:var(--black);border:1px solid var(--steel);color:var(--white);padding:8px;font:inherit}
+.deal .warn{font-size:13px;color:#f0c75e}
+.stat button[aria-pressed=true]{background:var(--white);color:var(--black)}
 .enq dl{display:grid;grid-template-columns:140px 1fr;gap:6px 16px;margin:14px 0 0}
 .enq dt{color:var(--ash);font-size:13px}.enq dd{margin:0;white-space:pre-wrap;word-break:break-word}
 .enq .acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
@@ -150,11 +159,13 @@ dialog h3{font-family:var(--display);font-weight:400;font-size:28px;margin:0 0 1
     <div class="head">
       <div><h2>Enquiries</h2><p>Every brief sent from the website form or through Amelia lands here.</p></div>
       <div class="filters">
-        <button class="btn small" data-f="new" aria-pressed="true">New</button>
+        <button class="btn small" data-f="new" aria-pressed="true">Open</button>
+        <button class="btn small" data-f="won" aria-pressed="false">Won</button>
         <button class="btn small" data-f="all" aria-pressed="false">All</button>
         <button class="btn small" id="refreshEnq">Refresh</button>
       </div>
     </div>
+    <div id="scoreboard" class="score" hidden></div>
     <div id="enqList"><div class="empty">Loading…</div></div>
   </main>
 
@@ -386,29 +397,73 @@ async function loadEnquiries(quiet) {
   catch (e) { if (!quiet) $('#enqList').innerHTML = '<div class="empty">' + esc(e.message) + '</div>'; }
 }
 function fmt(d) { try { return new Date(d).toLocaleString('en-GB', { weekday: 'short', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }); } catch (_) { return d; } }
+const MIN_COMMISSION = 300, WEEK_TARGET = 1000;
+const ST = { new: 'New', quoted: 'Quoted', won: 'Won', lost: 'Lost', done: 'Job done' };
+function weekStart() { const d = new Date(); const day = (d.getDay() + 6) % 7; d.setHours(0, 0, 0, 0); d.setDate(d.getDate() - day); return d; }
+function renderScore() {
+  const ws = weekStart();
+  const inWeek = t => t && new Date(t) >= ws;
+  const wonWeek = enqs.filter(e => (e.status === 'won' || e.status === 'done') && inWeek(e.wonAt));
+  const comm = wonWeek.reduce((a, e) => a + (e.commission || 0), 0);
+  const briefs = enqs.filter(e => inWeek(e.at) && !/^partner/i.test(e.source || '')).length;
+  const quoted = enqs.filter(e => inWeek(e.quotedAt)).length;
+  const open = enqs.filter(e => e.status === 'quoted').reduce((a, e) => a + (e.commission || 0), 0);
+  const pct = Math.min(100, Math.round(comm / WEEK_TARGET * 100));
+  $('#scoreboard').hidden = false;
+  $('#scoreboard').innerHTML = `<div><span>This week's commission</span><b>£${comm.toLocaleString('en-GB')}</b></div>
+    <div><span>Target</span><b>£${WEEK_TARGET.toLocaleString('en-GB')}</b></div>
+    <div><span>Jobs won this week</span><b>${wonWeek.length} / ${Math.ceil(WEEK_TARGET / MIN_COMMISSION)}</b></div>
+    <div><span>New briefs this week</span><b>${briefs}</b></div>
+    <div><span>Quotes sent this week</span><b>${quoted}</b></div>
+    <div><span>Commission in open quotes</span><b>£${open.toLocaleString('en-GB')}</b></div>
+    <div class="bar" title="${pct}% of target"><i style="width:${pct}%"></i></div>`;
+}
 function renderEnquiries() {
-  const n = enqs.filter(e => e.status !== 'done').length;
+  const n = enqs.filter(e => (e.status || 'new') === 'new').length;
   $('#newCount').hidden = !n; $('#newCount').textContent = n;
-  const list = enqFilter === 'new' ? enqs.filter(e => e.status !== 'done') : enqs;
-  if (!list.length) { $('#enqList').innerHTML = '<div class="empty">' + (enqFilter === 'new' ? 'No new enquiries. New briefs from the website and Amelia appear here.' : 'No enquiries yet.') + '</div>'; return; }
-  const F = [['company', 'Company'], ['email', 'Email'], ['phone', 'Phone'], ['date', 'Shoot date'], ['location', 'Location'], ['categories', 'Needs'], ['items', 'Items picked'], ['details', 'Details'], ['budget', 'Budget'], ['summary', 'Summary']];
-  $('#enqList').innerHTML = list.map((e, i) => `
-    <article class="enq ${e.status === 'done' ? 'done' : ''}">
+  renderScore();
+  const list = enqFilter === 'new' ? enqs.filter(e => ['new', 'quoted', undefined].includes(e.status) || e.status === 'won')
+    : enqFilter === 'won' ? enqs.filter(e => e.status === 'won' || e.status === 'done') : enqs;
+  if (!list.length) { $('#enqList').innerHTML = '<div class="empty">' + (enqFilter === 'new' ? 'No open enquiries. New briefs from the website and Amelia appear here.' : enqFilter === 'won' ? 'No won jobs yet.' : 'No enquiries yet.') + '</div>'; return; }
+  const F = [['company', 'Company'], ['email', 'Email'], ['phone', 'Phone'], ['date', 'Shoot date'], ['location', 'Location'], ['categories', 'Needs'], ['offer', 'Offering'], ['area', 'Area covered'], ['links', 'Links'], ['items', 'Items picked'], ['details', 'Details'], ['budget', 'Budget'], ['summary', 'Summary'], ['note', 'Your notes']];
+  $('#enqList').innerHTML = list.map((e, i) => {
+    const st = e.status || 'new', partner = /^partner/i.test(e.source || '');
+    const low = e.commission != null && e.commission < MIN_COMMISSION;
+    return `
+    <article class="enq ${st === 'done' || st === 'lost' ? 'done' : ''}">
       <div class="enq-top"><h3>${esc(e.name || 'No name given')}</h3>
-        <div style="display:flex;gap:8px;align-items:center"><span class="pill ${e.status === 'done' ? '' : 'new'}">${e.status === 'done' ? 'Done' : 'New'}</span><span class="pill">${esc(e.source || 'Website')}</span><span class="muted" style="font-size:13px">${esc(fmt(e.at))}</span></div></div>
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><span class="pill ${st}">${ST[st] || 'New'}</span>${e.commission != null ? `<span class="pill">£${e.commission} commission</span>` : ''}<span class="pill">${esc(e.source || 'Website')}</span><span class="muted" style="font-size:13px">${esc(fmt(e.at))}</span></div></div>
       <dl>${F.filter(([k]) => e[k]).map(([k, l]) => `<dt>${l}</dt><dd>${k === 'email' ? `<a href="mailto:${esc(e.email)}">${esc(e.email)}</a>` : k === 'phone' ? `<a href="tel:${esc(e.phone)}">${esc(e.phone)}</a>` : esc(e[k])}</dd>`).join('')}</dl>
       ${e.transcript && /^conv_\w+$/.test(e.transcript) ? `<p style="margin:12px 0 0"><a href="https://elevenlabs.io/app/agents/history/${esc(e.transcript)}" target="_blank" rel="noopener">Listen to the call and read the transcript →</a></p>` : e.transcript ? `<details class="tr"><summary>Conversation with Amelia</summary><pre>${esc(e.transcript)}</pre></details>` : ''}
+      ${partner ? '' : `<div class="deal">
+        <div class="stat filters" role="group" aria-label="Deal status">${['new', 'quoted', 'won', 'lost', 'done'].map(k => `<button class="btn small" data-st="${k}" data-i="${i}" aria-pressed="${st === k}">${ST[k]}</button>`).join('')}</div>
+        <label>Job value £<input inputmode="numeric" data-fld="value" data-i="${i}" value="${e.value ?? ''}" placeholder="e.g. 1500"></label>
+        <label>Your commission £<input inputmode="numeric" data-fld="commission" data-i="${i}" value="${e.commission ?? ''}" placeholder="min 300"></label>
+        <button class="btn small" data-act="savedeal" data-i="${i}">Save</button>
+        ${low ? `<span class="warn">Below your £${MIN_COMMISSION} minimum</span>` : ''}
+        ${st === 'quoted' && e.email ? `<span class="muted" style="font-size:13px">Auto-chasers go out 2 and 5 days after quoting${e.chased ? ' (' + esc(e.chased) + ' sent)' : ''}</span>` : ''}
+      </div>`}
       <div class="acts">
         ${e.email ? `<a class="btn small primary" href="mailto:${esc(e.email)}?subject=${encodeURIComponent('Your Sourced. quote')}&body=${encodeURIComponent('Hi ' + (e.name || '').split(' ')[0] + ',\n\nThanks for your brief.\n\n')}">Reply by email</a>` : ''}
-        <button class="btn small" data-act="toggle" data-i="${i}">${e.status === 'done' ? 'Mark as new' : 'Mark as done'}</button>
+        ${partner ? `<button class="btn small" data-st="${st === 'done' ? 'new' : 'done'}" data-i="${i}">${st === 'done' ? 'Mark as new' : 'Mark as handled'}</button>` : ''}
         <button class="btn small danger" data-act="del" data-i="${i}">Delete</button>
       </div>
-    </article>`).join('');
-  $('#enqList').querySelectorAll('[data-act]').forEach(b => b.addEventListener('click', async () => {
-    const e = list[+b.dataset.i]; b.disabled = true;
+    </article>`; }).join('');
+  const box = $('#enqList');
+  const vals = i => { const q = f => box.querySelector(`input[data-fld="${f}"][data-i="${i}"]`); return { value: q('value') ? q('value').value : undefined, commission: q('commission') ? q('commission').value : undefined }; };
+  box.querySelectorAll('[data-st]').forEach(b => b.addEventListener('click', async () => {
+    const i = +b.dataset.i, e = list[i], st = b.dataset.st; b.disabled = true;
+    const v = vals(i);
+    if ((st === 'won' || st === 'done') && !v.commission && e.commission == null) { const c = prompt('Your commission on this job (£)?', ''); if (c === null) { b.disabled = false; return; } v.commission = c; }
+    if (st === 'quoted' && !e.email) toast('No client email on this brief, so auto-chasers can\'t go out. Chase them by phone.', false);
+    try { await api('/api/enquiry', { method: 'PATCH', body: { url: e.url, status: st, ...v } }); await loadEnquiries(); }
+    catch (er) { toast(er.message, true); b.disabled = false; }
+  }));
+  box.querySelectorAll('[data-act]').forEach(b => b.addEventListener('click', async () => {
+    const i = +b.dataset.i, e = list[i]; b.disabled = true;
     try {
       if (b.dataset.act === 'del') { if (!confirm('Delete this enquiry for good?')) { b.disabled = false; return; } await api('/api/enquiry', { method: 'DELETE', body: { url: e.url } }); }
-      else await api('/api/enquiry', { method: 'PATCH', body: { url: e.url, status: e.status === 'done' ? 'new' : 'done' } });
+      else if (b.dataset.act === 'savedeal') { await api('/api/enquiry', { method: 'PATCH', body: { url: e.url, ...vals(i) } }); toast('Saved'); }
       await loadEnquiries();
     } catch (er) { toast(er.message, true); b.disabled = false; }
   }));
