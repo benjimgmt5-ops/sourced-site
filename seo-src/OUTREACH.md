@@ -5,7 +5,7 @@ Emails are queued in `api/_outreach.json` and sent by `/api/outreach` (Vercel Cr
 `api/_suppress.json` lists addresses or "@domain" entries that must never be emailed.
 
 ## Each day
-1. Find about 30 NEW businesses that book or produce shoots and events in the UK: music video and commercials
+1. Find at least 70 NEW businesses that book or produce shoots and events in the UK: music video and commercials
    production companies, production services and fixers, location agencies and scouts, festivals, event and
    experiential agencies, fashion show producers, fashion and music PR, artist management, record label video teams,
    photo studios.
