@@ -4,10 +4,12 @@
 // sent once: a record is saved in Blob storage under outreach/sent/<id>.json.
 //
 // To queue emails, add entries to api/_outreach.json: { "id", "to", "subject", "text" }.
+// api/_suppress.json lists addresses (or "@domain") that must never be emailed, e.g. after a "remove" reply.
 // Env: RESEND_API_KEY, NOTIFY_FROM (e.g. "Sourced. <hello@wearesourced.co.uk>"),
 //      NOTIFY_EMAIL (reply-to, default sourced.admin@gmail.com), BLOB_READ_WRITE_TOKEN.
 import { put, list } from '@vercel/blob';
 import queue from './_outreach.json' with { type: 'json' };
+import suppress from './_suppress.json' with { type: 'json' };
 
 const PER_RUN = 5;
 const VALID_EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -31,7 +33,9 @@ export default async function handler(req, res) {
   }
   const { blobs } = await list({ prefix: 'outreach/sent/', limit: 1000 });
   const done = new Set(blobs.map(b => b.pathname.replace('outreach/sent/', '').replace('.json', '')));
-  const todo = queue.filter(m => m.id && !done.has(m.id) && VALID_EMAIL.test(m.to)).slice(0, PER_RUN);
+  const blocked = new Set(suppress.map(x => String(x).toLowerCase()));
+  const isBlocked = to => { const e = to.toLowerCase(); return blocked.has(e) || blocked.has('@' + e.split('@')[1]); };
+  const todo = queue.filter(m => m.id && !done.has(m.id) && VALID_EMAIL.test(m.to) && !isBlocked(m.to)).slice(0, PER_RUN);
   const results = [];
   for (const m of todo) {
     // Claim first, so an overlapping run can't send the same email twice.
