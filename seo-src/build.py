@@ -303,9 +303,67 @@ def vehicle_links_html(service_slug):
         f'<li><a href="/{E(v["slug"])}/">{E(v["name"])}</a></li>' for v in vs) + "</ul>"
 
 
+def build_partners():
+    path = "/partners/"
+    desc = "List your location, cars, transport or services with Sourced. and get booked for music videos, films, fashion shows, photo shoots and events. Free to join."
+    hero = {"src": "/media/i/m1_pool.jpg", "alt": "Mansion with pool used for shoots"}
+    if not (ROOT / hero["src"].lstrip("/")).exists():
+        hero["src"] = "/media/mansion-hall.jpg"
+    opts = ["Location house or mansion", "Warehouse, studio or venue", "Empty or industrial building", "Supercars or luxury cars",
+            "Classic or picture vehicles", "Chauffeur, Sprinter or coach transport", "Security or close protection",
+            "Catering", "Trailers, dressing rooms or toilets", "Crew or kit", "Something else"]
+    checks = "".join(f'<label class="chk"><input type="checkbox" name="offer" value="{E(o)}"> {E(o)}</label>' for o in opts)
+    form = f"""<form id="pf" class="pform" novalidate>
+<input type="text" name="hp" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true">
+<div class="row"><label>Your name<input name="name" required autocomplete="name"></label><label>Company<input name="company" autocomplete="organization"></label></div>
+<div class="row"><label>Email<input name="email" type="email" required autocomplete="email"></label><label>Phone<input name="phone" type="tel" autocomplete="tel"></label></div>
+<fieldset><legend>What can you offer?</legend><div class="chks">{checks}</div></fieldset>
+<label>Where are you based, and where can you cover?<input name="area" placeholder="e.g. East London, anywhere within the M25"></label>
+<label>Website, Instagram or photo links<input name="links" placeholder="Links to your space, fleet or work"></label>
+<label>Tell us more<textarea name="details" rows="5" placeholder="Rooms, sizes and features, vehicles and colours, team size, typical rates, anything productions should know"></textarea></label>
+<button class="btn" type="submit">Join as a partner</button><p id="pmsg" class="pmsg" role="status"></p></form>
+<script>
+document.getElementById('pf').addEventListener('submit', async function (ev) {{
+  ev.preventDefault();
+  var f = ev.target, m = document.getElementById('pmsg');
+  var d = Object.fromEntries(new FormData(f).entries());
+  d.offer = Array.from(f.querySelectorAll('input[name=offer]:checked')).map(function (i) {{ return i.value; }}).join(', ');
+  d.source = 'Partner sign-up'; d.company = d.company || ''; d.categories = 'Partner: ' + (d.offer || 'not specified');
+  if (!d.name || !d.email) {{ m.textContent = 'Please add your name and email.'; return; }}
+  m.textContent = 'Sending...';
+  try {{
+    var r = await fetch('/api/enquiry', {{ method: 'POST', headers: {{ 'Content-Type': 'application/json' }}, body: JSON.stringify(d) }});
+    if (!r.ok) throw new Error();
+    f.reset(); m.textContent = "Thanks, you're signed up. We'll be in touch to confirm your listing.";
+  }} catch (e) {{ m.textContent = 'Something went wrong. Please email sourced.admin@gmail.com instead.'; }}
+}});
+</script>"""
+    css = """<style>.pform{max-width:760px;margin:24px 0}.pform label{display:block;margin:0 0 16px;color:var(--mist);font-size:15px}
+.pform input,.pform textarea{display:block;width:100%;margin-top:6px;background:var(--ink);border:1px solid var(--steel);border-radius:10px;color:#fff;font:inherit;padding:12px}
+.pform .row{display:grid;grid-template-columns:1fr 1fr;gap:16px}@media(max-width:640px){.pform .row{grid-template-columns:1fr}}
+.pform fieldset{border:1px solid var(--graphite);border-radius:12px;margin:0 0 16px;padding:14px}.pform legend{color:#fff;padding:0 6px}
+.chks{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:4px 16px}.pform .chk{display:flex;gap:8px;align-items:center;margin:4px 0;color:#fff}
+.pform .chk input{width:auto;margin:0}.pform button{border:0;cursor:pointer;font-size:16px}.pmsg{color:#fff;min-height:1.5em}</style>"""
+    ld = [breadcrumb_ld([("Home", "/"), ("Partners", path)])]
+    doc = head("Become a Sourced. Partner | List Your Location, Cars or Services", desc, path, hero["src"], ld) + css + f"""<body>{nav()}
+<section class="hero"><img src="{E(hero['src'])}" alt="{E(hero['alt'])}" fetchpriority="high">
+<div class="wrap"><p class="crumbs"><a href="/">Home</a> / Partners</p><p class="kicker">Partners · Free to join</p><h1>Get booked for shoots and events</h1>
+<p class="lede">Own a location, run a fleet or supply anything productions need? Join Sourced. and we'll send you bookings from music videos, films, fashion shows, photo shoots and events.</p>
+<div class="ctas"><a class="btn" href="#join">Join now</a></div></div></section>
+<main class="wrap"><h2>How it works</h2><div class="grid">
+<div class="card"><h3>1. Tell us what you offer</h3><p>A few details and links. It takes two minutes and it's free.</p></div>
+<div class="card"><h3>2. We send you matching briefs</h3><p>When a production needs a space, car or service like yours, we bring you the brief.</p></div>
+<div class="card"><h3>3. You stay in control</h3><p>You set your rates and availability, and approve every booking.</p></div></div>
+<h2>Who we work with</h2><div class="prose"><p>Location houses and mansions, warehouses, studios, venues and industrial spaces; supercar, classic and picture car owners; chauffeur, Sprinter, coach and jet operators; security and close protection teams; caterers; trailer, dressing room and toilet hire; crews and kit houses.</p></div>
+<h2 id="join">Join as a partner</h2>{form}</main>{footer()}</body></html>"""
+    write(path, doc)
+    return path
+
+
 if __name__ == "__main__":
     _g, _i = _home_data()
     paths = {"services": [build_service(s) for s in SERVICES] + [build_vehicle(v, _g, _i) for v in VEHICLES], "guides": [build_guide(g) for g in GUIDES]}
     build_guides_index()
+    paths["services"].append(build_partners())
     build_sitemap(paths)
     print(f"Built {len(paths['services'])} service pages, {len(paths['guides'])} guides, sitemap.xml")

@@ -1,9 +1,10 @@
 import { put, list, del, requireAdmin, storageReady, readJSON } from './_lib.js';
+import config from './_config.json' with { type: 'json' };
 
-const FIELDS = ['name', 'company', 'email', 'phone', 'date', 'location', 'categories', 'items', 'details', 'budget', 'transcript', 'source', 'summary'];
+const FIELDS = ['name', 'company', 'email', 'phone', 'date', 'location', 'categories', 'items', 'details', 'budget', 'transcript', 'source', 'summary', 'offer', 'area', 'links'];
 
 const LABELS = { name: 'Name', company: 'Company', email: 'Email', phone: 'Phone', date: 'Dates', location: 'Location',
-  categories: 'Needs', items: 'Items', budget: 'Budget', summary: 'Summary', details: 'Details', transcript: 'Amelia transcript' };
+  categories: 'Needs', items: 'Items', budget: 'Budget', summary: 'Summary', details: 'Details', offer: 'Offering', area: 'Area covered', links: 'Links and photos', transcript: 'Amelia transcript' };
 
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
@@ -13,6 +14,7 @@ const adminInbox = () => (process.env.NOTIFY_EMAIL || 'sourced.admin@gmail.com')
 // Unset = Resend's test sender, which only delivers to the Resend account's own email.
 const sender = () => process.env.NOTIFY_FROM || 'Sourced. <onboarding@resend.dev>';
 const domainVerified = () => !/@resend\.dev>?\s*$/i.test(sender());
+const isPartner = e => /^partner/i.test(e.source || '');
 
 async function sendEmail(msg) {
   const r = await fetch('https://api.resend.com/emails', {
@@ -28,6 +30,13 @@ async function sendEmail(msg) {
 // because Resend's test sender can't deliver to clients.
 async function emailClient(e) {
   if (!process.env.RESEND_API_KEY || !domainVerified() || !e.email || !VALID_EMAIL.test(e.email)) return;
+  if (isPartner(e)) {
+    const f = (e.name || '').trim().split(/\s+/)[0];
+    const t = `Hi${f ? ' ' + f : ''},\n\nThanks for signing up as a Sourced. partner. We've got your details and will be in touch to confirm your listing, rates and availability.\n\nWhen a production brief matches what you offer, we'll send it straight to you. You approve every booking.\n\nSourced.\nSee it. Say it. Sourced.`;
+    await sendEmail({ to: [e.email], reply_to: adminInbox()[0], subject: 'Welcome to Sourced. partners', text: t,
+      html: `<div style="font-family:Arial,sans-serif;font-size:15px;line-height:1.5;color:#000;max-width:560px"><p style="font-size:26px;font-weight:bold;margin:0 0 20px">Sourced.</p>` + t.split('\n\n').map(p => `<p>${esc(p).replace(/\n/g, '<br>')}</p>`).join('') + `</div>` });
+    return;
+  }
   const first = (e.name || '').trim().split(/\s+/)[0];
   const asked = ['date', 'location', 'categories', 'items', 'budget'].filter(k => e[k]);
   const text = `Hi${first ? ' ' + first : ''},\n\nThanks for your brief. We've got it, and our team will review what you need and come back to you with a quote.\n\n`
@@ -57,8 +66,18 @@ async function emailAdmin(e, req) {
     + rows.map(k => `<tr><td valign="top" style="color:#666;white-space:nowrap">${LABELS[k]}</td><td style="white-space:pre-wrap">${esc(e[k])}</td></tr>`).join('')
     + `</table><p><a href="https://${host}/admin" style="color:#000">Open the back end</a></p></div>`;
   const who = e.name || e.company || e.email || e.phone || 'website';
-  await sendEmail({ to, subject: `New Sourced. brief from ${who}`, text, html,
+  const copy = config.leadCopy && !to.includes(config.leadCopy) ? { bcc: [config.leadCopy] } : {};
+  const kind = isPartner(e) ? 'partner sign-up' : 'brief';
+  await sendEmail({ to, ...copy, subject: `New Sourced. ${kind} from ${who}`, text, html,
     ...(e.email && VALID_EMAIL.test(e.email) ? { reply_to: e.email } : {}) });
+}
+
+// Thank-you + Google review request, sent once when a brief is marked done in /admin (needs reviewUrl in _config.json).
+async function emailReview(e) {
+  const f = (e.name || '').trim().split(/\s+/)[0];
+  const t = `Hi${f ? ' ' + f : ''},\n\nThanks for booking with Sourced. We hope the shoot went brilliantly.\n\nIf you have a minute, a quick Google review would mean a lot to us and helps other productions find us:\n${config.reviewUrl}\n\nWhenever you need anything for the next one, just reply to this email.\n\nSourced.\nSee it. Say it. Sourced.`;
+  await sendEmail({ to: [e.email], reply_to: adminInbox()[0], subject: 'Thanks from Sourced.', text: t,
+    html: `<div style="font-family:Arial,sans-serif;font-size:15px;line-height:1.5;color:#000;max-width:560px"><p style="font-size:26px;font-weight:bold;margin:0 0 20px">Sourced.</p>` + t.split('\n\n').map(p => `<p>${esc(p).replace(/\n/g, '<br>').replace(esc(config.reviewUrl), `<a href="${esc(config.reviewUrl)}" style="color:#000">Leave a Google review</a>`)}</p>`).join('') + `</div>` });
 }
 
 export default async function handler(req, res) {
@@ -103,6 +122,9 @@ export default async function handler(req, res) {
       const { url, status } = req.body || {};
       const e = await readJSON(url);
       e.status = status === 'done' ? 'done' : 'new';
+      if (e.status === 'done' && config.reviewUrl && !e.reviewAsked && !isPartner(e) && e.email && VALID_EMAIL.test(e.email) && domainVerified()) {
+        try { await emailReview(e); e.reviewAsked = new Date().toISOString(); } catch (err) { console.error('Review email failed:', err.message); }
+      }
       const path = new URL(url).pathname.slice(1).replace(/-[A-Za-z0-9]{20,}\.json$/, '.json');
       await put(path, JSON.stringify(e), { access: 'public', contentType: 'application/json', addRandomSuffix: true });
       await del(url);
