@@ -9,7 +9,7 @@
 import { put, list } from '@vercel/blob';
 import queue from './_outreach.json' with { type: 'json' };
 
-const PER_RUN = 8;
+const PER_RUN = 5;
 const VALID_EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const replyTo = () => (process.env.NOTIFY_EMAIL || 'sourced.admin@gmail.com').split(',')[0].trim();
 
