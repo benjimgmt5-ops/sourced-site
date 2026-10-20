@@ -10,7 +10,7 @@
 // shows them on the board using their "stage", "sentAt" and "lastAt" fields.
 // api/_suppress.json: addresses or "@domain" never to email (opt-outs, bounces).
 // Env: RESEND_API_KEY, NOTIFY_FROM, BLOB_READ_WRITE_TOKEN, CRON_SECRET (optional, set by Vercel).
-import { put, list } from '@vercel/blob';
+import { put, list, del } from '@vercel/blob';
 import { getStaff } from './_lib.js';
 import queue from './_outreach.json' with { type: 'json' };
 import suppress from './_suppress.json' with { type: 'json' };
@@ -103,7 +103,7 @@ async function send() {
   for (const m of todo) {
     const path = `outreach/sent/${m.id}.json`, opts = { access: 'public', contentType: 'application/json', addRandomSuffix: false, allowOverwrite: true };
     await put(path, JSON.stringify({ to: m.to, subject: m.subject, at: new Date().toISOString(), status: 'sending' }), opts);
-    let status = 'sent', detail = '';
+    let status = 'sent', detail = '', retry = false;
     try {
       const r = await fetch('https://api.resend.com/emails', {
         method: 'POST',
@@ -112,8 +112,19 @@ async function send() {
           headers: { 'List-Unsubscribe': `<mailto:${replyToList()[0]}?subject=remove>` } }),
         signal: AbortSignal.timeout(10000),
       });
-      if (!r.ok) { status = 'failed'; detail = (await r.text()).slice(0, 300); }
-    } catch (e) { status = 'failed'; detail = String(e).slice(0, 300); }
+      if (!r.ok) {
+        status = 'failed'; detail = (await r.text()).slice(0, 300);
+        // Domain not verified yet, bad key, rate limit or Resend outage: nothing was sent, so
+        // release the lead to retry on a later run and stop this run.
+        retry = [401, 403, 429].includes(r.status) || r.status >= 500;
+      }
+    } catch (e) { status = 'failed'; detail = String(e).slice(0, 300); retry = true; }
+    if (retry) {
+      const b = (await list({ prefix: path })).blobs.find((x) => x.pathname === path);
+      if (b) await del(b.url).catch(() => {});
+      results.push({ id: m.id, to: m.to, status: 'paused', detail });
+      break;
+    }
     await put(path, JSON.stringify({ to: m.to, subject: m.subject, at: new Date().toISOString(), status, detail }), opts);
     results.push({ id: m.id, to: m.to, status });
     await new Promise((r) => setTimeout(r, 1500));
