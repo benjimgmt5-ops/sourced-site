@@ -447,6 +447,39 @@ html,body{max-width:100%;overflow-x:hidden}
   .staffbar .btn{padding:8px 11px;font-size:12px}
 }
 @media(max-width:380px){.links a.cta{font-size:10px;padding:10px 11px;letter-spacing:.06em}.brand{font-size:18px}}
+
+/* ===== staff back end ===== */
+.card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+#playerImg{width:100%;max-height:82svh;object-fit:contain;border-radius:14px;background:#000;display:block}
+.convo{border:1px solid var(--line);border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:12px;background:var(--ink)}
+.convo-h{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.convo-h b{font:800 18px/1 var(--display);font-stretch:112%}
+.thread{display:flex;flex-direction:column;gap:10px;max-height:340px;overflow-y:auto}
+.thread:empty::before{content:"No messages yet. Your reply goes to the client's email, and their answer comes back to the MYL inbox.";font-size:13px;color:var(--fg-3)}
+.tm{padding:11px 13px;border-radius:12px;font-size:14px;line-height:1.5;max-width:92%;white-space:pre-wrap;overflow-wrap:anywhere}
+.tm small{display:block;font:500 10px/1.3 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--fg-3);margin-bottom:6px;white-space:normal}
+.tm.staff{align-self:flex-end;background:#7b1cff26;border:1px solid #7b1cff55}
+.tm.client{align-self:flex-start;background:var(--ink-3);border:1px solid var(--line)}
+.tm.note{align-self:center;background:transparent;border:1px dashed var(--line);color:var(--fg-2)}
+.tm .imgs{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.tm .imgs img,.cv-pics img{width:72px;height:72px;object-fit:cover;border-radius:8px;display:block}
+.cv-pics{display:flex;gap:8px;flex-wrap:wrap}
+.cv-pics:empty{display:none}
+.cv-pics span{position:relative}
+.cv-pics button{position:absolute;top:-6px;right:-6px;width:22px;height:22px;border-radius:50%;border:0;background:#000;color:#fff;font-size:11px;line-height:22px;padding:0}
+.cv-pics .up{opacity:.45}
+.cv-acts{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.cv-acts label.btn{cursor:pointer}
+.team-modal{width:min(560px,100%);max-height:calc(100svh - 40px);overflow-y:auto}
+.team-list{display:flex;flex-direction:column;gap:8px;width:100%}
+.trow{display:flex;justify-content:space-between;align-items:center;gap:10px;border:1px solid var(--line);border-radius:12px;padding:10px 12px;background:var(--ink)}
+.trow b{font-weight:600}
+.trow small{color:var(--fg-3);font:500 10px/1.2 var(--mono);letter-spacing:.12em;text-transform:uppercase;margin-left:8px}
+.trow .acts{display:flex;gap:6px}
+.trow .btn{padding:8px 11px;font-size:12px}
+.team-add{display:grid;grid-template-columns:1fr 1fr;gap:10px;width:100%;border-top:1px solid var(--line);padding-top:14px}
+.team-add .btn{grid-column:1/-1}
+@media(max-width:560px){.team-add{grid-template-columns:1fr}.drawer{width:100%}}
 </style>
 </head>
 <body>
@@ -609,7 +642,7 @@ html,body{max-width:100%;overflow-x:hidden}
 <footer><div class="wrap"><span data-edit="foot_1">MYL · MADE YOU LOOK · AI CREATIVE STUDIO · LONDON</span><span data-edit="foot_2">YOUR VISION. THEIR ATTENTION.</span><a href="#studio" id="footStaff" style="opacity:.7">STAFF LOGIN</a></div></footer>
 
 <div class="scrim" id="playerScrim" hidden><div class="player">
-  <video id="player" controls playsinline></video>
+  <video id="player" controls playsinline></video><img id="playerImg" alt="" hidden>
   <div class="player-bar"><div><small class="label" id="playerCat"></small><b id="playerTitle"></b></div><button class="x" id="playerClose" aria-label="Close">✕</button></div>
 </div></div>
 
@@ -631,14 +664,44 @@ html,body{max-width:100%;overflow-x:hidden}
     <div class="field wide"><label for="d_refs">References</label><textarea id="d_refs" style="min-height:70px"></textarea></div>
     <div class="field wide"><label for="d_notes">Internal notes</label><textarea id="d_notes" style="min-height:90px" placeholder="Calls, next steps, follow-up dates"></textarea></div>
   </div>
+  <div class="convo" id="convo">
+    <div class="convo-h"><b>Conversation</b><span class="label" id="cv_to"></span></div>
+    <div class="thread" id="thread"></div>
+    <div class="field wide"><label for="cv_msg">Reply to client</label><textarea id="cv_msg" placeholder="Hi, thanks for your brief…" style="min-height:110px"></textarea></div>
+    <div class="cv-pics" id="cv_pics"></div>
+    <div class="cv-acts">
+      <label class="btn" for="cv_file">+ Pictures</label><input type="file" id="cv_file" accept="image/*" multiple hidden>
+      <button class="btn" id="cv_log" type="button" title="Save a message the client sent you by email or WhatsApp">Log client reply</button>
+      <button class="btn primary" id="cv_send" type="button">Send reply</button>
+    </div>
+    <p class="note" id="cv_note"></p>
+  </div>
   <div class="d-acts">
     <span id="delWrap"><button class="btn danger" id="delBtn" type="button">Delete</button></span>
     <button class="btn primary" id="saveBtn" type="button">Save proposal</button>
   </div>
 </aside>
 <div class="toast" id="toast" hidden></div>
+<div class="scrim" id="teamScrim" hidden><div class="staff-modal team-modal" role="dialog" aria-labelledby="tmTitle">
+  <div style="display:flex;justify-content:space-between;width:100%;align-items:start"><div><span class="badge">OWNERS ONLY</span><h3 id="tmTitle">Team</h3></div><button class="x" id="tmClose" type="button" aria-label="Close">✕</button></div>
+  <p>Everyone here can sign in, see briefs, reply to clients and edit the site. Owners can also manage the team.</p>
+  <div class="team-list" id="teamList"></div>
+  <form class="team-add" id="teamAdd">
+    <div class="field"><label for="tm_user">Username</label><input id="tm_user" autocomplete="off" required></div>
+    <div class="field"><label for="tm_pass">Password (8+ characters)</label><input id="tm_pass" type="text" autocomplete="new-password" minlength="8" required></div>
+    <div class="field"><label for="tm_role">Role</label><select id="tm_role"><option value="staff">Staff</option><option value="owner">Owner</option></select></div>
+    <button class="btn primary" type="submit">Add staff member</button>
+  </form>
+  <p class="note" id="tm_note"></p>
+</div></div>
+<div class="scrim" id="pwScrim" hidden><form class="staff-modal" id="pwForm" aria-labelledby="pwTitle">
+  <span class="badge">YOUR ACCOUNT</span><h3 id="pwTitle">Change password</h3>
+  <div class="field" style="width:100%"><label for="pw_new">New password (8+ characters)</label><input id="pw_new" type="password" autocomplete="new-password" minlength="8" required></div>
+  <p class="note" id="pw_note"></p>
+  <div style="display:flex;gap:8px"><button class="btn primary" type="submit">Save</button><button class="btn" id="pwClose" type="button">Cancel</button></div>
+</form></div>
 <div class="staffbar" id="staffBar" hidden>
-  <div class="sb-view" id="sbView"><span class="badge" style="margin:0" id="sbName">STAFF</span><a class="btn" href="#studio">Briefs</a><button class="btn primary" id="editBtn" type="button">Edit site</button><button class="btn" id="logoutBtn" type="button">Sign out</button></div>
+  <div class="sb-view" id="sbView"><span class="badge" style="margin:0" id="sbName">STAFF</span><a class="btn" href="#studio">Briefs</a><button class="btn primary" id="editBtn" type="button">Edit site</button><button class="btn" id="teamBtn" type="button" hidden>Team</button><button class="btn" id="pwBtn" type="button">Password</button><button class="btn" id="logoutBtn" type="button">Sign out</button></div>
   <div class="sb-edit" id="sbEdit" hidden><span class="sb-hint">Editing the live site: click any outlined text to change it</span>
     <label class="sb-tick"><span class="label">Ticker words</span><input id="tickerInput" placeholder="AI FILM, ANIMATION, VFX"></label>
     <button class="btn" id="cancelEdit" type="button">Cancel</button><button class="btn primary" id="saveEdit" type="button">Publish changes</button></div>
@@ -722,11 +785,11 @@ function items(){const src=SRC();return [...WORK.map(w=>({...w,src:`media/${w.id
 function harvestCards(){if(!editing)return;document.querySelectorAll('#reel .card[data-id]').forEach(c=>{const id=c.dataset.id;DRAFT.work[id]={...(DRAFT.work[id]||{}),title:c.querySelector('[data-wedit=title]').innerText.trim(),kind:c.querySelector('[data-wedit=kind]').innerText.trim()}})}
 function renderReel(){const reel=$('reel');ITEMS=items();const list=editing?ITEMS:ITEMS.filter(w=>!w.hidden);
   reel.innerHTML=list.map((w,i)=>`<div class="card${w.hidden?' is-hidden':''}" role="button" tabindex="0" data-cat="${esc(w.cat)}" data-id="${esc(w.id)}">
-    <video src="${esc(w.loop)}" ${w.poster?`poster="${esc(w.poster)}"`:''} autoplay muted loop playsinline preload="metadata"></video>
+    ${w.type==='image'?`<img src="${esc(w.src)}" alt="${esc(w.title)}" loading="lazy">`:`<video src="${esc(w.loop)}" ${w.poster?`poster="${esc(w.poster)}"`:''} autoplay muted loop playsinline preload="metadata"></video>`}
     <span class="veil"></span><span class="num">${pad(i+1)} / ${pad(list.length)}</span>
     ${editing?`<span class="card-tools"><select class="ct" data-act="cat" aria-label="Category">${CATS.map(([k,t])=>`<option value="${k}"${k===w.cat?' selected':''}>${t}</option>`).join('')}</select><button type="button" class="ct" data-act="hide">${w.hidden?'Show':'Hide'}</button>${w.extra?'<button type="button" class="ct" data-act="remove">Remove</button>':''}</span>`:''}
     <span class="meta"><span><small data-wedit="kind">${esc(w.kind)}</small><b data-wedit="title">${esc(w.title)}</b></span><span class="go">▶</span></span></div>`).join('')
-    +(editing?`<label class="card add-card"><input type="file" id="addFilm" accept="video/mp4,video/webm,video/quicktime" hidden><span>+ Add film<small>MP4 up to 20MB, portrait works best</small></span></label>`:'');
+    +(editing?`<label class="card add-card"><input type="file" id="addFilm" accept="video/mp4,video/webm,video/quicktime,image/jpeg,image/png,image/webp,image/gif,image/heic" hidden><span>+ Add film or picture<small>MP4 or JPG/PNG, portrait works best</small></span></label>`:'');
   reel.querySelectorAll('video').forEach(v=>{v.muted=true;const p=v.play();p&&p.catch(()=>{})});
   if(editing){reel.querySelectorAll('[data-wedit]').forEach(makeEditable);$('addFilm').onchange=addFilm}
   applyFilter()}
@@ -739,7 +802,8 @@ function applyFilter(){$('reel').querySelectorAll('.card[data-id]').forEach(c=>c
       if(a&&a.dataset.act==='remove'){harvestCards();DRAFT.extra=DRAFT.extra.filter(x=>x.id!==c.dataset.id);delete DRAFT.work[c.dataset.id];renderReel()}
       return}
     const c=e.target.closest('.card[data-id]');if(!c)return;const w=ITEMS.find(x=>x.id===c.dataset.id);if(!w)return;
-    player.src=w.src;if(w.poster)player.poster=w.poster;else player.removeAttribute('poster');$('playerTitle').textContent=w.title;$('playerCat').textContent=w.kind;scrim.hidden=false;player.muted=false;player.play().catch(()=>{})});
+    if(w.type==='image'){player.hidden=true;player.pause();$('playerImg').src=w.src;$('playerImg').hidden=false;$('playerTitle').textContent=w.title;$('playerCat').textContent=w.kind;scrim.hidden=false;return}
+    $('playerImg').hidden=true;player.hidden=false;player.src=w.src;if(w.poster)player.poster=w.poster;else player.removeAttribute('poster');$('playerTitle').textContent=w.title;$('playerCat').textContent=w.kind;scrim.hidden=false;player.muted=false;player.play().catch(()=>{})});
   reel.addEventListener('change',e=>{const a=e.target.closest('[data-act=cat]');if(!a||!editing)return;const c=a.closest('.card');harvestCards();DRAFT.work[c.dataset.id]={...(DRAFT.work[c.dataset.id]||{}),cat:a.value};c.dataset.cat=a.value});
   reel.addEventListener('keydown',e=>{if(!editing&&(e.key==='Enter'||e.key===' ')&&e.target.matches('.card[data-id]')){e.preventDefault();e.target.click()}});
   const shut=()=>{player.pause();player.removeAttribute('src');player.load();scrim.hidden=true};
@@ -756,12 +820,12 @@ function applyText(){const t=SITE.text||{};document.querySelectorAll('[data-edit
   const digits=$('c_phone').textContent.replace(/[^0-9]/g,'').replace(/^0/,'44');if(digits.length>=10)$('waLink').href='https://wa.me/'+digits}
 function applyAll(){applyText();renderTicker();renderReel()}
 async function addFilm(e){const f=e.target.files[0];if(!f)return;
-  if(!canEdit){toast('Sign in as staff to upload films');return}
+  if(!canEdit){toast('Sign in as staff to upload');return}const isImg=/^image\//.test(f.type);
   if(f.size>300*1024*1024){toast('That file is over 300MB. Export a smaller MP4 and try again');return}
   toast('Uploading '+f.name+'…');
   try{const {upload}=await import('https://esm.sh/@vercel/blob@0.27.0/client');
-    const r=await upload('films/'+Date.now()+'-'+f.name.replace(/[^\w.-]+/g,'-'),f,{access:'public',handleUploadUrl:'/api/upload'});
-    harvestCards();DRAFT.extra.push({id:'x'+newId(),url:r.url,title:f.name.replace(/\.[^.]+$/,''),kind:'New work',cat:'branded'});renderReel();toast('Uploaded. Name it, then publish changes')}
+    const r=await upload((isImg?'pictures/':'films/')+Date.now()+'-'+f.name.replace(/[^\w.-]+/g,'-'),f,{access:'public',handleUploadUrl:'/api/upload'});
+    harvestCards();DRAFT.extra.push({id:'x'+newId(),url:r.url,type:isImg?'image':'video',title:f.name.replace(/\.[^.]+$/,''),kind:'New work',cat:'branded'});renderReel();toast('Uploaded. Name it, then publish changes')}
   catch(err){toast("Upload didn't work. Try an MP4 and check you're signed in")}}
 function enterEdit(){editing=true;DRAFT=structuredClone({text:{},work:{},extra:[],ticker:[],...SITE});document.body.classList.add('editing');
   document.querySelectorAll('[data-edit]').forEach(makeEditable);
@@ -979,6 +1043,63 @@ document.querySelectorAll('[data-copy]').forEach(b=>b.onclick=async()=>{const el
   watch();new MutationObserver(watch).observe($('reel'),{childList:true});
   document.addEventListener('visibilitychange',()=>{if(document.hidden)document.querySelectorAll('video').forEach(v=>v.pause());else watch()});
 })();
+</script>
+
+<script>
+/* ===== staff back end: replies with pictures, team accounts, password ===== */
+let isOwner=false,cvImgs=[],cvBusy=false;
+const ago=t=>new Date(t).toLocaleString('en-GB',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'});
+async function blobUpload(f,folder){const {upload}=await import('https://esm.sh/@vercel/blob@0.27.0/client');
+  return upload(folder+'/'+Date.now()+'-'+f.name.replace(/[^\w.-]+/g,'-'),f,{access:'public',handleUploadUrl:'/api/upload'})}
+function renderThread(r){const box=$('convo');box.hidden=!r;if(!r)return;
+  $('cv_to').textContent=r.email?('TO '+r.email):'NO CLIENT EMAIL';
+  $('thread').innerHTML=(r.thread||[]).map(m=>`<div class="tm ${m.from==='client'?'client':m.from==='note'?'note':'staff'}"><small>${m.from==='client'?'Client':m.from==='note'?'Note':'Sent'} · ${esc(m.by||'')} · ${ago(m.at)}</small>${esc(m.text||'')}${(m.images||[]).length?`<div class="imgs">${m.images.map(u=>`<a href="${esc(u)}" target="_blank" rel="noopener"><img src="${esc(u)}" alt=""></a>`).join('')}</div>`:''}</div>`).join('');
+  const t=$('thread');t.scrollTop=t.scrollHeight;
+  $('cv_msg').value='';cvImgs=[];renderPics();$('cv_note').textContent='';$('cv_note').className='note'}
+function renderPics(){$('cv_pics').innerHTML=cvImgs.map((p,i)=>`<span><img class="${p.url?'':'up'}" src="${esc(p.url||p.preview)}" alt=""><button type="button" data-i="${i}" aria-label="Remove picture">✕</button></span>`).join('')}
+$('cv_pics').addEventListener('click',e=>{const b=e.target.closest('button[data-i]');if(b){cvImgs.splice(+b.dataset.i,1);renderPics()}});
+$('cv_file').onchange=async e=>{const files=[...e.target.files].slice(0,12-cvImgs.length);e.target.value='';
+  for(const f of files){const p={preview:URL.createObjectURL(f),url:''};cvImgs.push(p);renderPics();
+    try{const r=await blobUpload(f,'replies');p.url=r.url}catch(err){cvImgs=cvImgs.filter(x=>x!==p);toast("A picture didn't upload. Try again")}renderPics()}};
+async function sendReply(log){if(cvBusy||!drawerItem)return;const note=$('cv_note');note.className='note';
+  if(cvImgs.some(p=>!p.url)){note.textContent='Wait for the pictures to finish uploading.';return}
+  const message=$('cv_msg').value.trim(),images=cvImgs.map(p=>p.url);
+  if(!message&&!images.length){note.className='note err';note.textContent='Write a message or add a picture first.';return}
+  cvBusy=true;const b=log?$('cv_log'):$('cv_send');b.disabled=true;
+  try{const j=await api('/api/reply',{method:'POST',body:{id:drawerItem.id,message,images,log:!!log,from:log?'client':undefined}});
+    drawerItem.thread=[...(drawerItem.thread||[]),j.entry];if(j.status){drawerItem.status=j.status;$('d_status').value=j.status}
+    renderThread(drawerItem);note.className='note ok';note.textContent=log?'Saved to the conversation.':'Sent to '+drawerItem.email+'.';loadBriefs()}
+  catch(err){note.className='note err';
+    if(err.message&&/isn't set up/.test(err.message)&&drawerItem.email){note.innerHTML='Email sending isn’t switched on yet. <a href="mailto:'+encodeURIComponent(drawerItem.email)+'?subject='+encodeURIComponent('Your project with MYL')+'&body='+encodeURIComponent(message)+'" style="text-decoration:underline">Open it in your email app</a> instead.'}
+    else note.textContent=err.message||"That didn't send. Try again."}
+  cvBusy=false;b.disabled=false}
+$('cv_send').onclick=()=>sendReply(false);
+$('cv_log').onclick=()=>sendReply(true);
+{const _open=openDrawer;openDrawer=function(r){_open(r);renderThread(r||null)}}
+
+/* team + password */
+{const _ss=setStaff;setStaff=function(on,name){_ss(on,name);isOwner=false;$('teamBtn').hidden=true;
+  if(on)api('/api/me').then(m=>{isOwner=!!m.owner;$('teamBtn').hidden=!isOwner}).catch(()=>{})}}
+async function loadTeam(){const list=$('teamList');list.innerHTML='<div class="label">Loading…</div>';
+  try{const j=await api('/api/staff');list.innerHTML=j.staff.map(u=>`<div class="trow"><span><b>${esc(u.name)}</b><small>${u.role==='owner'?'Owner':'Staff'}</small></span><span class="acts">${u.fixed?'<small>Set in Vercel</small>':`<button class="btn" type="button" data-reset="${esc(u.name)}">Reset password</button>${u.name===staffName?'':`<button class="btn danger" type="button" data-del="${esc(u.name)}">Remove</button>`}`}</span></div>`).join('')}
+  catch(e){list.innerHTML='<div class="note err">'+esc(e.message||'Could not load the team')+'</div>'}}
+$('teamBtn').onclick=()=>{$('teamScrim').hidden=false;$('tm_note').textContent='';loadTeam()};
+$('tmClose').onclick=()=>$('teamScrim').hidden=true;$('teamScrim').onclick=e=>{if(e.target===$('teamScrim'))$('teamScrim').hidden=true};
+$('teamAdd').onsubmit=async e=>{e.preventDefault();const n=$('tm_note');n.className='note';
+  try{await api('/api/staff',{method:'POST',body:{username:$('tm_user').value,password:$('tm_pass').value,role:$('tm_role').value}});
+    n.className='note ok';n.textContent='Added '+$('tm_user').value.trim().toLowerCase()+'. Send them the username and password.';$('teamAdd').reset();loadTeam()}
+  catch(err){n.className='note err';n.textContent=err.message}};
+$('teamList').addEventListener('click',async e=>{const n=$('tm_note');n.className='note';
+  const r=e.target.closest('[data-reset]'),d=e.target.closest('[data-del]');
+  if(r){const pw=prompt('New password for '+r.dataset.reset+' (8+ characters)');if(!pw)return;
+    try{await api('/api/staff?u='+encodeURIComponent(r.dataset.reset),{method:'PATCH',body:{password:pw}});n.className='note ok';n.textContent='Password changed. They’ll need to sign in again.'}catch(err){n.className='note err';n.textContent=err.message}}
+  if(d){if(d.dataset.confirm!=='1'){d.dataset.confirm='1';d.textContent='Tap again to remove';return}
+    try{await api('/api/staff?u='+encodeURIComponent(d.dataset.del),{method:'DELETE'});n.className='note ok';n.textContent='Removed '+d.dataset.del+'.';loadTeam()}catch(err){n.className='note err';n.textContent=err.message}}});
+$('pwBtn').onclick=()=>{$('pwScrim').hidden=false;$('pw_note').textContent='';$('pw_new').value=''};
+$('pwClose').onclick=()=>$('pwScrim').hidden=true;
+$('pwForm').onsubmit=async e=>{e.preventDefault();const n=$('pw_note');n.className='note';
+  try{await api('/api/staff?u='+encodeURIComponent(staffName),{method:'PATCH',body:{password:$('pw_new').value}});n.className='note ok';n.textContent='Saved. Sign in again with your new password.';setTimeout(()=>{$('pwScrim').hidden=true;setStaff(false)},1400)}
+  catch(err){n.className='note err';n.textContent=err.message}};
 </script>
 </body>
 </html>

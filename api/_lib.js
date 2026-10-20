@@ -9,7 +9,8 @@ export const safeEq = (a, b) => {
   return x.length === y.length && crypto.timingSafeEqual(x, y);
 };
 
-// STAFF_USERS="benji:long-password,sam:another-password"
+// Staff accounts. Owners come from the STAFF_USERS env var ("benji:long-password,sam:another").
+// Everyone else is added from the site's Team panel and stored in Blob under staff/<username>.
 export function staffUsers() {
   const out = {};
   for (const pair of (process.env.STAFF_USERS || '').split(',')) {
@@ -18,21 +19,37 @@ export function staffUsers() {
   }
   return out;
 }
-export function makeSession(user) {
-  const p = Buffer.from(JSON.stringify({ u: user, exp: Date.now() + 7 * 864e5 })).toString('base64url');
+export const cleanUser = (u) => String(u || '').trim().toLowerCase().replace(/[^a-z0-9._-]/g, '').slice(0, 32);
+export function hashPw(pw) {
+  const salt = crypto.randomBytes(16).toString('base64url');
+  return `s1$${salt}$${crypto.scryptSync(String(pw), salt, 32).toString('base64url')}`;
+}
+export function checkPw(pw, stored) {
+  const [v, salt, h] = String(stored || '').split('$');
+  if (v !== 's1' || !salt || !h) return false;
+  return safeEq(crypto.scryptSync(String(pw), salt, 32).toString('base64url'), h);
+}
+export function makeSession(user, v = 0) {
+  const p = Buffer.from(JSON.stringify({ u: user, v, exp: Date.now() + 7 * 864e5 })).toString('base64url');
   return p + '.' + hmac(p);
 }
-export function getStaff(req) {
+// Returns { name, owner } for a signed-in staff member, or null.
+export async function getStaffInfo(req) {
   if (!SECRET()) return null;
   const m = /(?:^|;\s*)myl_staff=([^;]+)/.exec(req.headers.cookie || '');
   if (!m) return null;
   const [p, h] = m[1].split('.');
   if (!p || !h || !safeEq(h, hmac(p))) return null;
+  let d; try { d = JSON.parse(Buffer.from(p, 'base64url').toString()); } catch { return null; }
+  if (!(d.exp > Date.now())) return null;
+  if (staffUsers()[d.u] !== undefined) return { name: d.u, owner: true };
   try {
-    const d = JSON.parse(Buffer.from(p, 'base64url').toString());
-    return d.exp > Date.now() && staffUsers()[d.u] !== undefined ? d.u : null;
-  } catch { return null; }
+    const acc = await readOne('staff/', d.u);
+    if (acc && !acc.disabled && (acc.v || 0) === (d.v || 0)) return { name: d.u, owner: acc.role === 'owner' };
+  } catch {}
+  return null;
 }
+export async function getStaff(req) { const s = await getStaffInfo(req); return s ? s.name : null; }
 export const sessionCookie = (value, maxAge) =>
   `myl_staff=${value}; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=${maxAge}`;
 

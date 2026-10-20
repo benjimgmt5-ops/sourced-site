@@ -5,7 +5,7 @@ export default async function handler(req, res) {
   try {
     if (req.method === 'GET') return res.status(200).json({ content: await readOne('site/', 'content') });
     if (req.method === 'PUT') {
-      const staff = getStaff(req);
+      const staff = await getStaff(req);
       if (!staff) return res.status(401).json({ error: 'Staff login needed' });
       const b = req.body || {};
       const body = { text: b.text || {}, work: b.work || {}, extra: Array.isArray(b.extra) ? b.extra.slice(0, 60) : [],

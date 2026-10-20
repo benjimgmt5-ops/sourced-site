@@ -125,10 +125,10 @@ export default async function handler(req, res) {
   try {
     if (req.query.task === 'send') {
       const cron = process.env.CRON_SECRET;
-      if (cron && req.headers.authorization !== `Bearer ${cron}` && !getStaff(req)) return res.status(401).json({ error: 'Not allowed' });
+      if (cron && req.headers.authorization !== `Bearer ${cron}` && !(await getStaff(req))) return res.status(401).json({ error: 'Not allowed' });
       return res.status(200).json(await send());
     }
-    if (!getStaff(req)) return res.status(401).json({ error: 'Staff login needed' });
+    if (!(await getStaff(req))) return res.status(401).json({ error: 'Staff login needed' });
     return res.status(200).json({ leads: await leads(), sender: !!(process.env.RESEND_API_KEY && process.env.NOTIFY_FROM), from: process.env.NOTIFY_FROM || '' });
   } catch (e) {
     console.error(e);

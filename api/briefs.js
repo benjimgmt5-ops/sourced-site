@@ -9,7 +9,7 @@ const clean = (k, v) => (k === 'quote' ? Math.max(0, +String(v).replace(/[^0-9.]
   : k === 'status' ? (STATUSES.includes(v) ? v : 'new') : clip(v, k === 'brief' || k === 'notes' ? 8000 : 500));
 
 export default async function handler(req, res) {
-  const staff = getStaff(req);
+  const staff = await getStaff(req);
   try {
     if (req.method === 'POST') {
       const b = req.body || {};

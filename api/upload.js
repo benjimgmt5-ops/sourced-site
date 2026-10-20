@@ -1,4 +1,4 @@
-// Staff-only direct-to-Blob video uploads (bypasses the 4.5MB function body limit).
+// Staff-only direct-to-Blob uploads of films and pictures (bypasses the 4.5MB function body limit).
 import { handleUpload } from '@vercel/blob/client';
 import { getStaff } from './_lib.js';
 
@@ -9,8 +9,8 @@ export default async function handler(req, res) {
       body: req.body,
       request: req,
       onBeforeGenerateToken: async () => {
-        if (!getStaff(req)) throw new Error('Staff login needed');
-        return { allowedContentTypes: ['video/mp4', 'video/webm', 'video/quicktime'], maximumSizeInBytes: 300 * 1024 * 1024, addRandomSuffix: true };
+        if (!(await getStaff(req))) throw new Error('Staff login needed');
+        return { allowedContentTypes: ['video/mp4', 'video/webm', 'video/quicktime', 'image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/heic', 'image/heif'], maximumSizeInBytes: 300 * 1024 * 1024, addRandomSuffix: true };
       },
       onUploadCompleted: async () => {},
     });
