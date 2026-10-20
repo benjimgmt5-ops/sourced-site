@@ -1,0 +1,14 @@
+{
+  "name": "MYL — Made You Look",
+  "short_name": "MYL",
+  "description": "Digital creative specialists",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#07060c",
+  "theme_color": "#07060c",
+  "icons": [
+    { "src": "/media/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/media/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "/media/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
