@@ -60,11 +60,13 @@ export default async function handler(req, res) {
   const done = new Set(sentAt.keys());
   const blocked = new Set([...suppress, ...replied].map(x => String(x).toLowerCase()));
   const isBlocked = to => { const e = to.toLowerCase(); return blocked.has(e) || blocked.has('@' + e.split('@')[1]); };
-  const fresh = queue.filter(m => m.id && !done.has(m.id) && VALID_EMAIL.test(m.to) && !isBlocked(m.to));
+  const blockedSuppress = new Set(suppress.map(x => String(x).toLowerCase()));
+  const isSuppressed = to => { const e = to.toLowerCase(); return blockedSuppress.has(e) || blockedSuppress.has('@' + e.split('@')[1]); };
+  const fresh = queue.filter(m => m.id && !done.has(m.id) && VALID_EMAIL.test(m.to) && (m.priority ? !isSuppressed(m.to) : !isBlocked(m.to)));
   const now = Date.now(), DAY = 864e5;
   const follow = [];
   for (const m of queue) {
-    if (!m.id || !sentAt.has(m.id) || isBlocked(m.to) || !VALID_EMAIL.test(m.to)) continue;
+    if (!m.id || m.priority || !sentAt.has(m.id) || isBlocked(m.to) || !VALID_EMAIL.test(m.to)) continue;
     for (const f of FOLLOWUPS) {
       const fid = m.id + '-' + f.step;
       if (done.has(fid)) continue;
@@ -75,7 +77,8 @@ export default async function handler(req, res) {
     }
   }
   // New emails first, then follow-ups, within the per-run cap.
-  const todo = [...fresh, ...follow].slice(0, PER_RUN);
+  // Lead replies (priority: true) go first, then new emails, then follow-ups.
+  const todo = [...fresh.filter(m => m.priority), ...fresh.filter(m => !m.priority), ...follow].slice(0, PER_RUN);
   const results = [];
   for (const m of todo) {
     // Claim first, so an overlapping run can't send the same email twice.
@@ -88,7 +91,8 @@ export default async function handler(req, res) {
         headers: { Authorization: `Bearer ${process.env.RESEND_API_KEY}`, 'Content-Type': 'application/json' },
         body: JSON.stringify({
           from, to: [m.to], reply_to: replyToList(), subject: m.subject, text: m.text, html: html(m.text),
-          headers: { 'List-Unsubscribe': `<mailto:${replyTo()}?subject=remove>` }
+          ...(m.cc ? { cc: [].concat(m.cc) } : {}),
+          headers: { ...(m.priority ? {} : { 'List-Unsubscribe': `<mailto:${replyTo()}?subject=remove>` }), ...(m.headers || {}) }
         }),
         signal: AbortSignal.timeout(10000)
       });

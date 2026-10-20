@@ -7,9 +7,20 @@ sign-up is BCC'd there too. In Gmail (last 2 days):
   "New Sourced. brief" / "partner sign-up" alerts.
 - Add every address that replied to `api/_replied.json` (so follow-ups stop). If they asked to be removed or not
   contacted, add them to `api/_suppress.json` instead.
-- For every genuine lead or interested reply, create a Gmail DRAFT reply (never send) that is short, warm and moves
-  to a quote or call: confirm what they need, ask for dates, location and budget, offer a quick call on 07590 474421.
-- The final summary must open with a LEADS section: who, what they want, and that a draft is waiting.
+- For every genuine lead or interested reply, SEND a reply automatically (Benji's standing instruction: no
+  approval needed). Do it by adding an entry to `api/_outreach.json` with `"priority": true`, so the site's sender
+  emails it from hello@wearesourced.co.uk within 10 minutes, ahead of cold emails. Never send from Gmail (its
+  default send-as is the MYL address). Entry: id `YYYY-MM-DD-reply-<email-slug>`, `to` = their address,
+  `cc` = "sourced.admin@gmail.com", `subject` = "Re: " + their subject, `text` = the reply, then two blank lines
+  and their message quoted with "> " on each line (first 40 lines max).
+- Reply rules: short, warm, British English, signed "Benji\nSourced.\n07590 474421". Thank them, confirm what
+  they need in their own words, ask only for what's missing (dates, location, numbers, budget), and offer a quick
+  call on 07590 474421. Partner/supplier replies: welcome them and point to www.wearesourced.co.uk/partners/ to add
+  their details. NEVER quote prices, confirm availability, promise a booking or make commitments, and never invent
+  details. Only one auto-reply per person per day; if they've already had one from us in that thread since their
+  last message, skip. Out-of-office, auto-replies, "remove"/"not interested" and anything legal, complaints or
+  payment-related get NO reply: list those for Benji instead.
+- The final summary must open with a LEADS section: who, what they want, and what reply was sent.
 
 Follow-ups at 5 and 12 days are sent automatically by the sender; never queue them by hand.
 
