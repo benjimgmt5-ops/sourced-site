@@ -1,26 +1,11 @@
 # Daily outreach job
 
-## Step 0: leads first (every day, before anything else)
-Outreach replies are copied to benjimgmt5@gmail.com (reply-to includes it) and every website brief or partner
-sign-up is BCC'd there too. In Gmail (last 2 days):
-- Find replies to outreach emails (subjects from the queue, or "Re:" to hello@wearesourced.co.uk emails) and new
-  "New Sourced. brief" / "partner sign-up" alerts.
-- Add every address that replied to `api/_replied.json` (so follow-ups stop). If they asked to be removed or not
-  contacted, add them to `api/_suppress.json` instead.
-- For every genuine lead or interested reply, SEND a reply automatically (Benji's standing instruction: no
-  approval needed). Do it by adding an entry to `api/_outreach.json` with `"priority": true`, so the site's sender
-  emails it from hello@wearesourced.co.uk within 10 minutes, ahead of cold emails. Never send from Gmail (its
-  default send-as is the MYL address). Entry: id `YYYY-MM-DD-reply-<email-slug>`, `to` = their address,
-  `cc` = "sourced.admin@gmail.com", `subject` = "Re: " + their subject, `text` = the reply, then two blank lines
-  and their message quoted with "> " on each line (first 40 lines max).
-- Reply rules: short, warm, British English, signed "Benji\nSourced.\n07590 474421". Thank them, confirm what
-  they need in their own words, ask only for what's missing (dates, location, numbers, budget), and offer a quick
-  call on 07590 474421. Partner/supplier replies: welcome them and point to www.wearesourced.co.uk/partners/ to add
-  their details. NEVER quote prices, confirm availability, promise a booking or make commitments, and never invent
-  details. Only one auto-reply per person per day; if they've already had one from us in that thread since their
-  last message, skip. Out-of-office, auto-replies, "remove"/"not interested" and anything legal, complaints or
-  payment-related get NO reply: list those for Benji instead.
-- The final summary must open with a LEADS section: who, what they want, and what reply was sent.
+## Step 0: keep Sourced separate from MYL (read first)
+Sourced. and MYL are two different businesses with two different bots. Sourced. replies, briefs and alerts go ONLY to
+sourced.admin@gmail.com, and Sourced. emails go out ONLY from hello@wearesourced.co.uk through this site's sender.
+The Gmail connector is Benji's personal account (benjimgmt5@gmail.com, default send-as = MYL), so this job must
+NEVER read, search, draft or send in Gmail, and must never touch anything MYL. Lead replies are handled by Benji in
+the sourced.admin@gmail.com inbox and /admin until Sourced. has its own reply inbox.
 
 Follow-ups at 5 and 12 days are sent automatically by the sender; never queue them by hand.
 
@@ -67,9 +52,9 @@ Rotate across London, the Home Counties and other UK cities so the same areas ar
 2. Business addresses only. Never private individuals or homeowners. A location owner qualifies only if they run the
    space as a business with its own website and contact details for filming or hire. Never take contact details from
    booking platforms (Scouty, Giggster, Peerspace, Airbnb, etc.) and never guess addresses.
-3. Skip anyone already in `api/_outreach.json`, already in `api/_suppress.json`, or already emailed from Gmail
-   (search Gmail sent for their domain).
-4. Before queueing, check Gmail for replies asking to be removed and add those addresses to `api/_suppress.json`.
+3. Skip anyone (same address or same domain) already in `api/_outreach.json`, `api/_suppress.json` or
+   `api/_replied.json`. Do not use Gmail for this.
+4. Never read or use Gmail. Removals are added to `api/_suppress.json` by Benji.
 5. Append to the queue with ids `YYYY-MM-DD-<email-slug>`, validate the JSON, `node --check api/outreach.js`,
    commit and push to main.
-6. Report: total queued, count per template, and any removals handled.
+6. Report: total queued and count per template.
