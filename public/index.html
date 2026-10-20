@@ -349,6 +349,92 @@ a,button,.card{-webkit-tap-highlight-color:transparent}
 @media(max-width:520px){.nav-in{gap:8px}.links{gap:5px}.links a{padding:10px 11px;letter-spacing:.08em}.brand{font-size:20px}}
 @media(hover:none){.card .go{display:none}.card video{filter:none}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+
+/* ===== Chloe pop-up ===== */
+.log .msg[data-edit="chloe_hello"]{display:none}
+.msg.typing{display:inline-flex;gap:5px;align-items:center;width:max-content;padding:14px 16px}
+.msg.typing i{width:7px;height:7px;border-radius:50%;background:#c4b5fd;animation:tdot 1s infinite ease-in-out}
+.msg.typing i:nth-child(2){animation-delay:.15s}.msg.typing i:nth-child(3){animation-delay:.3s}
+@keyframes tdot{0%,80%,100%{opacity:.3;transform:translateY(0)}40%{opacity:1;transform:translateY(-4px)}}
+.cpop{position:fixed;inset:0;z-index:100;display:flex;align-items:flex-end;justify-content:flex-end;padding:24px calc(24px + env(safe-area-inset-right,0px)) calc(24px + env(safe-area-inset-bottom,0px)) 24px}
+.cpop-scrim{position:absolute;inset:0;background:#020106a6;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);opacity:0;transition:opacity .25s}
+.cpop-sheet{position:relative;width:min(440px,100%);height:min(720px,calc(100svh - 48px));display:flex;flex-direction:column;background:var(--ink);border:1px solid #ffffff24;border-radius:24px;box-shadow:0 30px 120px #000d,0 0 90px #7b1cff40;overflow:hidden;opacity:0;transform:translateY(28px) scale(.97);transform-origin:bottom right;transition:transform .3s cubic-bezier(.2,.8,.2,1),opacity .25s}
+.cpop.show .cpop-scrim{opacity:1}.cpop.show .cpop-sheet{opacity:1;transform:none}
+.cpop-x{position:absolute;top:12px;right:12px;z-index:3;display:grid;place-items:center;font-size:15px}
+.cpop-grab{display:none}
+.cpop-body{flex:1;min-height:0;display:flex;flex-direction:column}
+.cpop-body .chloe{flex:1;min-height:0;border:0;border-radius:0;background:radial-gradient(120% 60% at 50% -10%,#7b1cff2e,transparent 60%),var(--ink);padding:22px 20px 14px;gap:14px}
+.cpop-body .chloe-top{flex-direction:row;text-align:left;align-items:center;gap:16px;padding-right:44px}
+.cpop-body #orb{--s:92px!important;margin:14px}
+.cpop-body #orb .halo,.cpop-body #orb .ring2{display:none}
+.cpop-body .chloe-top{gap:20px}
+.nav{transition:background .25s,border-color .25s,backdrop-filter .25s;border-bottom:1px solid transparent}
+.nav.scrolled{background:#07060cd9;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom-color:var(--line)}
+.nav.scrolled .links a{background:transparent;backdrop-filter:none}
+.nav.scrolled .links a.cta{background:var(--fg)}
+.cpop-body .log{flex:1;min-height:0;max-height:none;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+.cpop-body .chips{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin:0 -20px;padding:0 20px}
+.cpop-body .chips::-webkit-scrollbar{display:none}
+.cpop-body .chip{flex:none;white-space:nowrap}
+.cpop-brief{display:flex;align-items:center;gap:10px;justify-content:space-between;margin:0 14px 14px;padding:14px 16px;border-radius:14px;border:1px solid #8f6bff66;background:#7b1cff1f;color:var(--fg);font:600 14px/1 var(--body)}
+.cpop-brief b{margin-left:auto;font:500 11px/1 var(--mono);letter-spacing:.1em;color:#c4b5fd;text-transform:uppercase}
+.cpop-brief b:empty{display:none}
+.chloe-ph{border:1px dashed #ffffff1f;border-radius:22px}
+html.cpop-on,html.cpop-on body{overflow:hidden}
+html.cpop-on .dock{opacity:0;pointer-events:none}
+@media(max-width:720px){
+  .cpop{padding:0}
+  .cpop-sheet{width:100%;height:calc(100svh - 56px - env(safe-area-inset-top,0px));border-radius:22px 22px 0 0;border-bottom:0;padding-bottom:env(safe-area-inset-bottom,0px);transform:translateY(100%);opacity:1;transition:transform .32s cubic-bezier(.2,.8,.2,1)}
+  .cpop-grab{display:block;flex:none;width:42px;height:5px;border-radius:3px;background:#ffffff38;margin:9px auto 0}
+  .cpop-x{top:14px;right:12px;width:40px;height:40px}
+  .cpop-body .chloe{padding:12px 16px 10px;gap:12px}
+  .cpop-body .chloe-top{gap:14px}
+  .cpop-body #orb{--s:64px!important;margin:10px}
+  .cpop-body .chloe-top b{font-size:22px}
+  .cpop-body .chips{margin:0 -16px;padding:0 16px}
+  .cpop-body .say input{padding:13px 14px}
+  .cpop-brief{margin:0 12px 10px}
+}
+/* keyboard open: give the conversation the room */
+@media(max-width:720px){
+  .cpop.kb .cpop-sheet{height:calc(100% - 8px);border-radius:16px 16px 0 0}
+  .cpop.kb .chips,.cpop.kb .cpop-brief,.cpop.kb .cpop-grab,.cpop.kb .chloe-top .label,.cpop.kb #status{display:none}
+  .cpop.kb .cpop-body #orb{--s:40px!important;margin:4px}
+  .cpop.kb .cpop-body .chloe{padding-top:8px}
+}
+.cpop{height:100%;height:100dvh}
+/* ===== phone pass ===== */
+@media(max-width:720px){
+  .wrap{padding-left:max(18px,var(--gut));padding-right:max(18px,var(--gutR))}
+  .nav-in{height:60px}
+  .links a.studio-link{display:none}
+  .links a.cta{padding:11px 14px}
+  .hero{min-height:max(600px,100svh)}
+  .hero-copy{padding-bottom:max(22px,calc(env(safe-area-inset-bottom,0px) + 14px))}
+  .mark{font-size:clamp(108px,37vw,220px)}
+  .label{letter-spacing:.14em}
+  .ticker-in{padding:14px 0;gap:32px}
+  .intro{padding-block:72px}
+  .intro p{font-size:16px}
+  h2{font-size:clamp(38px,11vw,64px)}
+  .work{padding-bottom:72px}
+  .brief{padding-block:72px}
+  .brief-head p{font-size:15px}
+  .contact{padding-block:64px}
+  .c-item{padding:18px}
+  footer .wrap{flex-direction:column;gap:6px}
+  .dock{padding:6px;gap:0;right:calc(14px + env(safe-area-inset-right,0px));bottom:calc(14px + env(safe-area-inset-bottom,0px))}
+  .dock .txt{display:none}
+  .filters{flex-wrap:wrap!important;overflow:visible!important}
+  .filter{padding:11px 14px}
+  .flyer .corb{--s:clamp(120px,36vw,160px)}
+  .flyer .corb .ring3{display:none}
+  .tag{letter-spacing:.12em}
+  .c-item b{font-size:clamp(17px,5.4vw,24px)}
+  .dock .corb{--s:56px}
+  .toast{max-width:calc(100% - 32px);text-align:center}
+}
+@media(max-width:380px){.links a.cta{font-size:10px;padding:10px 11px;letter-spacing:.06em}.brand{font-size:18px}}
 </style>
 </head>
 <body>
@@ -508,7 +594,7 @@ a,button,.card{-webkit-tap-highlight-color:transparent}
   </div>
 </div></section>
 
-<footer><div class="wrap"><span data-edit="foot_1">MYL · MADE YOU LOOK · AI CREATIVE STUDIO · LONDON</span><span data-edit="foot_2">YOUR VISION. THEIR ATTENTION.</span></div></footer>
+<footer><div class="wrap"><span data-edit="foot_1">MYL · MADE YOU LOOK · AI CREATIVE STUDIO · LONDON</span><span data-edit="foot_2">YOUR VISION. THEIR ATTENTION.</span><a href="#studio" id="footStaff" style="opacity:.7">STAFF LOGIN</a></div></footer>
 
 <div class="scrim" id="playerScrim" hidden><div class="player">
   <video id="player" controls playsinline></video>
@@ -603,7 +689,8 @@ renderTicker();
     cx+=(tx-cx)*k;cy+=(ty-cy)*k;
     vx=cx-px;tilt+=((Math.max(-.02,Math.min(.02,vx))*900)-tilt)*.1;
     const bob=reduce?0:Math.sin(t*2.2)*.008;
-    const x=(cx*100).toFixed(2)+'%',y=((cy+bob)*100).toFixed(2)+'%';
+    const hw=hero.clientWidth||innerWidth,ow=orbEl.offsetWidth||200,mg=Math.min(.45,(ow*(hw<720?.56:.62)+10)/hw),cxx=Math.min(1-mg,Math.max(mg,cx));
+    const x=(cxx*100).toFixed(2)+'%',y=((cy+bob)*100).toFixed(2)+'%';
     for(const el of [tint,lens,flyer]){el.style.setProperty('--mx',x);el.style.setProperty('--my',y)}
     orbEl.style.setProperty('--tilt',tilt.toFixed(1)+'deg');
     bub.style.translate=(cx>.7?'-92%':'-8%')+' 0';
@@ -686,10 +773,15 @@ $('smClose').onclick=()=>$('staffScrim').hidden=true;$('staffScrim').onclick=e=>
 /* ---------- Chloe ---------- */
 const chloe=(()=>{
   const orb=$('orb'),status=$('status'),log=$('log');
-  const CLIPS={hello:'media/chloe-hello.mp3',heard:'media/chloe-heard.mp3',sent:'media/chloe-sent.mp3'};
+  const CLIPS={hello:'media/chloe-hello.mp3',heard:'media/chloe-heard.mp3',sent:'media/chloe-sent.mp3',budget:'media/chloe-budget.mp3',deadline:'media/chloe-deadline.mp3',deliv:'media/chloe-deliv.mp3',contact:'media/chloe-contact.mp3',ready:'media/chloe-ready.mp3'};
   const LINES={hello:"Hi, I'm Chloe from MYL. Tell me what you want to make, your rough budget, and when you need it. I'll turn it into a proposal for the team.",
     heard:"Got it. I've added that to your brief. Tap me again if you'd like to add anything else.",
-    sent:"Lovely. Your proposal is with the MYL team now. We'll come back to you with ideas and a quote very soon."};
+    sent:"Lovely. Your proposal is with the MYL team now. We'll come back to you with ideas and a quote very soon.",
+    budget:"Love that, I've added it to your brief. What sort of budget are you working with?",
+    deadline:"Nice, that's in. And when do you need it ready by?",
+    deliv:"Got it. What do you need delivered? For example, one 30-second ad for socials, plus a few cutdowns.",
+    contact:"Perfect. What's your name, and the best email to send your proposal to?",
+    ready:"That's everything I need. Have a quick look at your brief, then hit send, and the team will come back to you with a quote."};
   const orbs=[...document.querySelectorAll('.corb')];
   let audio=null,ctx=null,an=null,buf=null,talking=false,fake=false;
   const setTalk=on=>{talking=on;orbs.forEach(o=>o.classList.toggle('talking',on));if(!on)orbs.forEach(o=>o.style.setProperty('--amp',0))};
@@ -700,22 +792,26 @@ const chloe=(()=>{
       orbs.forEach(o=>o.style.setProperty('--amp',a.toFixed(3)))}
     requestAnimationFrame(loop)})(0);
   function wire(el){try{ctx=ctx||new (window.AudioContext||window.webkitAudioContext)();ctx.resume&&ctx.resume();const src=ctx.createMediaElementSource(el);an=ctx.createAnalyser();an.fftSize=512;buf=new Uint8Array(an.fftSize);src.connect(an);an.connect(ctx.destination);fake=false}catch(e){an=null;fake=true}}
-  function stop(){if(audio){audio.pause();audio=null}try{speechSynthesis.cancel()}catch(e){}setTalk(false)}
-  async function tts(text){
-    /* Live ElevenLabs voice (Charlotte) via /api/voice; falls back to the browser's British voice */
-    try{stop();const r=await fetch('/api/voice',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({text})});
-      if(r.ok&&(r.headers.get('content-type')||'').includes('audio')){const url=URL.createObjectURL(await r.blob());audio=new Audio(url);wire(audio);setTalk(true);
-        audio.onended=()=>{setTalk(false);audio=null;URL.revokeObjectURL(url)};await audio.play();return}}catch(e){setTalk(false)}
-    browserTts(text)}
-  function browserTts(text){try{const u=new SpeechSynthesisUtterance(text);u.lang='en-GB';const vs=speechSynthesis.getVoices().filter(v=>/en-GB/i.test(v.lang));u.voice=vs.find(v=>/female|libby|sonia|serena|kate|martha|hazel|susan/i.test(v.name))||vs[0]||null;u.onstart=()=>{fake=true;setTalk(true)};u.onend=()=>setTalk(false);speechSynthesis.speak(u)}catch(e){}}
-  function play(key){stop();audio=new Audio(CLIPS[key]);wire(audio);setTalk(true);audio.onended=()=>{setTalk(false);audio=null};audio.onerror=()=>{setTalk(false);tts(LINES[key])};audio.play().catch(()=>{fake=true;setTalk(false)})}
+  let el=null,wired=false;
+  function getEl(){if(!el){el=new Audio();el.preload='auto';el.setAttribute('playsinline','')}return el}
+  function unlock(){const a=getEl();if(!wired){wire(a);wired=true}try{ctx&&ctx.resume()}catch(e){}}
+  function stop(){if(el){el.pause()}audio=null;setTalk(false)}
+  function start(url){stop();unlock();const a=getEl();a.src=url;audio=a;setTalk(true);
+    a.onended=()=>{setTalk(false);audio=null};a.onerror=()=>setTalk(false);
+    const p=a.play();if(p&&p.catch)p.catch(()=>{fake=true;setTalk(false)});return a}
+  function play(key){const a=start(CLIPS[key]);if(!['hello','heard','sent'].includes(key))a.onerror=()=>start(CLIPS.heard);return a}
+  function tts(){}
+  /* Live ElevenLabs (Charlotte) via /api/voice. Resolves true if she spoke, false if the voice API isn't available. */
+  async function speakLive(text){try{const r=await fetch('/api/voice',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({text})});
+      if(!r.ok||!(r.headers.get('content-type')||'').includes('audio'))return false;const url=URL.createObjectURL(await r.blob());
+      const el=start(url);el.addEventListener('ended',()=>URL.revokeObjectURL(url),{once:true});return true}catch(e){return false}}
   function add(text,who){const d=document.createElement('div');d.className='msg '+who;d.textContent=text;log.appendChild(d);log.scrollTop=log.scrollHeight}
-  return {orb,status,play,tts,stop,add,setListen,LINES};
+  return {orb,status,log,play,tts,stop,add,setListen,LINES,unlock,speakLive};
 })();
 
 const F={name:'f_name',company:'f_company',email:'f_email',phone:'f_phone',type:'f_type',budget:'f_budget',deadline:'f_deadline',deliverables:'f_deliv',brief:'f_brief',references:'f_refs'};
 const TYPES=[...$('f_type').options].map(o=>o.value).filter(Boolean);
-function fill(fields){let n=0;for(const[k,id]of Object.entries(F)){let v=fields[k];if(!v||typeof v!=='string')continue;v=v.trim();if(!v)continue;const el=$(id);
+function fill(fields,blankOnly){let n=0;for(const[k,id]of Object.entries(F)){let v=fields[k];if(!v||typeof v!=='string')continue;v=v.trim();if(!v)continue;const el=$(id);if(blankOnly&&el.value.trim())continue;
   if(k==='type'){const m=TYPES.find(t=>t.toLowerCase()===v.toLowerCase())||TYPES.find(t=>t.toLowerCase().includes(v.toLowerCase().split(/[ /]/)[0]));if(!m)continue;v=m}
   if(el.value!==v){el.value=v;el.classList.add('filled');setTimeout(()=>el.classList.remove('filled'),2400);n++}}return n}
 let transcript=[];
@@ -731,15 +827,47 @@ async function think(text){
   transcript.push(text);chloe.add(text,'u');chloe.status.textContent='Chloe is writing your brief…';
   let out=null;
   try{const r=await fetch('/api/chloe',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({transcript,form:Object.fromEntries(Object.entries(F).map(([k,id])=>[k,$(id).value]))})});if(r.ok)out=await r.json()}catch(e){out=null}
-  if(out&&out.fields){fill(out.fields);const r=String(out.reply||"Got it, I've added that to your brief.");chloe.add(r,'c');chloe.tts(r)}
-  else{const n=fill(localParse(text));chloe.add(n?"Got it. I've added that to your brief below. Anything else, like your deliverables or an email for the quote?":"Thanks. I've added that to your brief below.",'c');chloe.play('heard')}
+  if(out&&out.fields)fill(out.fields);fill(localParse(text),true);
+  await say(out&&out.reply,nextKey());
   chloe.status.textContent='Brief updated — keep talking or send it';
 }
 let greeted=false;
-function greet(){greeted=true;chloe.play('hello');chloe.status.textContent='Chloe is listening — type or tap the mic';$('heroBubble').textContent="Tell me what you want to make, your budget and when you need it."}
-chloe.orb.onclick=()=>{if(!greeted){greet();$('sayInput').focus({preventScroll:true})}else listen()};
-function goChloe(){if(!greeted)greet();$('chloe').scrollIntoView({behavior:'smooth',block:'center'});setTimeout(()=>$('sayInput').focus({preventScroll:true}),700)}
+function typing(){const d=document.createElement('div');d.className='msg c typing';d.innerHTML='<i></i><i></i><i></i>';d.setAttribute('aria-label','Chloe is typing');chloe.log.appendChild(d);chloe.log.scrollTop=chloe.log.scrollHeight;return d}
+function nextKey(){const v=k=>$(F[k]).value.trim();
+  if(!v('budget'))return 'budget';if(!v('deadline'))return 'deadline';if(!v('deliverables'))return 'deliv';if(!v('name')||!v('email'))return 'contact';return 'ready'}
+async function say(aiText,key){const t=typing();
+  if(aiText&&await chloe.speakLive(String(aiText))){t.remove();chloe.add(String(aiText),'c');return}
+  chloe.play(key);await new Promise(r=>setTimeout(r,450));t.remove();chloe.add(chloe.LINES[key],'c')}
+function greet(){greeted=true;chloe.play('hello');const t=typing();
+  setTimeout(()=>{t.remove();chloe.add(chloe.LINES.hello,'c')},650);
+  chloe.status.textContent='Type, or tap the mic to talk';$('heroBubble').textContent="Tell me what you want to make, your budget and when you need it."}
+chloe.orb.onclick=()=>{if(!greeted)greet();else listen()};
+/* Chloe pop-up: opens over the page instead of scrolling down to her */
+const cpop=(()=>{const card=$('chloe'),ph=document.createElement('div');ph.className='chloe-ph';
+  const pop=document.createElement('div');pop.className='cpop';pop.hidden=true;
+  pop.innerHTML='<div class="cpop-scrim"></div><div class="cpop-sheet" role="dialog" aria-modal="true" aria-label="Chat with Chloe"><span class="cpop-grab"></span><button class="x cpop-x" type="button" aria-label="Close Chloe">✕</button><div class="cpop-body"></div><button class="cpop-brief" type="button"><span>View your brief</span><b class="cpop-n"></b><span>→</span></button></div>';
+  document.body.appendChild(pop);const body=pop.querySelector('.cpop-body'),n=pop.querySelector('.cpop-n');let open=false,lastFocus=null;
+  const count=()=>{const c=Object.values(F).filter(id=>$(id).value.trim()).length;n.textContent=c?c+' filled':''};
+  Object.values(F).forEach(id=>$(id).addEventListener('input',count));setInterval(()=>open&&count(),800);
+  function show(){if(open)return;open=true;lastFocus=document.activeElement;chloe.unlock();
+    ph.style.height=card.offsetHeight+'px';card.before(ph);body.appendChild(card);pop.hidden=false;fit();document.documentElement.classList.add('cpop-on');
+    requestAnimationFrame(()=>requestAnimationFrame(()=>pop.classList.add('show')));count();
+    if(!greeted)greet();if(matchMedia('(hover:hover) and (pointer:fine)').matches)setTimeout(()=>$('sayInput').focus({preventScroll:true}),350);
+    else pop.querySelector('.cpop-x').focus({preventScroll:true})}
+  function hide(then){if(!open)return;open=false;pop.classList.remove('show');document.documentElement.classList.remove('cpop-on');
+    setTimeout(()=>{ph.replaceWith(card);pop.hidden=true;if(then)then();else if(lastFocus&&lastFocus.focus)lastFocus.focus({preventScroll:true})},260)}
+  const vv=window.visualViewport;function fit(){if(!vv)return;pop.style.top=vv.offsetTop+'px';pop.style.height=vv.height+'px';pop.style.bottom='auto';
+    pop.classList.toggle('kb',vv.height<innerHeight*.78);if(open){const l=chloe.log;l.scrollTop=l.scrollHeight}}
+  if(vv){vv.addEventListener('resize',fit);vv.addEventListener('scroll',fit)}
+  $('sayInput').addEventListener('focus',()=>setTimeout(fit,300));
+  pop.querySelector('.cpop-scrim').onclick=()=>hide();pop.querySelector('.cpop-x').onclick=()=>hide();
+  pop.querySelector('.cpop-brief').onclick=()=>hide(()=>{$('briefForm').scrollIntoView({behavior:'smooth',block:'start'});const f=Object.values(F).map($).find(e=>!e.value.trim());f&&setTimeout(()=>f.focus({preventScroll:true}),600)});
+  document.addEventListener('keydown',e=>{if(open&&e.key==='Escape')hide()});
+  return {show,hide,get open(){return open}}})();
+(()=>{const n=document.querySelector('.nav');const f=()=>n.classList.toggle('scrolled',scrollY>40);addEventListener('scroll',f,{passive:true});f()})();
+function goChloe(e){if(e&&e.preventDefault)e.preventDefault();cpop.show()}
 $('heroOrb').onclick=goChloe;$('heroTalk').onclick=goChloe;$('dock').onclick=goChloe;
+document.querySelectorAll('a[href="#chloe"]').forEach(x=>x.addEventListener('click',goChloe));
 (()=>{const seen=new Set();const io=new IntersectionObserver(es=>{es.forEach(e=>e.isIntersecting?seen.add(e.target.id):seen.delete(e.target.id));$('dock').classList.toggle('away',seen.size>0)},{threshold:.15});['top','chloe'].forEach(id=>io.observe($(id)))})();
 $('sayForm').onsubmit=e=>{e.preventDefault();const v=$('sayInput').value.trim();if(!v)return;$('sayInput').value='';think(v)};
 $('chips').addEventListener('click',e=>{const c=e.target.closest('.chip');if(c){$('sayInput').value=c.textContent;$('sayInput').focus()}});
@@ -748,6 +876,7 @@ function listen(){const SR=window.SpeechRecognition||window.webkitSpeechRecognit
   try{const r=new SR();r.lang='en-GB';r.interimResults=false;r.onstart=()=>{chloe.setListen(true);chloe.status.textContent='Listening…'};
     r.onresult=e=>think(e.results[0][0].transcript);r.onerror=()=>chloe.status.textContent="Couldn't hear you here — type to Chloe instead";r.onend=()=>chloe.setListen(false);chloe.stop();r.start()}catch(e){chloe.status.textContent="Voice input isn't available here — type to Chloe instead"}}
 $('micBtn').onclick=listen;
+$('footStaff').onclick=e=>{e.preventDefault();$('studioLink').click()};
 
 /* ---------- backend: Vercel API ---------- */
 let canEdit=false,staffName='',rows=[],pollT=null;
