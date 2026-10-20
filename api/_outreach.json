@@ -1,1 +1,396 @@
-[]
+[
+ {
+  "id": "2026-10-15-info-wearefrantic-com",
+  "to": "info@wearefrantic.com",
+  "company": "Frantic",
+  "segment": "studio",
+  "subject": "Extra AI and VFX capacity for Frantic",
+  "via": "gmail",
+  "stage": "emailed",
+  "sentAt": "2026-10-15T17:03:00Z"
+ },
+ {
+  "id": "2026-10-15-helloenvy-envypost-co-uk",
+  "to": "helloenvy@envypost.co.uk",
+  "company": "ENVY Post Production",
+  "segment": "post",
+  "subject": "AI and VFX support for ENVY Post Production",
+  "via": "gmail",
+  "stage": "emailed",
+  "sentAt": "2026-10-15T17:03:00Z"
+ },
+ {
+  "id": "2026-10-15-bookings-luckycatpost-co-uk",
+  "to": "bookings@luckycatpost.co.uk",
+  "company": "Lucky Cat Post Production",
+  "segment": "post",
+  "subject": "AI and VFX support for Lucky Cat Post Production",
+  "via": "gmail",
+  "stage": "emailed",
+  "sentAt": "2026-10-15T17:03:00Z"
+ },
+ {
+  "id": "2026-10-15-info-lola-post-com",
+  "to": "info@lola-post.com",
+  "company": "Lola Post Production",
+  "segment": "post",
+  "subject": "AI and VFX support for Lola Post Production",
+  "via": "gmail",
+  "stage": "emailed",
+  "sentAt": "2026-10-15T17:03:00Z"
+ },
+ {
+  "id": "2026-10-15-mark-witherow-pebblestudios-co-uk",
+  "to": "mark.witherow@pebblestudios.co.uk",
+  "company": "Pebble Studios",
+  "segment": "studio",
+  "subject": "Extra AI and VFX capacity for Pebble Studios",
+  "via": "gmail",
+  "stage": "emailed",
+  "sentAt": "2026-10-15T17:03:00Z"
+ },
+ {
+  "id": "2026-10-15-hello-trendygrandad-com",
+  "to": "hello@trendygrandad.com",
+  "company": "Trendy Grandad",
+  "segment": "social",
+  "subject": "More social variations from every shoot",
+  "via": "gmail",
+  "stage": "emailed",
+  "sentAt": "2026-10-15T17:03:00Z"
+ },
+ {
+  "id": "2026-10-15-ed-herenow-film",
+  "to": "Ed@herenow.film",
+  "company": "Here Now Films",
+  "segment": "production",
+  "subject": "AI and VFX for client campaigns at Here Now Films",
+  "via": "gmail",
+  "stage": "emailed",
+  "sentAt": "2026-10-15T17:03:00Z"
+ },
+ {
+  "id": "2026-10-15-info-cineeye-co-uk",
+  "to": "info@cineeye.co.uk",
+  "company": "CineEye",
+  "segment": "music",
+  "subject": "Hyper-real music videos without the huge budget",
+  "via": "gmail",
+  "stage": "emailed",
+  "sentAt": "2026-10-15T17:03:00Z"
+ },
+ {
+  "id": "2026-10-15-info-armonicafilm-co-uk",
+  "to": "info@armonicafilm.co.uk",
+  "company": "Armonica Film UK",
+  "segment": "music",
+  "subject": "Hyper-real music videos without the huge budget",
+  "via": "gmail",
+  "stage": "emailed",
+  "sentAt": "2026-10-15T17:03:00Z"
+ },
+ {
+  "id": "2026-10-15-industry-filmlondon-org-uk",
+  "to": "industry@filmlondon.org.uk",
+  "company": "Film London",
+  "segment": "industry",
+  "subject": "Introducing MYL, a London AI and VFX studio",
+  "via": "gmail",
+  "stage": "emailed",
+  "sentAt": "2026-10-15T17:03:00Z"
+ },
+ {
+  "id": "2026-10-15-studio-aquifer-film",
+  "to": "studio@aquifer.film",
+  "company": "Aquifer Film Studio",
+  "segment": "industry",
+  "subject": "Introducing MYL, a London AI and VFX studio",
+  "via": "gmail",
+  "stage": "emailed",
+  "sentAt": "2026-10-15T17:03:00Z"
+ },
+ {
+  "id": "2026-10-15-london-deptagency-com",
+  "to": "london@deptagency.com",
+  "company": "DEPT London",
+  "segment": "agency",
+  "subject": "A creative production arm for DEPT London",
+  "via": "gmail",
+  "stage": "emailed",
+  "sentAt": "2026-10-15T17:03:00Z"
+ },
+ {
+  "id": "2026-10-15-info-transformcomms-co-uk",
+  "to": "info@transformcomms.co.uk",
+  "company": "Transform Communications",
+  "segment": "agency",
+  "subject": "A creative production arm for Transform Communications",
+  "via": "gmail",
+  "stage": "emailed",
+  "sentAt": "2026-10-15T17:03:00Z"
+ },
+ {
+  "id": "2026-10-15-haywardsheath-markrevill-com",
+  "to": "haywardsheath@markrevill.com",
+  "company": "Mark Revill & Co",
+  "segment": "property_local",
+  "subject": "Making your listings stand out, from a local studio",
+  "via": "gmail",
+  "stage": "emailed",
+  "sentAt": "2026-10-15T17:03:00Z"
+ },
+ {
+  "id": "2026-10-15-info-freshmill-co-uk",
+  "to": "info@freshmill.co.uk",
+  "company": "Freshmill",
+  "segment": "local",
+  "subject": "Visuals for Freshmill, from a local studio",
+  "via": "gmail",
+  "stage": "emailed",
+  "sentAt": "2026-10-15T17:03:00Z"
+ },
+ {
+  "id": "2026-10-15-reception-ockenden-manor-com",
+  "to": "reception@ockenden-manor.com",
+  "company": "Ockenden Manor Hotel & Spa",
+  "segment": "hospitality",
+  "subject": "Seasonal campaign visuals for Ockenden Manor Hotel & Spa",
+  "via": "gmail",
+  "stage": "queued"
+ },
+ {
+  "id": "2026-10-15-hello-phoenixmarketing-uk",
+  "to": "hello@phoenixmarketing.uk",
+  "company": "Phoenix Media Marketing",
+  "segment": "agency",
+  "subject": "A creative production arm for Phoenix Media Marketing",
+  "via": "gmail",
+  "stage": "queued"
+ },
+ {
+  "id": "2026-10-15-londonsales-beauchampestates-com",
+  "to": "londonsales@beauchampestates.com",
+  "company": "Beauchamp Estates",
+  "segment": "property_prime",
+  "subject": "Premium launch visuals for Beauchamp Estates instructions",
+  "via": "gmail",
+  "stage": "emailed",
+  "sentAt": "2026-10-16T11:33:03Z"
+ },
+ {
+  "id": "2026-10-15-hello-tedworth-co-uk",
+  "to": "hello@tedworth.co.uk",
+  "company": "Tedworth Property",
+  "segment": "property_prime",
+  "subject": "Premium launch visuals for Tedworth Property instructions",
+  "via": "gmail",
+  "stage": "queued"
+ },
+ {
+  "id": "2026-10-15-contactus-fjlord-co-uk",
+  "to": "contactus@fjlord.co.uk",
+  "company": "Felicity J Lord",
+  "segment": "property",
+  "subject": "Listing reels and social content for Felicity J Lord",
+  "via": "gmail",
+  "stage": "queued"
+ },
+ {
+  "id": "2026-10-15-shoreditch-keatons-com",
+  "to": "shoreditch@keatons.com",
+  "company": "Keatons",
+  "segment": "property",
+  "subject": "Listing reels and social content for Keatons",
+  "via": "gmail",
+  "stage": "queued"
+ },
+ {
+  "id": "2026-10-15-hernehill-keatingestates-com",
+  "to": "hernehill@keatingestates.com",
+  "company": "Keating Estates",
+  "segment": "property",
+  "subject": "Listing reels and social content for Keating Estates",
+  "via": "gmail",
+  "stage": "queued"
+ },
+ {
+  "id": "2026-10-15-enquiries-airpeaceofmind-com",
+  "to": "enquiries@airpeaceofmind.com",
+  "company": "Air Peace of Mind",
+  "segment": "shortlet",
+  "subject": "Luxury property content for Air Peace of Mind",
+  "via": "gmail",
+  "stage": "queued"
+ },
+ {
+  "id": "2026-10-15-londonhomeowners-veeve-com",
+  "to": "londonhomeowners@veeve.com",
+  "company": "Veeve",
+  "segment": "shortlet",
+  "subject": "Luxury property content for Veeve",
+  "via": "gmail",
+  "stage": "queued"
+ },
+ {
+  "id": "2026-10-15-enquiries-ivylettings-com",
+  "to": "enquiries@ivylettings.com",
+  "company": "Ivy Lettings",
+  "segment": "shortlet",
+  "subject": "Luxury property content for Ivy Lettings",
+  "via": "gmail",
+  "stage": "queued"
+ },
+ {
+  "id": "2026-10-15-customercare-emaar-ae",
+  "to": "customercare@emaar.ae",
+  "company": "Emaar Properties",
+  "segment": "uae_dev",
+  "subject": "Hyper-real launch visuals for Emaar Properties",
+  "via": "gmail",
+  "stage": "queued"
+ },
+ {
+  "id": "2026-10-15-contact-damacgroup-com",
+  "to": "contact@damacgroup.com",
+  "company": "DAMAC Properties",
+  "segment": "uae_dev",
+  "subject": "Hyper-real launch visuals for DAMAC Properties",
+  "via": "gmail",
+  "stage": "queued"
+ },
+ {
+  "id": "2026-10-15-info-sobha-com",
+  "to": "info@sobha.com",
+  "company": "Sobha Realty",
+  "segment": "uae_dev",
+  "subject": "Hyper-real launch visuals for Sobha Realty",
+  "via": "gmail",
+  "stage": "queued"
+ },
+ {
+  "id": "2026-10-15-info-binghatti-com",
+  "to": "info@binghatti.com",
+  "company": "Binghatti Developers",
+  "segment": "uae_dev",
+  "subject": "Hyper-real launch visuals for Binghatti Developers",
+  "via": "gmail",
+  "stage": "queued"
+ },
+ {
+  "id": "2026-10-15-customercare-nakheel-com",
+  "to": "customercare@nakheel.com",
+  "company": "Nakheel",
+  "segment": "uae_dev",
+  "subject": "Hyper-real launch visuals for Nakheel",
+  "via": "gmail",
+  "stage": "queued"
+ },
+ {
+  "id": "2026-10-15-customercare-meraas-com",
+  "to": "customercare@meraas.com",
+  "company": "Meraas",
+  "segment": "uae_dev",
+  "subject": "Hyper-real launch visuals for Meraas",
+  "via": "gmail",
+  "stage": "queued"
+ },
+ {
+  "id": "2026-10-15-customercare-aldar-com",
+  "to": "customercare@aldar.com",
+  "company": "Aldar Properties",
+  "segment": "uae_dev",
+  "subject": "Hyper-real launch visuals for Aldar Properties",
+  "via": "gmail",
+  "stage": "queued"
+ },
+ {
+  "id": "2026-10-15-info-azizidevelopments-com",
+  "to": "info@azizidevelopments.com",
+  "company": "Azizi Developments",
+  "segment": "uae_dev",
+  "subject": "Hyper-real launch visuals for Azizi Developments",
+  "via": "gmail",
+  "stage": "queued"
+ },
+ {
+  "id": "2026-10-15-info-ellingtonproperties-ae",
+  "to": "info@ellingtonproperties.ae",
+  "company": "Ellington Properties",
+  "segment": "uae_dev",
+  "subject": "Hyper-real launch visuals for Ellington Properties",
+  "via": "gmail",
+  "stage": "queued"
+ },
+ {
+  "id": "2026-10-15-info-danubeproperties-ae",
+  "to": "info@danubeproperties.ae",
+  "company": "Danube Properties",
+  "segment": "uae_dev",
+  "subject": "Hyper-real launch visuals for Danube Properties",
+  "via": "gmail",
+  "stage": "queued"
+ },
+ {
+  "id": "2026-10-15-info-imtiaz-ae",
+  "to": "info@imtiaz.ae",
+  "company": "Imtiaz Developments",
+  "segment": "uae_dev",
+  "subject": "Hyper-real launch visuals for Imtiaz Developments",
+  "via": "gmail",
+  "stage": "queued"
+ },
+ {
+  "id": "2026-10-15-info-leosdevelopments-com",
+  "to": "info@leosdevelopments.com",
+  "company": "LEOS Developments",
+  "segment": "uae_dev",
+  "subject": "Hyper-real launch visuals for LEOS Developments",
+  "via": "gmail",
+  "stage": "queued"
+ },
+ {
+  "id": "2026-10-15-dubai-guestready-com",
+  "to": "dubai@guestready.com",
+  "company": "GuestReady Dubai",
+  "segment": "uae_mgmt",
+  "subject": "Portfolio visuals and campaigns for GuestReady Dubai",
+  "via": "gmail",
+  "stage": "queued"
+ },
+ {
+  "id": "2026-10-15-info-kaizenams-com",
+  "to": "info@kaizenams.com",
+  "company": "Kaizen AMS",
+  "segment": "uae_mgmt",
+  "subject": "Portfolio visuals and campaigns for Kaizen AMS",
+  "via": "gmail",
+  "stage": "queued"
+ },
+ {
+  "id": "2026-10-15-info-deyaar-ae",
+  "to": "info@deyaar.ae",
+  "company": "Deyaar",
+  "segment": "uae_dev",
+  "subject": "Hyper-real launch visuals for Deyaar",
+  "via": "gmail",
+  "stage": "queued"
+ },
+ {
+  "id": "2026-10-15-enquiries-cercleprive-co-uk",
+  "to": "enquiries@cercleprive.co.uk",
+  "company": "Cercle Prive",
+  "segment": "shortlet",
+  "subject": "Luxury property content for Cercle Prive",
+  "via": "gmail",
+  "stage": "queued"
+ },
+ {
+  "id": "2026-10-15-customercare-alainam-ae",
+  "to": "customercare@alainam.ae",
+  "company": "Alain Asset Management",
+  "segment": "uae_mgmt",
+  "subject": "Portfolio visuals and campaigns for Alain Asset Management",
+  "via": "gmail",
+  "stage": "queued"
+ }
+]

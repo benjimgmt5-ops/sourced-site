@@ -6,6 +6,8 @@
 //
 // Queue an email: add { "id", "to", "company", "segment", "subject", "text" } to api/_outreach.json.
 // api/_replied.json: addresses that replied (no more follow-ups; they show as Replied on the board).
+// Leads with "via": "gmail" are sent by the Gmail outreach bot: the site never emails them, it only
+// shows them on the board using their "stage", "sentAt" and "lastAt" fields.
 // api/_suppress.json: addresses or "@domain" never to email (opt-outs, bounces).
 // Env: RESEND_API_KEY, NOTIFY_FROM, BLOB_READ_WRITE_TOKEN, CRON_SECRET (optional, set by Vercel).
 import { put, list } from '@vercel/blob';
@@ -61,6 +63,13 @@ async function leads() {
   const log = await sentLog();
   const rep = new Set(replied.map(lower)), sup = new Set(suppress.map(lower));
   return queue.filter((m) => m.id && m.to).map((m) => {
+    if (m.via === 'gmail') {
+      let stage = m.stage || (m.sentAt ? 'emailed' : 'queued');
+      if (isIn(rep, m.to)) stage = 'replied'; else if (isIn(sup, m.to)) stage = 'stopped';
+      const t = (x) => (x ? new Date(x).getTime() : null);
+      return { id: m.id, to: m.to, company: m.company || m.to.split('@')[1], segment: m.segment || '', subject: m.subject || '',
+        stage, sentAt: t(m.sentAt), lastAt: t(m.lastAt || m.sentAt), via: 'gmail' };
+    }
     const first = log.get(m.id), f1 = log.get(m.id + '-f1'), f2 = log.get(m.id + '-f2');
     let stage = 'queued';
     if (first) stage = first.status === 'failed' ? 'failed' : 'emailed';
@@ -77,9 +86,10 @@ async function send() {
   const from = process.env.NOTIFY_FROM;
   if (!process.env.RESEND_API_KEY || !from || !process.env.BLOB_READ_WRITE_TOKEN) return { ok: false, reason: 'Sender not configured yet (RESEND_API_KEY / NOTIFY_FROM)' };
   const log = await sentLog(), blocked = blockedSet(), now = Date.now();
-  const fresh = queue.filter((m) => m.id && !log.has(m.id) && VALID_EMAIL.test(m.to) && !isIn(blocked, m.to));
+  const own = queue.filter((m) => m.via !== 'gmail');
+  const fresh = own.filter((m) => m.id && !log.has(m.id) && VALID_EMAIL.test(m.to) && !isIn(blocked, m.to));
   const follow = [];
-  for (const m of queue) {
+  for (const m of own) {
     if (!m.id || !log.has(m.id) || log.get(m.id).status === 'failed' || isIn(blocked, m.to)) continue;
     for (const f of FOLLOWUPS) {
       const fid = m.id + '-' + f.step;
