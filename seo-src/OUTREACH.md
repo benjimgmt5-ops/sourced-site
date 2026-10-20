@@ -46,6 +46,8 @@ production_company template. Do not mention project details you can't confirm.
 If one category runs short, top up from another, but never skip a category entirely two days in a row.
 Rotate across London, the Home Counties and other UK cities so the same areas aren't hit every day.
 
+**Reserve list:** seo-src/reserve-production.txt holds checked production companies (Company|email). Use up to 15 a day from it for the production_company quota, removing the lines you queue.
+
 ## Rules
 1. Only use an email the business publishes itself: its own website, or a trade directory such as the APA members
    list (www.a-p-a.net/members/, emails are Cloudflare-obfuscated in data-cfemail and can be decoded).

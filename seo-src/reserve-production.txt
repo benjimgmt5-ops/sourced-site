@@ -1,0 +1,73 @@
+# APA production companies already checked (published emails, not yet queued). Queue these before searching for new production companies.
+Love Song|shirley@lovesong.tv
+magna studios|hello@magnastudios.com
+Martin Coceres Production|martin@martincoceres.com
+Mdrn Love|david@mdrnlove.com
+My Accomplice|jamie@myaccomplice.co.uk
+New Land|trine@newland.tv
+Nexus Studios|info@nexusstudios.com
+nineteentwenty|jon@nineteen-twenty.com
+No One|team@no-one.uk
+Noe & Associates|info@noeassociates.com
+NOMINT|london@nomint.com
+North Six|kate.miller@northsix.com
+Not Just Any|prudence@notjustany.com
+Not To Scale|hello@nottoscale.tv
+O Positive|nell@o-pos.com
+Object & Animal|dom@objectanimal.com
+Octopus Inc.|claire@octopus.inc
+Oh My|jodie@ohmycreative.co.uk
+Okay Studio|info@okaystudio.co.uk
+ONEIGHTY|marvin@thisisoneighty.com
+Original Branded Entertainment|shoot@obe.studio
+Out of Nothing|hello@outofnothing.studio
+Outsider|info@outsider.tv
+Park Village|tom@parkvillage.co.uk
+Parkview Creative|info@parkviewcreative.com
+Partizan|jenny.beckett@partizan.com
+Passion|info@passion-pictures.com
+PI Film Network|kate@pifilmnetwork.co.uk
+PICNIC|mina@picnicstudio.tv
+Pitch & Sync|info@pitchandsync.com
+Plan Productions|jake@plan.productions
+PMA Film and Television|HARRY@PMAFILMTV.COM
+Presence|hello@presence.team
+Prettybird|fiona@prettybird.co
+Private Island|helen@privateisland.tv
+ProdCo|jon@prodco.xyz
+Productions Inc|sam@productions-inc.com
+RadicalMedia|schneider@radicalmedia.com
+Rankin|production@rankin.co.uk
+Rebolucion|florencia@rebolucion.com
+Red Knuckles|eps@redknuckles.co.uk
+REVOLUTION|jack@revolutionproductions.co
+Riff Raff Films|office@riffrafffilms.tv
+Rogue|mail@roguefilms.co.uk
+RSA Films|josie@rsafilms.co.uk
+SALT.TV|aziza@salt.tv
+Scenester|info@scenesterfilms.com
+Selected Works|alex@selectedworks.tv
+Siren|info@siren.uk.com
+SMUGGLER|lucy@smugglersite.com
+Snapper Films|info@snapperfilms.tv
+Somesuch|kayleigh@somesuch.co
+Spindle|stitch@spindle.co
+Stalkr|london@stalkr.com
+Stamp Productions|ben@stamp-productions.com
+Sticker Studios|sam@stickerstudios.co
+Stink|london@stink.co
+Storyman|steven.ellis@storyman.co
+Strange Beast|info@strangebeast.tv
+STRAY|hello@stray.london
+Studio 99|sofia@studio99.com
+Studio Private|hello@studioprivate.co.uk
+Studio Yes|hello@studioyes.co.uk
+Tash & Co. Creative|hello@tashand.co
+The Assembly Rooms|Production@theassemblyrooms.tv
+The Berry|ryan@theberry.uk
+The Corner Shop|heather@thecornershop.tv
+The Production Factory|james@theproductionfactory.com
+UNIT|production@unit.tv
+UNORTHODOX|Joe@unortdx.co
+Webber Represents|london@webberrepresents.com
+You Are Here|jeremy@youarehereuk.com
