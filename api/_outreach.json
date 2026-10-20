@@ -1,396 +1,370 @@
 [
- {
-  "id": "2026-10-15-info-wearefrantic-com",
-  "to": "info@wearefrantic.com",
-  "company": "Frantic",
-  "segment": "studio",
-  "subject": "Extra AI and VFX capacity for Frantic",
-  "via": "gmail",
-  "stage": "emailed",
-  "sentAt": "2026-10-15T17:03:00Z"
- },
- {
-  "id": "2026-10-15-helloenvy-envypost-co-uk",
-  "to": "helloenvy@envypost.co.uk",
-  "company": "ENVY Post Production",
-  "segment": "post",
-  "subject": "AI and VFX support for ENVY Post Production",
-  "via": "gmail",
-  "stage": "emailed",
-  "sentAt": "2026-10-15T17:03:00Z"
- },
- {
-  "id": "2026-10-15-bookings-luckycatpost-co-uk",
-  "to": "bookings@luckycatpost.co.uk",
-  "company": "Lucky Cat Post Production",
-  "segment": "post",
-  "subject": "AI and VFX support for Lucky Cat Post Production",
-  "via": "gmail",
-  "stage": "emailed",
-  "sentAt": "2026-10-15T17:03:00Z"
- },
- {
-  "id": "2026-10-15-info-lola-post-com",
-  "to": "info@lola-post.com",
-  "company": "Lola Post Production",
-  "segment": "post",
-  "subject": "AI and VFX support for Lola Post Production",
-  "via": "gmail",
-  "stage": "emailed",
-  "sentAt": "2026-10-15T17:03:00Z"
- },
- {
-  "id": "2026-10-15-mark-witherow-pebblestudios-co-uk",
-  "to": "mark.witherow@pebblestudios.co.uk",
-  "company": "Pebble Studios",
-  "segment": "studio",
-  "subject": "Extra AI and VFX capacity for Pebble Studios",
-  "via": "gmail",
-  "stage": "emailed",
-  "sentAt": "2026-10-15T17:03:00Z"
- },
- {
-  "id": "2026-10-15-hello-trendygrandad-com",
-  "to": "hello@trendygrandad.com",
-  "company": "Trendy Grandad",
-  "segment": "social",
-  "subject": "More social variations from every shoot",
-  "via": "gmail",
-  "stage": "emailed",
-  "sentAt": "2026-10-15T17:03:00Z"
- },
- {
-  "id": "2026-10-15-ed-herenow-film",
-  "to": "Ed@herenow.film",
-  "company": "Here Now Films",
-  "segment": "production",
-  "subject": "AI and VFX for client campaigns at Here Now Films",
-  "via": "gmail",
-  "stage": "emailed",
-  "sentAt": "2026-10-15T17:03:00Z"
- },
- {
-  "id": "2026-10-15-info-cineeye-co-uk",
-  "to": "info@cineeye.co.uk",
-  "company": "CineEye",
-  "segment": "music",
-  "subject": "Hyper-real music videos without the huge budget",
-  "via": "gmail",
-  "stage": "emailed",
-  "sentAt": "2026-10-15T17:03:00Z"
- },
- {
-  "id": "2026-10-15-info-armonicafilm-co-uk",
-  "to": "info@armonicafilm.co.uk",
-  "company": "Armonica Film UK",
-  "segment": "music",
-  "subject": "Hyper-real music videos without the huge budget",
-  "via": "gmail",
-  "stage": "emailed",
-  "sentAt": "2026-10-15T17:03:00Z"
- },
- {
-  "id": "2026-10-15-industry-filmlondon-org-uk",
-  "to": "industry@filmlondon.org.uk",
-  "company": "Film London",
-  "segment": "industry",
-  "subject": "Introducing MYL, a London AI and VFX studio",
-  "via": "gmail",
-  "stage": "emailed",
-  "sentAt": "2026-10-15T17:03:00Z"
- },
- {
-  "id": "2026-10-15-studio-aquifer-film",
-  "to": "studio@aquifer.film",
-  "company": "Aquifer Film Studio",
-  "segment": "industry",
-  "subject": "Introducing MYL, a London AI and VFX studio",
-  "via": "gmail",
-  "stage": "emailed",
-  "sentAt": "2026-10-15T17:03:00Z"
- },
- {
-  "id": "2026-10-15-london-deptagency-com",
-  "to": "london@deptagency.com",
-  "company": "DEPT London",
-  "segment": "agency",
-  "subject": "A creative production arm for DEPT London",
-  "via": "gmail",
-  "stage": "emailed",
-  "sentAt": "2026-10-15T17:03:00Z"
- },
- {
-  "id": "2026-10-15-info-transformcomms-co-uk",
-  "to": "info@transformcomms.co.uk",
-  "company": "Transform Communications",
-  "segment": "agency",
-  "subject": "A creative production arm for Transform Communications",
-  "via": "gmail",
-  "stage": "emailed",
-  "sentAt": "2026-10-15T17:03:00Z"
- },
- {
-  "id": "2026-10-15-haywardsheath-markrevill-com",
-  "to": "haywardsheath@markrevill.com",
-  "company": "Mark Revill & Co",
-  "segment": "property_local",
-  "subject": "Making your listings stand out, from a local studio",
-  "via": "gmail",
-  "stage": "emailed",
-  "sentAt": "2026-10-15T17:03:00Z"
- },
- {
-  "id": "2026-10-15-info-freshmill-co-uk",
-  "to": "info@freshmill.co.uk",
-  "company": "Freshmill",
-  "segment": "local",
-  "subject": "Visuals for Freshmill, from a local studio",
-  "via": "gmail",
-  "stage": "emailed",
-  "sentAt": "2026-10-15T17:03:00Z"
- },
- {
-  "id": "2026-10-15-reception-ockenden-manor-com",
-  "to": "reception@ockenden-manor.com",
-  "company": "Ockenden Manor Hotel & Spa",
-  "segment": "hospitality",
-  "subject": "Seasonal campaign visuals for Ockenden Manor Hotel & Spa",
-  "via": "gmail",
-  "stage": "queued"
- },
- {
-  "id": "2026-10-15-hello-phoenixmarketing-uk",
-  "to": "hello@phoenixmarketing.uk",
-  "company": "Phoenix Media Marketing",
-  "segment": "agency",
-  "subject": "A creative production arm for Phoenix Media Marketing",
-  "via": "gmail",
-  "stage": "queued"
- },
- {
-  "id": "2026-10-15-londonsales-beauchampestates-com",
-  "to": "londonsales@beauchampestates.com",
-  "company": "Beauchamp Estates",
-  "segment": "property_prime",
-  "subject": "Premium launch visuals for Beauchamp Estates instructions",
-  "via": "gmail",
-  "stage": "emailed",
-  "sentAt": "2026-10-16T11:33:03Z"
- },
- {
-  "id": "2026-10-15-hello-tedworth-co-uk",
-  "to": "hello@tedworth.co.uk",
-  "company": "Tedworth Property",
-  "segment": "property_prime",
-  "subject": "Premium launch visuals for Tedworth Property instructions",
-  "via": "gmail",
-  "stage": "queued"
- },
- {
-  "id": "2026-10-15-contactus-fjlord-co-uk",
-  "to": "contactus@fjlord.co.uk",
-  "company": "Felicity J Lord",
-  "segment": "property",
-  "subject": "Listing reels and social content for Felicity J Lord",
-  "via": "gmail",
-  "stage": "queued"
- },
- {
-  "id": "2026-10-15-shoreditch-keatons-com",
-  "to": "shoreditch@keatons.com",
-  "company": "Keatons",
-  "segment": "property",
-  "subject": "Listing reels and social content for Keatons",
-  "via": "gmail",
-  "stage": "queued"
- },
- {
-  "id": "2026-10-15-hernehill-keatingestates-com",
-  "to": "hernehill@keatingestates.com",
-  "company": "Keating Estates",
-  "segment": "property",
-  "subject": "Listing reels and social content for Keating Estates",
-  "via": "gmail",
-  "stage": "queued"
- },
- {
-  "id": "2026-10-15-enquiries-airpeaceofmind-com",
-  "to": "enquiries@airpeaceofmind.com",
-  "company": "Air Peace of Mind",
-  "segment": "shortlet",
-  "subject": "Luxury property content for Air Peace of Mind",
-  "via": "gmail",
-  "stage": "queued"
- },
- {
-  "id": "2026-10-15-londonhomeowners-veeve-com",
-  "to": "londonhomeowners@veeve.com",
-  "company": "Veeve",
-  "segment": "shortlet",
-  "subject": "Luxury property content for Veeve",
-  "via": "gmail",
-  "stage": "queued"
- },
- {
-  "id": "2026-10-15-enquiries-ivylettings-com",
-  "to": "enquiries@ivylettings.com",
-  "company": "Ivy Lettings",
-  "segment": "shortlet",
-  "subject": "Luxury property content for Ivy Lettings",
-  "via": "gmail",
-  "stage": "queued"
- },
- {
-  "id": "2026-10-15-customercare-emaar-ae",
-  "to": "customercare@emaar.ae",
-  "company": "Emaar Properties",
-  "segment": "uae_dev",
-  "subject": "Hyper-real launch visuals for Emaar Properties",
-  "via": "gmail",
-  "stage": "queued"
- },
- {
-  "id": "2026-10-15-contact-damacgroup-com",
-  "to": "contact@damacgroup.com",
-  "company": "DAMAC Properties",
-  "segment": "uae_dev",
-  "subject": "Hyper-real launch visuals for DAMAC Properties",
-  "via": "gmail",
-  "stage": "queued"
- },
- {
-  "id": "2026-10-15-info-sobha-com",
-  "to": "info@sobha.com",
-  "company": "Sobha Realty",
-  "segment": "uae_dev",
-  "subject": "Hyper-real launch visuals for Sobha Realty",
-  "via": "gmail",
-  "stage": "queued"
- },
- {
-  "id": "2026-10-15-info-binghatti-com",
-  "to": "info@binghatti.com",
-  "company": "Binghatti Developers",
-  "segment": "uae_dev",
-  "subject": "Hyper-real launch visuals for Binghatti Developers",
-  "via": "gmail",
-  "stage": "queued"
- },
- {
-  "id": "2026-10-15-customercare-nakheel-com",
-  "to": "customercare@nakheel.com",
-  "company": "Nakheel",
-  "segment": "uae_dev",
-  "subject": "Hyper-real launch visuals for Nakheel",
-  "via": "gmail",
-  "stage": "queued"
- },
- {
-  "id": "2026-10-15-customercare-meraas-com",
-  "to": "customercare@meraas.com",
-  "company": "Meraas",
-  "segment": "uae_dev",
-  "subject": "Hyper-real launch visuals for Meraas",
-  "via": "gmail",
-  "stage": "queued"
- },
- {
-  "id": "2026-10-15-customercare-aldar-com",
-  "to": "customercare@aldar.com",
-  "company": "Aldar Properties",
-  "segment": "uae_dev",
-  "subject": "Hyper-real launch visuals for Aldar Properties",
-  "via": "gmail",
-  "stage": "queued"
- },
- {
-  "id": "2026-10-15-info-azizidevelopments-com",
-  "to": "info@azizidevelopments.com",
-  "company": "Azizi Developments",
-  "segment": "uae_dev",
-  "subject": "Hyper-real launch visuals for Azizi Developments",
-  "via": "gmail",
-  "stage": "queued"
- },
- {
-  "id": "2026-10-15-info-ellingtonproperties-ae",
-  "to": "info@ellingtonproperties.ae",
-  "company": "Ellington Properties",
-  "segment": "uae_dev",
-  "subject": "Hyper-real launch visuals for Ellington Properties",
-  "via": "gmail",
-  "stage": "queued"
- },
- {
-  "id": "2026-10-15-info-danubeproperties-ae",
-  "to": "info@danubeproperties.ae",
-  "company": "Danube Properties",
-  "segment": "uae_dev",
-  "subject": "Hyper-real launch visuals for Danube Properties",
-  "via": "gmail",
-  "stage": "queued"
- },
- {
-  "id": "2026-10-15-info-imtiaz-ae",
-  "to": "info@imtiaz.ae",
-  "company": "Imtiaz Developments",
-  "segment": "uae_dev",
-  "subject": "Hyper-real launch visuals for Imtiaz Developments",
-  "via": "gmail",
-  "stage": "queued"
- },
- {
-  "id": "2026-10-15-info-leosdevelopments-com",
-  "to": "info@leosdevelopments.com",
-  "company": "LEOS Developments",
-  "segment": "uae_dev",
-  "subject": "Hyper-real launch visuals for LEOS Developments",
-  "via": "gmail",
-  "stage": "queued"
- },
- {
-  "id": "2026-10-15-dubai-guestready-com",
-  "to": "dubai@guestready.com",
-  "company": "GuestReady Dubai",
-  "segment": "uae_mgmt",
-  "subject": "Portfolio visuals and campaigns for GuestReady Dubai",
-  "via": "gmail",
-  "stage": "queued"
- },
- {
-  "id": "2026-10-15-info-kaizenams-com",
-  "to": "info@kaizenams.com",
-  "company": "Kaizen AMS",
-  "segment": "uae_mgmt",
-  "subject": "Portfolio visuals and campaigns for Kaizen AMS",
-  "via": "gmail",
-  "stage": "queued"
- },
- {
-  "id": "2026-10-15-info-deyaar-ae",
-  "to": "info@deyaar.ae",
-  "company": "Deyaar",
-  "segment": "uae_dev",
-  "subject": "Hyper-real launch visuals for Deyaar",
-  "via": "gmail",
-  "stage": "queued"
- },
- {
-  "id": "2026-10-15-enquiries-cercleprive-co-uk",
-  "to": "enquiries@cercleprive.co.uk",
-  "company": "Cercle Prive",
-  "segment": "shortlet",
-  "subject": "Luxury property content for Cercle Prive",
-  "via": "gmail",
-  "stage": "queued"
- },
- {
-  "id": "2026-10-15-customercare-alainam-ae",
-  "to": "customercare@alainam.ae",
-  "company": "Alain Asset Management",
-  "segment": "uae_mgmt",
-  "subject": "Portfolio visuals and campaigns for Alain Asset Management",
-  "via": "gmail",
-  "stage": "queued"
- }
+  {
+    "id": "2026-10-15-info-wearefrantic-com",
+    "to": "info@wearefrantic.com",
+    "company": "Frantic",
+    "segment": "studio",
+    "subject": "Extra AI and VFX capacity for Frantic",
+    "via": "gmail",
+    "stage": "emailed",
+    "sentAt": "2026-10-15T17:03:00Z"
+  },
+  {
+    "id": "2026-10-15-helloenvy-envypost-co-uk",
+    "to": "helloenvy@envypost.co.uk",
+    "company": "ENVY Post Production",
+    "segment": "post",
+    "subject": "AI and VFX support for ENVY Post Production",
+    "via": "gmail",
+    "stage": "emailed",
+    "sentAt": "2026-10-15T17:03:00Z"
+  },
+  {
+    "id": "2026-10-15-bookings-luckycatpost-co-uk",
+    "to": "bookings@luckycatpost.co.uk",
+    "company": "Lucky Cat Post Production",
+    "segment": "post",
+    "subject": "AI and VFX support for Lucky Cat Post Production",
+    "via": "gmail",
+    "stage": "emailed",
+    "sentAt": "2026-10-15T17:03:00Z"
+  },
+  {
+    "id": "2026-10-15-info-lola-post-com",
+    "to": "info@lola-post.com",
+    "company": "Lola Post Production",
+    "segment": "post",
+    "subject": "AI and VFX support for Lola Post Production",
+    "via": "gmail",
+    "stage": "emailed",
+    "sentAt": "2026-10-15T17:03:00Z"
+  },
+  {
+    "id": "2026-10-15-mark-witherow-pebblestudios-co-uk",
+    "to": "mark.witherow@pebblestudios.co.uk",
+    "company": "Pebble Studios",
+    "segment": "studio",
+    "subject": "Extra AI and VFX capacity for Pebble Studios",
+    "via": "gmail",
+    "stage": "emailed",
+    "sentAt": "2026-10-15T17:03:00Z"
+  },
+  {
+    "id": "2026-10-15-hello-trendygrandad-com",
+    "to": "hello@trendygrandad.com",
+    "company": "Trendy Grandad",
+    "segment": "social",
+    "subject": "More social variations from every shoot",
+    "via": "gmail",
+    "stage": "emailed",
+    "sentAt": "2026-10-15T17:03:00Z"
+  },
+  {
+    "id": "2026-10-15-ed-herenow-film",
+    "to": "Ed@herenow.film",
+    "company": "Here Now Films",
+    "segment": "production",
+    "subject": "AI and VFX for client campaigns at Here Now Films",
+    "via": "gmail",
+    "stage": "emailed",
+    "sentAt": "2026-10-15T17:03:00Z"
+  },
+  {
+    "id": "2026-10-15-info-cineeye-co-uk",
+    "to": "info@cineeye.co.uk",
+    "company": "CineEye",
+    "segment": "music",
+    "subject": "Hyper-real music videos without the huge budget",
+    "via": "gmail",
+    "stage": "emailed",
+    "sentAt": "2026-10-15T17:03:00Z"
+  },
+  {
+    "id": "2026-10-15-info-armonicafilm-co-uk",
+    "to": "info@armonicafilm.co.uk",
+    "company": "Armonica Film UK",
+    "segment": "music",
+    "subject": "Hyper-real music videos without the huge budget",
+    "via": "gmail",
+    "stage": "emailed",
+    "sentAt": "2026-10-15T17:03:00Z"
+  },
+  {
+    "id": "2026-10-15-industry-filmlondon-org-uk",
+    "to": "industry@filmlondon.org.uk",
+    "company": "Film London",
+    "segment": "industry",
+    "subject": "Introducing MYL, a London AI and VFX studio",
+    "via": "gmail",
+    "stage": "emailed",
+    "sentAt": "2026-10-15T17:03:00Z"
+  },
+  {
+    "id": "2026-10-15-studio-aquifer-film",
+    "to": "studio@aquifer.film",
+    "company": "Aquifer Film Studio",
+    "segment": "industry",
+    "subject": "Introducing MYL, a London AI and VFX studio",
+    "via": "gmail",
+    "stage": "emailed",
+    "sentAt": "2026-10-15T17:03:00Z"
+  },
+  {
+    "id": "2026-10-15-london-deptagency-com",
+    "to": "london@deptagency.com",
+    "company": "DEPT London",
+    "segment": "agency",
+    "subject": "A creative production arm for DEPT London",
+    "via": "gmail",
+    "stage": "emailed",
+    "sentAt": "2026-10-15T17:03:00Z"
+  },
+  {
+    "id": "2026-10-15-info-transformcomms-co-uk",
+    "to": "info@transformcomms.co.uk",
+    "company": "Transform Communications",
+    "segment": "agency",
+    "subject": "A creative production arm for Transform Communications",
+    "via": "gmail",
+    "stage": "emailed",
+    "sentAt": "2026-10-15T17:03:00Z"
+  },
+  {
+    "id": "2026-10-15-haywardsheath-markrevill-com",
+    "to": "haywardsheath@markrevill.com",
+    "company": "Mark Revill & Co",
+    "segment": "property_local",
+    "subject": "Making your listings stand out, from a local studio",
+    "via": "gmail",
+    "stage": "emailed",
+    "sentAt": "2026-10-15T17:03:00Z"
+  },
+  {
+    "id": "2026-10-15-info-freshmill-co-uk",
+    "to": "info@freshmill.co.uk",
+    "company": "Freshmill",
+    "segment": "local",
+    "subject": "Visuals for Freshmill, from a local studio",
+    "via": "gmail",
+    "stage": "emailed",
+    "sentAt": "2026-10-15T17:03:00Z"
+  },
+  {
+    "id": "2026-10-15-reception-ockenden-manor-com",
+    "to": "reception@ockenden-manor.com",
+    "company": "Ockenden Manor Hotel & Spa",
+    "segment": "hospitality",
+    "subject": "Seasonal campaign visuals for Ockenden Manor Hotel & Spa",
+    "text": "Hi Ockenden Manor team,\n\nI run MYL (Made You Look), a Mid Sussex creative studio making AI-powered visuals and short films. We've produced work for names including Syna x Nike, Central Cee and Buzzball.\n\nWe make luxury seasonal campaigns for hospitality: spa and dining creative, event promotion and short cinematic films that suit a venue like Ockenden. (Could you pass this to your marketing team?)\n\nWe work fast and price per project, and I'm happy to send a short showreel tailored to you (you can also see recent work at www.mylvisuals.com). Would you be open to a 15-minute call next week?\n\nIf this isn't relevant, just reply \"no thanks\" and I won't contact you again.\n\nBest,\nBenji\nMYL (Made You Look) | Digital Creative Specialists\nwww.mylvisuals.com | +44 7590 474421 | myl.visualsuk@gmail.com"
+  },
+  {
+    "id": "2026-10-15-hello-phoenixmarketing-uk",
+    "to": "hello@phoenixmarketing.uk",
+    "company": "Phoenix Media Marketing",
+    "segment": "agency",
+    "subject": "A creative production arm for Phoenix Media Marketing",
+    "text": "Hi Phoenix team,\n\nI run MYL (Made You Look), a London studio making AI films, hyper-real campaign imagery and VFX. We've produced work for names including Syna x Nike, Central Cee and Buzzball.\n\nWe're just down the road in Haywards Heath and could be your white-label production partner: AI static assets, hyper-real campaign imagery, VFX and social video for your clients.\n\nWe work fast and price per project, and I'm happy to send a short showreel tailored to you (you can also see recent work at www.mylvisuals.com). Would you be open to a 15-minute call next week?\n\nIf this isn't relevant, just reply \"no thanks\" and I won't contact you again.\n\nBest,\nBenji\nMYL (Made You Look) | Digital Creative Specialists\nwww.mylvisuals.com | +44 7590 474421 | myl.visualsuk@gmail.com"
+  },
+  {
+    "id": "2026-10-15-londonsales-beauchampestates-com",
+    "to": "londonsales@beauchampestates.com",
+    "company": "Beauchamp Estates",
+    "segment": "property_prime",
+    "subject": "Premium launch visuals for Beauchamp Estates instructions",
+    "via": "gmail",
+    "stage": "emailed",
+    "sentAt": "2026-10-16T11:33:03Z"
+  },
+  {
+    "id": "2026-10-15-hello-tedworth-co-uk",
+    "to": "hello@tedworth.co.uk",
+    "company": "Tedworth Property",
+    "segment": "property_prime",
+    "subject": "Premium launch visuals for Tedworth Property instructions",
+    "text": "Hi Tedworth team,\n\nI run MYL (Made You Look), a London studio making AI-powered property visuals and films. We've produced work for names including Syna x Nike, Central Cee and Buzzball.\n\nWe offer a boutique creative service for prime central London homes: polished presentation visuals, social reels and vendor marketing assets.\n\nWe work fast and price per project, and I'm happy to send a short showreel tailored to you (you can also see recent work at www.mylvisuals.com). Would you be open to a 15-minute call next week?\n\nIf this isn't relevant, just reply \"no thanks\" and I won't contact you again.\n\nBest,\nBenji\nMYL (Made You Look) | Digital Creative Specialists\nwww.mylvisuals.com | +44 7590 474421 | myl.visualsuk@gmail.com"
+  },
+  {
+    "id": "2026-10-15-contactus-fjlord-co-uk",
+    "to": "contactus@fjlord.co.uk",
+    "company": "Felicity J Lord",
+    "segment": "property",
+    "subject": "Listing reels and social content for Felicity J Lord",
+    "text": "Hi Felicity J Lord team,\n\nI run MYL (Made You Look), a London studio making AI-powered property visuals and video. We've produced work for names including Syna x Nike, Central Cee and Buzzball.\n\nWe help estate agents win instructions and move listings with quick-turnaround listing reels, landlord campaign assets and branch social content.\n\nWe work fast and price per project, and I'm happy to send a short showreel tailored to you (you can also see recent work at www.mylvisuals.com). Would you be open to a 15-minute call next week?\n\nIf this isn't relevant, just reply \"no thanks\" and I won't contact you again.\n\nBest,\nBenji\nMYL (Made You Look) | Digital Creative Specialists\nwww.mylvisuals.com | +44 7590 474421 | myl.visualsuk@gmail.com"
+  },
+  {
+    "id": "2026-10-15-shoreditch-keatons-com",
+    "to": "shoreditch@keatons.com",
+    "company": "Keatons",
+    "segment": "property",
+    "subject": "Listing reels and social content for Keatons",
+    "text": "Hi Keatons team,\n\nI run MYL (Made You Look), a London studio making AI-powered property visuals and video. We've produced work for names including Syna x Nike, Central Cee and Buzzball.\n\nEast London feeds are crowded. We make modern property reels and social campaign assets that help sales and lettings instructions cut through.\n\nWe work fast and price per project, and I'm happy to send a short showreel tailored to you (you can also see recent work at www.mylvisuals.com). Would you be open to a 15-minute call next week?\n\nIf this isn't relevant, just reply \"no thanks\" and I won't contact you again.\n\nBest,\nBenji\nMYL (Made You Look) | Digital Creative Specialists\nwww.mylvisuals.com | +44 7590 474421 | myl.visualsuk@gmail.com"
+  },
+  {
+    "id": "2026-10-15-hernehill-keatingestates-com",
+    "to": "hernehill@keatingestates.com",
+    "company": "Keating Estates",
+    "segment": "property",
+    "subject": "Listing reels and social content for Keating Estates",
+    "text": "Hi Keating Estates team,\n\nI run MYL (Made You Look), a London studio making AI-powered property visuals and video. We've produced work for names including Syna x Nike, Central Cee and Buzzball.\n\nWe create distinctive local listing reels and polished campaign imagery to help your new instructions stand out in competitive South London feeds.\n\nWe work fast and price per project, and I'm happy to send a short showreel tailored to you (you can also see recent work at www.mylvisuals.com). Would you be open to a 15-minute call next week?\n\nIf this isn't relevant, just reply \"no thanks\" and I won't contact you again.\n\nBest,\nBenji\nMYL (Made You Look) | Digital Creative Specialists\nwww.mylvisuals.com | +44 7590 474421 | myl.visualsuk@gmail.com"
+  },
+  {
+    "id": "2026-10-15-enquiries-airpeaceofmind-com",
+    "to": "enquiries@airpeaceofmind.com",
+    "company": "Air Peace of Mind",
+    "segment": "shortlet",
+    "subject": "Luxury property content for Air Peace of Mind",
+    "text": "Hi Air Peace of Mind team,\n\nI run MYL (Made You Look), a London studio making AI-powered property visuals and video. We've produced work for names including Syna x Nike, Central Cee and Buzzball.\n\nFor high-end homes, we make cinematic home content, luxury social campaigns and owner-acquisition visuals that match the standard of your portfolio.\n\nWe work fast and price per project, and I'm happy to send a short showreel tailored to you (you can also see recent work at www.mylvisuals.com). Would you be open to a 15-minute call next week?\n\nIf this isn't relevant, just reply \"no thanks\" and I won't contact you again.\n\nBest,\nBenji\nMYL (Made You Look) | Digital Creative Specialists\nwww.mylvisuals.com | +44 7590 474421 | myl.visualsuk@gmail.com"
+  },
+  {
+    "id": "2026-10-15-londonhomeowners-veeve-com",
+    "to": "londonhomeowners@veeve.com",
+    "company": "Veeve",
+    "segment": "shortlet",
+    "subject": "Luxury property content for Veeve",
+    "text": "Hi Veeve team,\n\nI run MYL (Made You Look), a London studio making AI-powered property visuals and video. We've produced work for names including Syna x Nike, Central Cee and Buzzball.\n\nWe create discreet luxury property content and homeowner-acquisition campaigns aimed at premium London owners. (Could you pass this to your marketing team?)\n\nWe work fast and price per project, and I'm happy to send a short showreel tailored to you (you can also see recent work at www.mylvisuals.com). Would you be open to a 15-minute call next week?\n\nIf this isn't relevant, just reply \"no thanks\" and I won't contact you again.\n\nBest,\nBenji\nMYL (Made You Look) | Digital Creative Specialists\nwww.mylvisuals.com | +44 7590 474421 | myl.visualsuk@gmail.com"
+  },
+  {
+    "id": "2026-10-15-enquiries-ivylettings-com",
+    "to": "enquiries@ivylettings.com",
+    "company": "Ivy Lettings",
+    "segment": "shortlet",
+    "subject": "Luxury property content for Ivy Lettings",
+    "text": "Hi Ivy Lettings team,\n\nI run MYL (Made You Look), a London studio making AI-powered property visuals and video. We've produced work for names including Syna x Nike, Central Cee and Buzzball.\n\nWe make luxury listing campaigns, short-form property films and host-acquisition creative for prime central London homes.\n\nWe work fast and price per project, and I'm happy to send a short showreel tailored to you (you can also see recent work at www.mylvisuals.com). Would you be open to a 15-minute call next week?\n\nIf this isn't relevant, just reply \"no thanks\" and I won't contact you again.\n\nBest,\nBenji\nMYL (Made You Look) | Digital Creative Specialists\nwww.mylvisuals.com | +44 7590 474421 | myl.visualsuk@gmail.com"
+  },
+  {
+    "id": "2026-10-15-customercare-emaar-ae",
+    "to": "customercare@emaar.ae",
+    "company": "Emaar Properties",
+    "segment": "uae_dev",
+    "subject": "Hyper-real launch visuals for Emaar Properties",
+    "text": "Dear Emaar team,\n\nI run MYL (Made You Look), a London creative studio making hyper-real AI visuals and films for brands and developers. We've produced work for names including Syna x Nike, Central Cee and Buzzball.\n\nWe'd love to support Emaar's launches with hyper-real development visuals, cinematic launch films and international social campaigns.\n\nWe work fast and price per project, and I'm happy to send a short showreel tailored to you (you can also see recent work at www.mylvisuals.com). Would you be open to a 15-minute call next week?\n\nIf this isn't relevant, just reply \"no thanks\" and I won't contact you again.\n\nBest,\nBenji\nMYL (Made You Look) | Digital Creative Specialists\nwww.mylvisuals.com | +44 7590 474421 | myl.visualsuk@gmail.com"
+  },
+  {
+    "id": "2026-10-15-contact-damacgroup-com",
+    "to": "contact@damacgroup.com",
+    "company": "DAMAC Properties",
+    "segment": "uae_dev",
+    "subject": "Hyper-real launch visuals for DAMAC Properties",
+    "text": "Dear DAMAC team,\n\nI run MYL (Made You Look), a London creative studio making hyper-real AI visuals and films for brands and developers. We've produced work for names including Syna x Nike, Central Cee and Buzzball.\n\nWe create hyper-real development visuals, launch films and investor-facing campaign assets that fit DAMAC's luxury positioning.\n\nWe work fast and price per project, and I'm happy to send a short showreel tailored to you (you can also see recent work at www.mylvisuals.com). Would you be open to a 15-minute call next week?\n\nIf this isn't relevant, just reply \"no thanks\" and I won't contact you again.\n\nBest,\nBenji\nMYL (Made You Look) | Digital Creative Specialists\nwww.mylvisuals.com | +44 7590 474421 | myl.visualsuk@gmail.com"
+  },
+  {
+    "id": "2026-10-15-info-sobha-com",
+    "to": "info@sobha.com",
+    "company": "Sobha Realty",
+    "segment": "uae_dev",
+    "subject": "Hyper-real launch visuals for Sobha Realty",
+    "text": "Dear Sobha team,\n\nI run MYL (Made You Look), a London creative studio making hyper-real AI visuals and films for brands and developers. We've produced work for names including Syna x Nike, Central Cee and Buzzball.\n\nFor premium projects, we produce photoreal development visuals, cinematic walkthrough-style films and social campaigns for international buyers.\n\nWe work fast and price per project, and I'm happy to send a short showreel tailored to you (you can also see recent work at www.mylvisuals.com). Would you be open to a 15-minute call next week?\n\nIf this isn't relevant, just reply \"no thanks\" and I won't contact you again.\n\nBest,\nBenji\nMYL (Made You Look) | Digital Creative Specialists\nwww.mylvisuals.com | +44 7590 474421 | myl.visualsuk@gmail.com"
+  },
+  {
+    "id": "2026-10-15-info-binghatti-com",
+    "to": "info@binghatti.com",
+    "company": "Binghatti Developers",
+    "segment": "uae_dev",
+    "subject": "Hyper-real launch visuals for Binghatti Developers",
+    "text": "Dear Binghatti team,\n\nI run MYL (Made You Look), a London creative studio making hyper-real AI visuals and films for brands and developers. We've produced work for names including Syna x Nike, Central Cee and Buzzball.\n\nBinghatti's bold architecture is made for striking visuals. We create hyper-real launch imagery, branded-residence films and social content for global audiences.\n\nWe work fast and price per project, and I'm happy to send a short showreel tailored to you (you can also see recent work at www.mylvisuals.com). Would you be open to a 15-minute call next week?\n\nIf this isn't relevant, just reply \"no thanks\" and I won't contact you again.\n\nBest,\nBenji\nMYL (Made You Look) | Digital Creative Specialists\nwww.mylvisuals.com | +44 7590 474421 | myl.visualsuk@gmail.com"
+  },
+  {
+    "id": "2026-10-15-customercare-nakheel-com",
+    "to": "customercare@nakheel.com",
+    "company": "Nakheel",
+    "segment": "uae_dev",
+    "subject": "Hyper-real launch visuals for Nakheel",
+    "text": "Dear Nakheel team,\n\nI run MYL (Made You Look), a London creative studio making hyper-real AI visuals and films for brands and developers. We've produced work for names including Syna x Nike, Central Cee and Buzzball.\n\nWe'd love to create hyper-real visuals, launch films and social campaigns for Nakheel's waterfront and Palm developments.\n\nWe work fast and price per project, and I'm happy to send a short showreel tailored to you (you can also see recent work at www.mylvisuals.com). Would you be open to a 15-minute call next week?\n\nIf this isn't relevant, just reply \"no thanks\" and I won't contact you again.\n\nBest,\nBenji\nMYL (Made You Look) | Digital Creative Specialists\nwww.mylvisuals.com | +44 7590 474421 | myl.visualsuk@gmail.com"
+  },
+  {
+    "id": "2026-10-15-customercare-meraas-com",
+    "to": "customercare@meraas.com",
+    "company": "Meraas",
+    "segment": "uae_dev",
+    "subject": "Hyper-real launch visuals for Meraas",
+    "text": "Dear Meraas team,\n\nI run MYL (Made You Look), a London creative studio making hyper-real AI visuals and films for brands and developers. We've produced work for names including Syna x Nike, Central Cee and Buzzball.\n\nWe create lifestyle-led campaign visuals, launch films and social content for destination developments like Meraas's.\n\nWe work fast and price per project, and I'm happy to send a short showreel tailored to you (you can also see recent work at www.mylvisuals.com). Would you be open to a 15-minute call next week?\n\nIf this isn't relevant, just reply \"no thanks\" and I won't contact you again.\n\nBest,\nBenji\nMYL (Made You Look) | Digital Creative Specialists\nwww.mylvisuals.com | +44 7590 474421 | myl.visualsuk@gmail.com"
+  },
+  {
+    "id": "2026-10-15-customercare-aldar-com",
+    "to": "customercare@aldar.com",
+    "company": "Aldar Properties",
+    "segment": "uae_dev",
+    "subject": "Hyper-real launch visuals for Aldar Properties",
+    "text": "Dear Aldar team,\n\nI run MYL (Made You Look), a London creative studio making hyper-real AI visuals and films for brands and developers. We've produced work for names including Syna x Nike, Central Cee and Buzzball.\n\nWe'd love to support Aldar's Abu Dhabi launches with hyper-real development imagery, cinematic films and international campaign assets.\n\nWe work fast and price per project, and I'm happy to send a short showreel tailored to you (you can also see recent work at www.mylvisuals.com). Would you be open to a 15-minute call next week?\n\nIf this isn't relevant, just reply \"no thanks\" and I won't contact you again.\n\nBest,\nBenji\nMYL (Made You Look) | Digital Creative Specialists\nwww.mylvisuals.com | +44 7590 474421 | myl.visualsuk@gmail.com"
+  },
+  {
+    "id": "2026-10-15-info-azizidevelopments-com",
+    "to": "info@azizidevelopments.com",
+    "company": "Azizi Developments",
+    "segment": "uae_dev",
+    "subject": "Hyper-real launch visuals for Azizi Developments",
+    "text": "Dear Azizi team,\n\nI run MYL (Made You Look), a London creative studio making hyper-real AI visuals and films for brands and developers. We've produced work for names including Syna x Nike, Central Cee and Buzzball.\n\nFor off-plan launches, we produce photoreal visuals and launch films that let buyers see the finished project long before handover.\n\nWe work fast and price per project, and I'm happy to send a short showreel tailored to you (you can also see recent work at www.mylvisuals.com). Would you be open to a 15-minute call next week?\n\nIf this isn't relevant, just reply \"no thanks\" and I won't contact you again.\n\nBest,\nBenji\nMYL (Made You Look) | Digital Creative Specialists\nwww.mylvisuals.com | +44 7590 474421 | myl.visualsuk@gmail.com"
+  },
+  {
+    "id": "2026-10-15-info-ellingtonproperties-ae",
+    "to": "info@ellingtonproperties.ae",
+    "company": "Ellington Properties",
+    "segment": "uae_dev",
+    "subject": "Hyper-real launch visuals for Ellington Properties",
+    "text": "Dear Ellington team,\n\nI run MYL (Made You Look), a London creative studio making hyper-real AI visuals and films for brands and developers. We've produced work for names including Syna x Nike, Central Cee and Buzzball.\n\nEllington's design-led projects suit premium creative. We make hyper-real visuals, lifestyle films and social campaigns for boutique luxury launches.\n\nWe work fast and price per project, and I'm happy to send a short showreel tailored to you (you can also see recent work at www.mylvisuals.com). Would you be open to a 15-minute call next week?\n\nIf this isn't relevant, just reply \"no thanks\" and I won't contact you again.\n\nBest,\nBenji\nMYL (Made You Look) | Digital Creative Specialists\nwww.mylvisuals.com | +44 7590 474421 | myl.visualsuk@gmail.com"
+  },
+  {
+    "id": "2026-10-15-info-danubeproperties-ae",
+    "to": "info@danubeproperties.ae",
+    "company": "Danube Properties",
+    "segment": "uae_dev",
+    "subject": "Hyper-real launch visuals for Danube Properties",
+    "text": "Dear Danube team,\n\nI run MYL (Made You Look), a London creative studio making hyper-real AI visuals and films for brands and developers. We've produced work for names including Syna x Nike, Central Cee and Buzzball.\n\nWe produce high-volume launch visuals, social ads and short films that help large project pipelines reach buyers fast.\n\nWe work fast and price per project, and I'm happy to send a short showreel tailored to you (you can also see recent work at www.mylvisuals.com). Would you be open to a 15-minute call next week?\n\nIf this isn't relevant, just reply \"no thanks\" and I won't contact you again.\n\nBest,\nBenji\nMYL (Made You Look) | Digital Creative Specialists\nwww.mylvisuals.com | +44 7590 474421 | myl.visualsuk@gmail.com"
+  },
+  {
+    "id": "2026-10-15-info-imtiaz-ae",
+    "to": "info@imtiaz.ae",
+    "company": "Imtiaz Developments",
+    "segment": "uae_dev",
+    "subject": "Hyper-real launch visuals for Imtiaz Developments",
+    "text": "Dear Imtiaz team,\n\nI run MYL (Made You Look), a London creative studio making hyper-real AI visuals and films for brands and developers. We've produced work for names including Syna x Nike, Central Cee and Buzzball.\n\nWe create wellness and lifestyle campaign visuals, launch films and social content for developments like Imtiaz's.\n\nWe work fast and price per project, and I'm happy to send a short showreel tailored to you (you can also see recent work at www.mylvisuals.com). Would you be open to a 15-minute call next week?\n\nIf this isn't relevant, just reply \"no thanks\" and I won't contact you again.\n\nBest,\nBenji\nMYL (Made You Look) | Digital Creative Specialists\nwww.mylvisuals.com | +44 7590 474421 | myl.visualsuk@gmail.com"
+  },
+  {
+    "id": "2026-10-15-info-leosdevelopments-com",
+    "to": "info@leosdevelopments.com",
+    "company": "LEOS Developments",
+    "segment": "uae_dev",
+    "subject": "Hyper-real launch visuals for LEOS Developments",
+    "text": "Dear LEOS team,\n\nI run MYL (Made You Look), a London creative studio making hyper-real AI visuals and films for brands and developers. We've produced work for names including Syna x Nike, Central Cee and Buzzball.\n\nAs a UK studio, we'd love to support LEOS's UK-UAE projects with hyper-real development visuals, launch films and international campaigns.\n\nWe work fast and price per project, and I'm happy to send a short showreel tailored to you (you can also see recent work at www.mylvisuals.com). Would you be open to a 15-minute call next week?\n\nIf this isn't relevant, just reply \"no thanks\" and I won't contact you again.\n\nBest,\nBenji\nMYL (Made You Look) | Digital Creative Specialists\nwww.mylvisuals.com | +44 7590 474421 | myl.visualsuk@gmail.com"
+  },
+  {
+    "id": "2026-10-15-dubai-guestready-com",
+    "to": "dubai@guestready.com",
+    "company": "GuestReady Dubai",
+    "segment": "uae_mgmt",
+    "subject": "Portfolio visuals and campaigns for GuestReady Dubai",
+    "text": "Dear GuestReady Dubai team,\n\nI run MYL (Made You Look), a London creative studio making hyper-real AI visuals and films. We've produced work for names including Syna x Nike, Central Cee and Buzzball.\n\nWe create property launch assets, host-acquisition ads and social content that help managed portfolios stand out on every platform.\n\nWe work fast and price per project, and I'm happy to send a short showreel tailored to you (you can also see recent work at www.mylvisuals.com). Would you be open to a 15-minute call next week?\n\nIf this isn't relevant, just reply \"no thanks\" and I won't contact you again.\n\nBest,\nBenji\nMYL (Made You Look) | Digital Creative Specialists\nwww.mylvisuals.com | +44 7590 474421 | myl.visualsuk@gmail.com"
+  },
+  {
+    "id": "2026-10-15-info-kaizenams-com",
+    "to": "info@kaizenams.com",
+    "company": "Kaizen AMS",
+    "segment": "uae_mgmt",
+    "subject": "Portfolio visuals and campaigns for Kaizen AMS",
+    "text": "Dear Kaizen team,\n\nI run MYL (Made You Look), a London creative studio making hyper-real AI visuals and films. We've produced work for names including Syna x Nike, Central Cee and Buzzball.\n\nWe produce owner-acquisition campaigns, property visuals and social content that help management firms grow their portfolios.\n\nWe work fast and price per project, and I'm happy to send a short showreel tailored to you (you can also see recent work at www.mylvisuals.com). Would you be open to a 15-minute call next week?\n\nIf this isn't relevant, just reply \"no thanks\" and I won't contact you again.\n\nBest,\nBenji\nMYL (Made You Look) | Digital Creative Specialists\nwww.mylvisuals.com | +44 7590 474421 | myl.visualsuk@gmail.com"
+  },
+  {
+    "id": "2026-10-15-info-deyaar-ae",
+    "to": "info@deyaar.ae",
+    "company": "Deyaar",
+    "segment": "uae_dev",
+    "subject": "Hyper-real launch visuals for Deyaar",
+    "text": "Dear Deyaar team,\n\nI run MYL (Made You Look), a London creative studio making hyper-real AI visuals and films for brands and developers. We've produced work for names including Syna x Nike, Central Cee and Buzzball.\n\nWe'd love to support Deyaar's development and management brands with hyper-real visuals, launch films and social campaigns.\n\nWe work fast and price per project, and I'm happy to send a short showreel tailored to you (you can also see recent work at www.mylvisuals.com). Would you be open to a 15-minute call next week?\n\nIf this isn't relevant, just reply \"no thanks\" and I won't contact you again.\n\nBest,\nBenji\nMYL (Made You Look) | Digital Creative Specialists\nwww.mylvisuals.com | +44 7590 474421 | myl.visualsuk@gmail.com"
+  },
+  {
+    "id": "2026-10-15-enquiries-cercleprive-co-uk",
+    "to": "enquiries@cercleprive.co.uk",
+    "company": "Cercle Prive",
+    "segment": "shortlet",
+    "subject": "Luxury property content for Cercle Prive",
+    "text": "Hi Cercle Prive team,\n\nI run MYL (Made You Look), a London studio making AI-powered property visuals and video. We've produced work for names including Syna x Nike, Central Cee and Buzzball.\n\nWe make luxury property content, cinematic short films and owner-acquisition campaigns for premium homes.\n\nWe work fast and price per project, and I'm happy to send a short showreel tailored to you (you can also see recent work at www.mylvisuals.com). Would you be open to a 15-minute call next week?\n\nIf this isn't relevant, just reply \"no thanks\" and I won't contact you again.\n\nBest,\nBenji\nMYL (Made You Look) | Digital Creative Specialists\nwww.mylvisuals.com | +44 7590 474421 | myl.visualsuk@gmail.com"
+  },
+  {
+    "id": "2026-10-15-customercare-alainam-ae",
+    "to": "customercare@alainam.ae",
+    "company": "Alain Asset Management",
+    "segment": "uae_mgmt",
+    "subject": "Portfolio visuals and campaigns for Alain Asset Management",
+    "text": "Dear Alain team,\n\nI run MYL (Made You Look), a London creative studio making hyper-real AI visuals and films. We've produced work for names including Syna x Nike, Central Cee and Buzzball.\n\nWe create property visuals, owner-acquisition campaigns and social content that help asset managers showcase their portfolios.\n\nWe work fast and price per project, and I'm happy to send a short showreel tailored to you (you can also see recent work at www.mylvisuals.com). Would you be open to a 15-minute call next week?\n\nIf this isn't relevant, just reply \"no thanks\" and I won't contact you again.\n\nBest,\nBenji\nMYL (Made You Look) | Digital Creative Specialists\nwww.mylvisuals.com | +44 7590 474421 | myl.visualsuk@gmail.com"
+  }
 ]
