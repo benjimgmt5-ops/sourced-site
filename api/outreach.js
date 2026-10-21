@@ -103,5 +103,43 @@ export default async function handler(req, res) {
     results.push({ id: m.id, to: m.to, status });
     await new Promise(r => setTimeout(r, 1500));
   }
-  res.status(200).json({ ok: true, sentNow: results, newWaiting: Math.max(0, fresh.length - results.length), followupsDue: follow.length });
+  let report = null;
+  try { report = await dailyReport(from, blobs, fresh.length - results.length, follow.length); } catch (e) { report = 'error: ' + String(e).slice(0, 200); }
+  res.status(200).json({ ok: true, sentNow: results, newWaiting: Math.max(0, fresh.length - results.length), followupsDue: follow.length, report });
+}
+
+// Once a day, on the first run after 18:00 UK time, email the admin inbox a summary of today's sends,
+// so Benji can see the sender is working without opening Vercel. If this email doesn't arrive, the sender isn't running.
+async function dailyReport(from, blobs, waiting, followDue) {
+  const tz = 'Europe/London';
+  const day = d => new Intl.DateTimeFormat('en-CA', { timeZone: tz }).format(d);
+  const hour = Number(new Intl.DateTimeFormat('en-GB', { timeZone: tz, hour: '2-digit', hour12: false }).format(new Date()));
+  if (hour < 18) return null;
+  const today = day(new Date());
+  const key = `outreach/report/${today}.json`;
+  const existing = await list({ prefix: key, limit: 1 });
+  if (existing.blobs.length) return 'already sent';
+  await put(key, JSON.stringify({ at: new Date().toISOString() }), { access: 'public', contentType: 'application/json', addRandomSuffix: false, allowOverwrite: true });
+  const todays = blobs.filter(b => day(new Date(b.uploadedAt)) === today);
+  let sent = 0, followSent = 0; const failed = [];
+  for (const b of todays.slice(0, 200)) {
+    const id = b.pathname.replace('outreach/sent/', '').replace('.json', '');
+    let rec = {};
+    try { rec = await (await fetch(b.url, { cache: 'no-store', signal: AbortSignal.timeout(5000) })).json(); } catch (e) {}
+    if (rec.status === 'failed') failed.push(`- ${rec.to || id}: ${(rec.detail || '').slice(0, 120)}`);
+    else if (/-f[12]$/.test(id)) followSent++;
+    else sent++;
+  }
+  const queuedToday = queue.filter(m => m.id && m.id.startsWith(today)).length;
+  const text = `Sourced. outreach report for ${today}\n\n` +
+    `- New contacts queued today: ${queuedToday}\n- New emails sent today: ${sent}\n- Follow-ups sent today: ${followSent}\n- Failed today: ${failed.length}\n- Still waiting to send: ${Math.max(0, waiting)}\n- Follow-ups due: ${followDue}` +
+    (failed.length ? `\n\nFailures:\n\n${failed.slice(0, 20).join('\n')}` : '') +
+    `\n\nThis report is sent automatically once a day by the website's outreach sender.`;
+  const r = await fetch('https://api.resend.com/emails', {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${process.env.RESEND_API_KEY}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ from, to: replyToList(), subject: `Sourced. outreach: ${sent} sent today, ${failed.length} failed`, text, html: html(text) }),
+    signal: AbortSignal.timeout(10000)
+  });
+  return r.ok ? 'sent' : 'failed: ' + (await r.text()).slice(0, 200);
 }
