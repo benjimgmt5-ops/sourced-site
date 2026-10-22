@@ -1,16 +1,4 @@
 # APA production companies already checked (published emails, not yet queued). Queue these before searching for new production companies.
-NOMINT|london@nomint.com
-North Six|kate.miller@northsix.com
-Not Just Any|prudence@notjustany.com
-Not To Scale|hello@nottoscale.tv
-O Positive|nell@o-pos.com
-Object & Animal|dom@objectanimal.com
-Octopus Inc.|claire@octopus.inc
-Oh My|jodie@ohmycreative.co.uk
-Okay Studio|info@okaystudio.co.uk
-ONEIGHTY|marvin@thisisoneighty.com
-Original Branded Entertainment|shoot@obe.studio
-Out of Nothing|hello@outofnothing.studio
 Outsider|info@outsider.tv
 Park Village|tom@parkvillage.co.uk
 Parkview Creative|info@parkviewcreative.com
