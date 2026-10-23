@@ -1,14 +1,4 @@
 # APA production companies already checked (published emails, not yet queued). Queue these before searching for new production companies.
-Outsider|info@outsider.tv
-Park Village|tom@parkvillage.co.uk
-Parkview Creative|info@parkviewcreative.com
-Partizan|jenny.beckett@partizan.com
-Passion|info@passion-pictures.com
-PI Film Network|kate@pifilmnetwork.co.uk
-PICNIC|mina@picnicstudio.tv
-Pitch & Sync|info@pitchandsync.com
-Plan Productions|jake@plan.productions
-PMA Film and Television|HARRY@PMAFILMTV.COM
 Presence|hello@presence.team
 Prettybird|fiona@prettybird.co
 Private Island|helen@privateisland.tv
