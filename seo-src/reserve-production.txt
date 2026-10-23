@@ -1,10 +1,4 @@
 # APA production companies already checked (published emails, not yet queued). Queue these before searching for new production companies.
-Presence|hello@presence.team
-Prettybird|fiona@prettybird.co
-Private Island|helen@privateisland.tv
-ProdCo|jon@prodco.xyz
-Productions Inc|sam@productions-inc.com
-RadicalMedia|schneider@radicalmedia.com
 Rankin|production@rankin.co.uk
 Rebolucion|florencia@rebolucion.com
 Red Knuckles|eps@redknuckles.co.uk
