@@ -1,8 +1,4 @@
 # APA production companies already checked (published emails, not yet queued). Queue these before searching for new production companies.
-Stalkr|london@stalkr.com
-Stamp Productions|ben@stamp-productions.com
-Sticker Studios|sam@stickerstudios.co
-Stink|london@stink.co
 Storyman|steven.ellis@storyman.co
 Strange Beast|info@strangebeast.tv
 STRAY|hello@stray.london
