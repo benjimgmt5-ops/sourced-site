@@ -3,7 +3,7 @@
 The weekly job takes the first unchecked line. Add new ideas anywhere below.
 
 - [x] Music video shoot checklist for London
-- [ ] How to choose a location house for a music video
+- [x] How to choose a location house for a music video
 - [ ] Supercar hire for music videos: what to know before you book
 - [ ] VIP Sprinter vs V-Class: which to book for artists and talent
 - [ ] Planning transport for festival crews and guests
