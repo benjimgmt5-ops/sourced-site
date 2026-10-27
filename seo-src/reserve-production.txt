@@ -1,16 +1,1 @@
 # APA production companies already checked (published emails, not yet queued). Queue these before searching for new production companies.
-Storyman|steven.ellis@storyman.co
-Strange Beast|info@strangebeast.tv
-STRAY|hello@stray.london
-Studio 99|sofia@studio99.com
-Studio Private|hello@studioprivate.co.uk
-Studio Yes|hello@studioyes.co.uk
-Tash & Co. Creative|hello@tashand.co
-The Assembly Rooms|Production@theassemblyrooms.tv
-The Berry|ryan@theberry.uk
-The Corner Shop|heather@thecornershop.tv
-The Production Factory|james@theproductionfactory.com
-UNIT|production@unit.tv
-UNORTHODOX|Joe@unortdx.co
-Webber Represents|london@webberrepresents.com
-You Are Here|jeremy@youarehereuk.com
