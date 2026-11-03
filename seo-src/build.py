@@ -305,7 +305,7 @@ def vehicle_links_html(service_slug):
 
 def build_partners():
     path = "/partners/"
-    desc = "List your location, cars, transport or services with Sourced. and get booked for music videos, films, fashion shows, photo shoots and events. Free to join."
+    desc = "List your location, cars, transport or services with Sourced. and get booked for music videos, films, fashion shows, photo shoots and events. First 3 months free."
     hero = {"src": "/media/i/m1_pool.jpg", "alt": "Mansion with pool used for shoots"}
     if not (ROOT / hero["src"].lstrip("/")).exists():
         hero["src"] = "/media/mansion-hall.jpg"
@@ -347,11 +347,11 @@ document.getElementById('pf').addEventListener('submit', async function (ev) {{
     ld = [breadcrumb_ld([("Home", "/"), ("Partners", path)])]
     doc = head("Become a Sourced. Partner | List Your Location, Cars or Services", desc, path, hero["src"], ld) + css + f"""<body>{nav()}
 <section class="hero"><img src="{E(hero['src'])}" alt="{E(hero['alt'])}" fetchpriority="high">
-<div class="wrap"><p class="crumbs"><a href="/">Home</a> / Partners</p><p class="kicker">Partners · Free to join</p><h1>Get booked for shoots and events</h1>
+<div class="wrap"><p class="crumbs"><a href="/">Home</a> / Partners</p><p class="kicker">Partners · First 3 months free</p><h1>Get booked for shoots and events</h1>
 <p class="lede">Own a location, run a fleet or supply anything productions need? Join Sourced. and we'll send you bookings from music videos, films, fashion shows, photo shoots and events.</p>
 <div class="ctas"><a class="btn" href="#join">Join now</a></div></div></section>
 <main class="wrap"><h2>How it works</h2><div class="grid">
-<div class="card"><h3>1. Tell us what you offer</h3><p>A few details and links. It takes two minutes and it's free.</p></div>
+<div class="card"><h3>1. Tell us what you offer</h3><p>A few details and links. It takes two minutes, and your first 3 months are free.</p></div>
 <div class="card"><h3>2. We send you matching briefs</h3><p>When a production needs a space, car or service like yours, we bring you the brief.</p></div>
 <div class="card"><h3>3. You stay in control</h3><p>You set your rates and availability, and approve every booking.</p></div></div>
 <h2>Who we work with</h2><div class="prose"><p>Location houses and mansions, warehouses, studios, venues and industrial spaces; supercar, classic and picture car owners; chauffeur, Sprinter, coach and jet operators; security and close protection teams; caterers; trailer, dressing room and toilet hire; crews and kit houses.</p></div>

@@ -23,7 +23,7 @@ function followText(m, step) {
   const greet = (m.text.split('\n')[0] || 'Hi,').trim();
   const supplier = /^Bookings|^Film and music video bookings|bookings for your/i.test(m.subject) || /Bookings from productions/i.test(m.subject);
   if (step === 'f1') return greet + '\n\n' + (supplier
-    ? "Just following up on my note last week. We're building our list of partners for upcoming shoots and events, and I'd love to include you. It's free to join, you set your own rates and you approve every booking.\n\nIt takes two minutes at www.wearesourced.co.uk/partners/ or just reply here."
+    ? "Just following up on my note last week. We're building our list of partners for upcoming shoots and events, and I'd love to include you. Your first 3 months are free, you set your own rates and you approve every booking.\n\nIt takes two minutes at www.wearesourced.co.uk/partners/ or just reply here."
     : "Just following up on my email last week. If you've got any shoots, shows or events coming up, I'd be glad to quote on locations, cars, transport, security or anything else you need, even at short notice.\n\nA brief takes two minutes at www.wearesourced.co.uk, or just reply with what you need.") + SIG;
   return greet + '\n\n' + (supplier
     ? "Last note from me. If working with Sourced. on future bookings is of interest, you can join at www.wearesourced.co.uk/partners/ whenever suits. Thanks for your time."
