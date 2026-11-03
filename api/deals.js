@@ -49,7 +49,7 @@ async function rewrite(e) {
 // Sends Benji's onboarding email to every supplier sign-up that hasn't had it yet (max 20 per run).
 async function onboardPartners(all) {
   const out = [];
-  for (const e of all.filter(e => /^partner/i.test(e.source || '') && !e.onboarded && e.email && VALID_EMAIL.test(e.email)).slice(0, 20)) {
+  for (const e of all.filter(e => /^partner/i.test(e.source || '') && !e.onboarded && e.email && VALID_EMAIL.test(e.email) && !(config.onboardedEmails || []).includes(e.email.trim().toLowerCase())).slice(0, 20)) {
     try {
       await send({ to: [e.email], reply_to: replyTo(), ...partnerEmail(e) });
       e.onboarded = new Date().toISOString();
