@@ -4,6 +4,7 @@
 // Env: RESEND_API_KEY, NOTIFY_FROM, BLOB_READ_WRITE_TOKEN. Settings in api/_config.json.
 import { put, list, del } from '@vercel/blob';
 import config from './_config.json' with { type: 'json' };
+import { partnerEmail } from './_partner-email.js';
 
 const DAY = 864e5;
 const MIN_COMMISSION = 300, WEEK_TARGET = 1000;
@@ -45,9 +46,25 @@ async function rewrite(e) {
   await del(url);
 }
 
+// Sends Benji's onboarding email to every supplier sign-up that hasn't had it yet (max 20 per run).
+async function onboardPartners(all) {
+  const out = [];
+  for (const e of all.filter(e => /^partner/i.test(e.source || '') && !e.onboarded && e.email && VALID_EMAIL.test(e.email)).slice(0, 20)) {
+    try {
+      await send({ to: [e.email], reply_to: replyTo(), ...partnerEmail(e) });
+      e.onboarded = new Date().toISOString();
+      await rewrite(e);
+      out.push(e.email);
+    } catch (err) { out.push(e.email + ' failed: ' + err.message); }
+  }
+  return out;
+}
+
 async function chase() {
   const now = Date.now(), sent = [];
-  for (const e of await readEnquiries()) {
+  const all = await readEnquiries();
+  const onboarded = await onboardPartners(all);
+  for (const e of all) {
     if (e.status !== 'quoted' || !e.quotedAt || !e.email || !VALID_EMAIL.test(e.email)) continue;
     const age = now - new Date(e.quotedAt).getTime();
     const first = (e.name || '').trim().split(/\s+/)[0];
@@ -68,7 +85,7 @@ async function chase() {
       sent.push({ to: e.email, step });
     } catch (err) { sent.push({ to: e.email, step, error: err.message }); }
   }
-  return { chased: sent };
+  return { chased: sent, onboarded };
 }
 
 function isoWeek(d) {
