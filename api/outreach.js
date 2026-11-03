@@ -48,9 +48,10 @@ function html(text) {
 
 // One-off clean-up: emails that "failed" only because of Resend's sending limit were never sent.
 // GET /api/outreach?task=requeue clears those records so the normal runs send them again.
-async function requeueLimited(blobs) {
+async function requeueLimited(blobs, from = 0) {
   let cleared = 0, checked = 0;
   const start = Date.now();
+  blobs = [...blobs].sort((a, b) => a.pathname.localeCompare(b.pathname)).slice(from);
   for (let i = 0; i < blobs.length && Date.now() - start < 20000; i += 25) {
     await Promise.all(blobs.slice(i, i + 25).map(async b => {
       checked++;
@@ -60,7 +61,7 @@ async function requeueLimited(blobs) {
       } catch (_) {}
     }));
   }
-  return { checked, of: blobs.length, cleared };
+  return { from, checked, next: from + checked, remaining: blobs.length - checked, cleared };
 }
 
 export default async function handler(req, res) {
@@ -74,7 +75,7 @@ export default async function handler(req, res) {
     blobs = blobs.concat(r.blobs); cursor = r.hasMore ? r.cursor : null;
   } while (cursor);
   const task = (req.query && req.query.task) || new URL(req.url, 'http://x').searchParams.get('task');
-  if (task === 'requeue') return res.status(200).json({ ok: true, ...(await requeueLimited(blobs)) });
+  if (task === 'requeue') return res.status(200).json({ ok: true, ...(await requeueLimited(blobs, Number((req.query && req.query.from) || new URL(req.url, 'http://x').searchParams.get('from') || 0))) });
   const sentAt = new Map(blobs.map(b => [b.pathname.replace('outreach/sent/', '').replace('.json', ''), new Date(b.uploadedAt).getTime()]));
   const done = new Set(sentAt.keys());
   const blocked = new Set([...suppress, ...replied].map(x => String(x).toLowerCase()));
