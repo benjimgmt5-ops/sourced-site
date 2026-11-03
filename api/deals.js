@@ -55,7 +55,7 @@ async function onboardPartners(all) {
       e.onboarded = new Date().toISOString();
       await rewrite(e);
       out.push(e.email);
-    } catch (err) { out.push(e.email + ' failed: ' + err.message); }
+    } catch (err) { out.push(e.email + ' failed: ' + err.message); if (/ 429/.test(err.message)) break; }
   }
   return out;
 }

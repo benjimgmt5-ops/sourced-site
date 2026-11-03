@@ -7,7 +7,7 @@
 // api/_suppress.json lists addresses (or "@domain") that must never be emailed, e.g. after a "remove" reply.
 // Env: RESEND_API_KEY, NOTIFY_FROM (e.g. "Sourced. <hello@wearesourced.co.uk>"),
 //      NOTIFY_EMAIL (reply-to, default sourced.admin@gmail.com), BLOB_READ_WRITE_TOKEN.
-import { put, list } from '@vercel/blob';
+import { put, list, del } from '@vercel/blob';
 import queue from './_outreach.json' with { type: 'json' };
 import suppress from './_suppress.json' with { type: 'json' };
 import replied from './_replied.json' with { type: 'json' };
@@ -46,6 +46,23 @@ function html(text) {
     .replace(/www\.wearesourced\.co\.uk(\/[A-Za-z0-9\-\/]*)?/g, (u, p) => `<a href="https://www.wearesourced.co.uk${p || ''}" style="color:#000">${u}</a>`);
 }
 
+// One-off clean-up: emails that "failed" only because of Resend's sending limit were never sent.
+// GET /api/outreach?task=requeue clears those records so the normal runs send them again.
+async function requeueLimited(blobs) {
+  let cleared = 0, checked = 0;
+  const start = Date.now();
+  for (let i = 0; i < blobs.length && Date.now() - start < 20000; i += 25) {
+    await Promise.all(blobs.slice(i, i + 25).map(async b => {
+      checked++;
+      try {
+        const d = await fetch(b.url, { cache: 'no-store' }).then(r => r.json());
+        if (d.status === 'failed' && /quota|429|rate limit|too many requests/i.test(d.detail || '')) { await del(b.url); cleared++; }
+      } catch (_) {}
+    }));
+  }
+  return { checked, of: blobs.length, cleared };
+}
+
 export default async function handler(req, res) {
   const from = process.env.NOTIFY_FROM;
   if (!process.env.RESEND_API_KEY || !from || /resend\.dev/i.test(from) || !process.env.BLOB_READ_WRITE_TOKEN) {
@@ -56,6 +73,8 @@ export default async function handler(req, res) {
     const r = await list({ prefix: 'outreach/sent/', limit: 1000, cursor });
     blobs = blobs.concat(r.blobs); cursor = r.hasMore ? r.cursor : null;
   } while (cursor);
+  const task = (req.query && req.query.task) || new URL(req.url, 'http://x').searchParams.get('task');
+  if (task === 'requeue') return res.status(200).json({ ok: true, ...(await requeueLimited(blobs)) });
   const sentAt = new Map(blobs.map(b => [b.pathname.replace('outreach/sent/', '').replace('.json', ''), new Date(b.uploadedAt).getTime()]));
   const done = new Set(sentAt.keys());
   const blocked = new Set([...suppress, ...replied].map(x => String(x).toLowerCase()));
@@ -96,8 +115,10 @@ export default async function handler(req, res) {
         }),
         signal: AbortSignal.timeout(10000)
       });
-      if (!r.ok) { status = 'failed'; detail = (await r.text()).slice(0, 300); }
+      if (!r.ok) { status = 'failed'; detail = (await r.text()).slice(0, 300); if (r.status === 429) status = 'limit'; }
     } catch (e) { status = 'failed'; detail = String(e).slice(0, 300); }
+    // Resend's sending limit reached: nothing was sent, so clear the claim (it retries on a later run) and stop this run.
+    if (status === 'limit') { await del(`outreach/sent/${m.id}.json`).catch(() => {}); results.push({ id: m.id, to: m.to, status: 'waiting (sending limit)' }); break; }
     await put(`outreach/sent/${m.id}.json`, JSON.stringify({ to: m.to, subject: m.subject, at: new Date().toISOString(), status, detail }),
       { access: 'public', contentType: 'application/json', addRandomSuffix: false, allowOverwrite: true });
     results.push({ id: m.id, to: m.to, status });
