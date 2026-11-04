@@ -858,7 +858,7 @@ function renderWaSetup() {
     <p class="muted" style="margin-top:0">Your number stays on the WhatsApp Business app on your phone. Chats also land here and you can reply from either.</p>
     <ol>
       <li>Create a free account at <a href="https://www.ycloud.com" target="_blank" rel="noopener">ycloud.com</a>.</li>
-      <li>In YCloud go to <b>Channels → WhatsApp → WhatsApp Business App Coexistence</b> and connect 07590 474421: sign in with Facebook, verify the number, then scan the QR code in the WhatsApp Business app.</li>
+      <li>In YCloud go to <b>Channels → WhatsApp → WhatsApp Business App Coexistence</b> and connect the new Sourced. WhatsApp number (on the WhatsApp Business app): sign in with Facebook, verify the number, then scan the QR code in the WhatsApp Business app.</li>
       <li>In YCloud <b>Developers → API Keys</b>, copy your API key into Vercel as <b>YCLOUD_API_KEY</b>.</li>
       <li>In YCloud <b>Developers → Webhooks</b>, add <b>${esc(w.webhookUrl || 'https://www.wearesourced.co.uk/api/inbox')}</b> with the events <b>whatsapp.inbound_message.received</b> and <b>whatsapp.smb.message.echoes</b>. Copy its signing secret into Vercel as <b>YCLOUD_WEBHOOK_SECRET</b>.</li>
     </ol></div></div>

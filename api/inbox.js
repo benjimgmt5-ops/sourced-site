@@ -9,7 +9,7 @@
 //   POST /api/inbox?task=reply            { phone, text } send a WhatsApp reply       (admin)
 //   POST /api/inbox?task=read             { phone } mark a chat as read               (admin)
 //
-// Env: YCLOUD_API_KEY, YCLOUD_WEBHOOK_SECRET, WHATSAPP_NUMBER (E.164, e.g. +447590474421), BLOB_READ_WRITE_TOKEN.
+// Env: YCLOUD_API_KEY, YCLOUD_WEBHOOK_SECRET, WHATSAPP_NUMBER (E.164, e.g. +447700900000), BLOB_READ_WRITE_TOKEN.
 // Storage never overwrites a file (Blob URLs are CDN-cached), so state is encoded in file names:
 //   inbox/msgs/<digits>/<time>-<in|out>-<id>.json     one file per message
 //   inbox/read/<digits>/<time>.json                   chat marked read at <time>
