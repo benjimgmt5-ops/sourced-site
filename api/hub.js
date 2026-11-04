@@ -11,7 +11,10 @@ import queue from './_outreach.json' with { type: 'json' };
 import suppress from './_suppress.json' with { type: 'json' };
 import replied from './_replied.json' with { type: 'json' };
 import config from './_config.json' with { type: 'json' };
-import templates from '../seo-src/outreach-templates.json' with { type: 'json' };
+
+// Copy of seo-src/outreach-templates.json (seo-src isn't deployed). Re-copy after editing templates.
+let templates = {};
+try { templates = (await import('./_outreach-templates.json', { with: { type: 'json' } })).default; } catch (_) {}
 
 const VALID_EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const DAY = 864e5;
