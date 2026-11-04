@@ -115,7 +115,7 @@ export default async function handler(req, res) {
     }
     if (req.method === 'PATCH') {
       // mark as done / new: rewrite the record under a new name, delete the old one
-      const { url, status, value, commission, note } = req.body || {};
+      const { url, status, value, commission, note, shootStart, shootEnd } = req.body || {};
       const e = await readJSON(url);
       const STAT = ['new', 'quoted', 'won', 'lost', 'done'];
       const prev = e.status || 'new';
@@ -124,6 +124,9 @@ export default async function handler(req, res) {
       if (value !== undefined) e.value = num(value);
       if (commission !== undefined) e.commission = num(commission);
       if (note !== undefined) e.note = String(note).slice(0, 2000);
+      const DATE = /^\d{4}-\d{2}-\d{2}$/;
+      if (shootStart !== undefined) { if (DATE.test(shootStart)) e.shootStart = shootStart; else { delete e.shootStart; delete e.shootEnd; } }
+      if (shootEnd !== undefined) { if (DATE.test(shootEnd) && e.shootStart && shootEnd >= e.shootStart) e.shootEnd = shootEnd; else delete e.shootEnd; }
       const stamp = new Date().toISOString();
       if (e.status !== prev) {
         if (e.status === 'quoted') { e.quotedAt = stamp; delete e.chased; }

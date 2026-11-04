@@ -65,6 +65,7 @@ async function chase() {
   const all = await readEnquiries();
   const onboarded = await onboardPartners(all);
   for (const e of all) {
+    if (e.noChase) continue;
     if (e.status !== 'quoted' || !e.quotedAt || !e.email || !VALID_EMAIL.test(e.email)) continue;
     const age = now - new Date(e.quotedAt).getTime();
     const first = (e.name || '').trim().split(/\s+/)[0];

@@ -3,6 +3,8 @@
 //   POST   /api/hub?task=login      -> { password }  (HUB_PASSWORD, only accepted on the hub.* host)
 //   DELETE /api/hub?task=login      -> log out
 //   GET    /api/hub?task=outreach   -> outreach stats, sent log, queue, templates (admin)
+//   POST   /api/hub?task=addlead  -> log a private booking (social media, WhatsApp, referral) into the pipeline (admin)
+//   GET    /api/hub?task=ical&k=KEY  -> calendar feed of shoots, for Google/Apple/Outlook calendar subscriptions
 //   POST   /api/hub?task=send       -> { to, subject, text }  one-off email from the Sourced. sender (admin)
 // A hub login issues the same signed session as /admin, so every existing API (enquiry, content, upload) works.
 import crypto from 'node:crypto';
@@ -121,12 +123,77 @@ async function sendOne(b) {
   return { id };
 }
 
+// Private bookings logged by hand in the hub (Instagram DMs, WhatsApp, referrals...). Saved like any brief, no emails sent.
+const DATE = /^\d{4}-\d{2}-\d{2}$/;
+const LEAD_FIELDS = ['name', 'company', 'handle', 'email', 'phone', 'date', 'location', 'categories', 'details', 'budget', 'note', 'platform'];
+const STAGES = ['new', 'quoted', 'won', 'done', 'lost'];
+async function addLead(b) {
+  const e = { at: new Date().toISOString(), status: STAGES.includes(b.status) ? b.status : 'new', private: true };
+  for (const k of LEAD_FIELDS) { const v = b[k]; if (v != null && String(v).trim() !== '') e[k] = String(v).trim().slice(0, 5000); }
+  if (!e.name && !e.handle && !e.email && !e.phone) throw Object.assign(new Error('Add at least a name, handle, email or phone.'), { code: 400 });
+  if (e.handle) e.handle = e.handle.replace(/^@?/, '@');
+  e.source = (e.platform || 'Social media') + ' (private)';
+  if (DATE.test(b.shootStart || '')) e.shootStart = b.shootStart;
+  if (e.shootStart && DATE.test(b.shootEnd || '') && b.shootEnd >= e.shootStart) e.shootEnd = b.shootEnd;
+  if (/^\d{4}-\d{2}-\d{2}$/.test(b.received || '') && b.received < e.at.slice(0, 10)) e.at = new Date(b.received + 'T12:00:00Z').toISOString();
+  const num = v => (v === '' || v == null ? undefined : Math.max(0, Math.round(Number(String(v).replace(/[^0-9.]/g, '')) || 0)));
+  if (num(b.value) !== undefined) e.value = num(b.value);
+  if (num(b.commission) !== undefined) e.commission = num(b.commission);
+  if (!b.chase) e.noChase = true;
+  const stamp = new Date().toISOString();
+  if (e.status === 'quoted') e.quotedAt = stamp;
+  if (e.status === 'won') e.wonAt = stamp;
+  if (e.status === 'done') { e.wonAt = stamp; e.doneAt = stamp; }
+  if (e.status === 'lost') e.lostAt = stamp;
+  const id = Date.now() + '-' + Math.random().toString(36).slice(2, 10);
+  await put('enquiries/' + id + '.json', JSON.stringify(e), { access: 'public', contentType: 'application/json', addRandomSuffix: true });
+  return { at: e.at };
+}
+
+// ---------- calendar feed (subscribe from Google / Apple / Outlook) ----------
+// The key is derived from HUB_PASSWORD, so the feed link stops working if the password changes.
+function icalKey() { return crypto.createHmac('sha256', process.env.HUB_PASSWORD).update('sourced-ical').digest('base64url').slice(0, 32); }
+const STAGE_NAME = { new: 'New', quoted: 'Quoted', won: 'Booked', done: 'Done', lost: 'Lost' };
+async function ical(req, res) {
+  const k = (req.query && req.query.k) || new URL(req.url, 'http://x').searchParams.get('k') || '';
+  if (!process.env.HUB_PASSWORD || !process.env.BLOB_READ_WRITE_TOKEN) return res.status(503).send('Not configured');
+  const good = icalKey();
+  if (k.length !== good.length || !crypto.timingSafeEqual(Buffer.from(k), Buffer.from(good))) return res.status(404).send('Not found');
+  const blobs = await listAll('enquiries/');
+  const all = (await Promise.all(blobs.map(async b => { try { return await (await fetch(b.url, { cache: 'no-store' })).json(); } catch (_) { return null; } }))).filter(Boolean);
+  const txt = v => String(v || '').replace(/\\/g, '\\\\').replace(/\r?\n/g, '\\n').replace(/([,;])/g, '\\$1');
+  const fold = l => { const out = []; while (l.length > 74) { out.push(l.slice(0, 74)); l = ' ' + l.slice(74); } out.push(l); return out.join('\r\n'); };
+  const d8 = s => s.replace(/-/g, '');
+  const plus1 = s => { const d = new Date(s + 'T12:00:00Z'); d.setUTCDate(d.getUTCDate() + 1); return d.toISOString().slice(0, 10); };
+  const stamp = new Date().toISOString().replace(/[-:]/g, '').replace(/\.\d+Z$/, 'Z');
+  const lines = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Sourced.//Hub//EN', 'CALSCALE:GREGORIAN', 'METHOD:PUBLISH',
+    'X-WR-CALNAME:Sourced. shoots', 'X-WR-TIMEZONE:Europe/London', 'REFRESH-INTERVAL;VALUE=DURATION:PT1H', 'X-PUBLISHED-TTL:PT1H'];
+  for (const e of all) {
+    if (/^partner/i.test(e.source || '') || e.status === 'lost' || !DATE.test(e.shootStart || '')) continue;
+    const end = DATE.test(e.shootEnd || '') && e.shootEnd >= e.shootStart ? e.shootEnd : e.shootStart;
+    const who = e.name || e.company || e.handle || e.email || 'Client';
+    const need = e.categories || e.items || e.summary || '';
+    const uid = crypto.createHash('sha1').update((e.at || '') + '|' + (e.email || e.phone || e.name || '')).digest('hex') + '@wearesourced.co.uk';
+    const desc = [need && 'Needs: ' + need, e.phone && 'Phone: ' + e.phone, e.email && 'Email: ' + e.email, e.handle && 'Handle: ' + e.handle,
+      e.commission && 'Commission: £' + e.commission, e.note && 'Notes: ' + e.note, 'Open: https://hub.wearesourced.co.uk/hub/#leads'].filter(Boolean).join('\n');
+    lines.push('BEGIN:VEVENT', 'UID:' + uid, 'DTSTAMP:' + stamp, 'DTSTART;VALUE=DATE:' + d8(e.shootStart), 'DTEND;VALUE=DATE:' + d8(plus1(end)),
+      fold('SUMMARY:' + txt(`[${STAGE_NAME[e.status || 'new'] || 'New'}] ${who}${need ? ' · ' + need : ''}`)),
+      ...(e.location ? [fold('LOCATION:' + txt(e.location))] : []), fold('DESCRIPTION:' + txt(desc)),
+      'STATUS:' + (e.status === 'won' || e.status === 'done' ? 'CONFIRMED' : 'TENTATIVE'), 'TRANSP:TRANSPARENT', 'END:VEVENT');
+  }
+  lines.push('END:VCALENDAR');
+  res.setHeader('Content-Type', 'text/calendar; charset=utf-8');
+  res.setHeader('Content-Disposition', 'inline; filename="sourced-shoots.ics"');
+  res.send(lines.join('\r\n') + '\r\n');
+}
+
 export default async function handler(req, res) {
   res.setHeader('Cache-Control', 'no-store');
   res.setHeader('X-Robots-Tag', 'noindex');
   const task = (req.query && req.query.task) || new URL(req.url, 'http://x').searchParams.get('task');
   try {
-    if (task === 'session') return res.json({ loggedIn: isAdmin(req), ready: passwordSet() && !!process.env.HUB_PASSWORD });
+    if (task === 'session') { const a = isAdmin(req); return res.json({ loggedIn: a, ready: passwordSet() && !!process.env.HUB_PASSWORD, ...(a && process.env.HUB_PASSWORD ? { icalKey: icalKey() } : {}) }); }
+    if (task === 'ical') return ical(req, res);
     if (task === 'login') {
       if (req.method === 'DELETE') { res.setHeader('Set-Cookie', clearCookie()); return res.json({ ok: true }); }
       if (req.method !== 'POST') return res.status(405).end();
@@ -141,6 +208,7 @@ export default async function handler(req, res) {
       if (!process.env.BLOB_READ_WRITE_TOKEN) return res.status(503).json({ error: 'Storage is not connected.' });
       return res.json(await outreach());
     }
+    if (task === 'addlead' && req.method === 'POST') return res.json({ ok: true, ...(await addLead(req.body || {})) });
     if (task === 'send' && req.method === 'POST') return res.json({ ok: true, ...(await sendOne(req.body || {})) });
     res.status(400).json({ error: 'Unknown task' });
   } catch (e) {

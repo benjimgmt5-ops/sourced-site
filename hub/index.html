@@ -281,6 +281,24 @@ details.tx pre{white-space:pre-wrap;font:12.5px/1.55 var(--mono);background:var(
   .kv{grid-template-columns:96px 1fr}
 }
 @media (max-width:520px){.g4{grid-template-columns:1fr 1fr}.stat{padding:14px}.toolbar .q{max-width:none;min-width:100%}.two{grid-template-columns:1fr}}
+/* calendar */
+.calhead{display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap}
+.calhead h2{margin:0;font-size:18px;font-weight:600;letter-spacing:-.02em;min-width:150px}
+.cal{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));border:1px solid var(--border);border-radius:var(--r-lg);overflow:hidden;background:var(--border);gap:1px;box-shadow:var(--shadow)}
+.cal .dow{background:var(--surface-2);padding:9px 10px;font-size:12px;font-weight:500;color:var(--ink-3)}
+.cal .day{background:var(--surface);min-height:112px;padding:7px 6px;display:flex;flex-direction:column;gap:3px;min-width:0}
+.cal .day.out{background:var(--surface-2)}.cal .day.out .dn{color:var(--ink-3)}
+.cal .dn{font-size:12.5px;font-weight:500;width:24px;height:24px;display:grid;place-items:center;border-radius:7px;margin-bottom:2px}
+.cal .day.today .dn{background:var(--accent);color:var(--on-accent)}
+.ev{display:block;width:100%;text-align:left;border:0;border-radius:6px;padding:3px 7px;font-size:12px;font-weight:500;cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.45}
+.ev.st-done{background:var(--sunken);color:var(--ink)}
+.more{font-size:11.5px;color:var(--ink-3);padding:0 6px}
+.agenda .li .when{width:74px;flex:none;line-height:1.25}
+.agenda .li .when b{display:block;font-size:15px;font-weight:600}
+.agenda .li .when span{font-size:11.5px;color:var(--ink-3);text-transform:uppercase}
+.copy{display:flex;gap:8px}.copy input{font:12.5px var(--mono)}
+@media (max-width:760px){.cal{display:none}}
+@media (min-width:761px){.cal-mobile-only{display:none}}
 #navScrim{display:none;position:fixed;inset:0;background:rgba(0,0,0,.3);z-index:49}
 @media (forced-colors:active){.meter i,.chart .b{background:CanvasText;fill:CanvasText}}
 </style>
@@ -311,6 +329,11 @@ details.tx pre{white-space:pre-wrap;font:12.5px/1.55 var(--mono);background:var(
   <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 4.5 4.5L19 7"/></symbol>
   <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></symbol>
   <symbol id="i-trash" viewBox="0 0 24 24"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></symbol>
+  <symbol id="i-cal" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2.5"/><path d="M3 10h18M8 3v4M16 3v4"/></symbol>
+  <symbol id="i-chev-l" viewBox="0 0 24 24"><path d="m15 6-6 6 6 6"/></symbol>
+  <symbol id="i-chev-r" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></symbol>
+  <symbol id="i-link" viewBox="0 0 24 24"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
   <symbol id="i-board" viewBox="0 0 24 24"><rect x="3" y="4" width="7" height="16" rx="2"/><rect x="14" y="4" width="7" height="10" rx="2"/></symbol>
   <symbol id="i-table" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M3 15h18M9 10v10"/></symbol>
 </svg>
@@ -336,6 +359,7 @@ details.tx pre{white-space:pre-wrap;font:12.5px/1.55 var(--mono);background:var(
     <nav class="main" aria-label="Main">
       <a href="#overview" data-r="overview"><svg class="i"><use href="#i-home"/></svg>Overview</a>
       <a href="#leads" data-r="leads"><svg class="i"><use href="#i-leads"/></svg>Leads<span class="badge" id="navNew" hidden></span></a>
+      <a href="#calendar" data-r="calendar"><svg class="i"><use href="#i-cal"/></svg>Calendar</a>
       <a href="#outreach" data-r="outreach"><svg class="i"><use href="#i-mail"/></svg>Outreach &amp; email</a>
       <a href="#website" data-r="website"><svg class="i"><use href="#i-globe"/></svg>Website</a>
       <a href="#partners" data-r="partners"><svg class="i"><use href="#i-hand"/></svg>Partners<span class="badge" id="navPartners" hidden></span></a>
@@ -399,6 +423,7 @@ function ago(t) {
 const fmt = t => { try { return new Date(t).toLocaleString('en-GB', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }); } catch (_) { return t; } };
 const initials = s => (String(s || '?').trim().split(/\s+/).slice(0, 2).map(w => w[0]).join('') || '?').toUpperCase();
 const nameOf = e => e.name || e.company || e.email || e.phone || 'Website visitor';
+const srcLabel = e => e.private ? (e.platform || 'Private') : /amelia/i.test(e.source || '') ? 'Amelia' : 'Form';
 const needOf = e => e.categories || e.items || e.summary || (e.details || '').slice(0, 120) || e.offer || '';
 function weekStart() { const d = new Date(); d.setHours(0, 0, 0, 0); d.setDate(d.getDate() - (d.getDay() + 6) % 7); return d; }
 
@@ -419,14 +444,14 @@ $('#themeBtn').addEventListener('click', () => {
 function showLogin() { $('#app').hidden = true; $('#login').hidden = false; setTimeout(() => $('#pw').focus(), 40); }
 $('#loginForm').addEventListener('submit', async e => {
   e.preventDefault(); $('#loginErr').textContent = ''; $('#loginBtn').disabled = true;
-  try { await api('/api/hub?task=login', { method: 'POST', body: { password: $('#pw').value } }); $('#pw').value = ''; start(); }
+  try { await api('/api/hub?task=login', { method: 'POST', body: { password: $('#pw').value } }); $('#pw').value = ''; S.icalKey = (await api('/api/hub?task=session')).icalKey; start(); }
   catch (er) { $('#loginErr').textContent = er.message; }
   $('#loginBtn').disabled = false;
 });
 async function logout() { await api('/api/hub?task=login', { method: 'DELETE' }).catch(() => {}); location.hash = ''; location.reload(); }
 
 async function boot() {
-  try { const s = await api('/api/hub?task=session'); if (!s.loggedIn) return showLogin(); start(); }
+  try { const s = await api('/api/hub?task=session'); if (!s.loggedIn) return showLogin(); S.icalKey = s.icalKey; start(); }
   catch (e) { showLogin(); $('#loginErr').textContent = e.message; }
 }
 async function start() {
@@ -434,7 +459,7 @@ async function start() {
   route();
   await Promise.all([loadEnq(), loadOut()]);
   S.loaded = true; route();
-  setInterval(() => { if (!document.hidden) loadEnq(true).then(() => { if (['overview', 'leads', 'partners'].includes(cur())) render(); }); }, 60000);
+  setInterval(() => { if (!document.hidden) loadEnq(true).then(() => { if (['overview', 'leads', 'partners', 'calendar'].includes(cur())) render(); }); }, 60000);
 }
 async function loadEnq(quiet) {
   try { S.enq = (await api('/api/enquiry')).enquiries || []; S.enqErr = null; }
@@ -477,6 +502,7 @@ function sideStats() {
 const ROUTES = {
   overview: { t: 'Overview', fn: renderOverview },
   leads: { t: 'Leads', fn: renderLeads },
+  calendar: { t: 'Calendar', fn: renderCalendar },
   outreach: { t: 'Outreach & email', fn: renderOutreach },
   website: { t: 'Website', fn: renderWebsite },
   partners: { t: 'Partners', fn: renderPartners },
@@ -502,7 +528,8 @@ function greet() { const h = new Date().getHours(); return h < 12 ? 'Good mornin
 function renderOverview() {
   $('#pgTitle').textContent = greet() + ', Benji';
   $('#pgSub').textContent = new Date().toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long' }) + ' · here\'s where Sourced. stands';
-  acts(`<button class="btn" id="rf">${ico('refresh')}Refresh</button><a class="btn primary" href="#outreach/compose">${ico('send')}New email</a>`);
+  acts(`<button class="btn" id="rf">${ico('refresh')}Refresh</button><button class="btn" id="addB">${ico('plus')}Add booking</button><a class="btn primary" href="#outreach/compose">${ico('send')}New email</a>`);
+  $('#addB').onclick = openAddBooking;
   $('#rf').onclick = async () => { await Promise.all([loadEnq(), loadOut()]); render(); toast('Up to date'); };
   if (!S.loaded) { $('#view').innerHTML = `<div class="grid g4">${Array(4).fill('<div class="card stat">' + skel(3) + '</div>').join('')}</div>`; return; }
   const m = metrics(), o = S.out?.stats;
@@ -587,19 +614,21 @@ function filteredLeads(list = leads()) {
   const q = S.leadQ.trim().toLowerCase();
   return list.filter(e => {
     if (S.leadSrc === 'amelia' && !/amelia/i.test(e.source || '')) return false;
-    if (S.leadSrc === 'form' && /amelia/i.test(e.source || '')) return false;
+    if (S.leadSrc === 'form' && (/amelia/i.test(e.source || '') || e.private)) return false;
+    if (S.leadSrc === 'social' && !e.private) return false;
     if (!q) return true;
-    return ['name', 'company', 'email', 'phone', 'categories', 'items', 'details', 'summary', 'location', 'note'].some(k => String(e[k] || '').toLowerCase().includes(q));
+    return ['name', 'company', 'handle', 'platform', 'email', 'phone', 'categories', 'items', 'details', 'summary', 'location', 'note'].some(k => String(e[k] || '').toLowerCase().includes(q));
   }).sort((a, b) => (b.at || '').localeCompare(a.at || ''));
 }
 function renderLeads() {
-  $('#pgSub').textContent = 'Every brief from the website form and Amelia. Drag a card to move it through the pipeline.';
-  acts(`<button class="btn" id="rf">${ico('refresh')}Refresh</button>`);
+  $('#pgSub').textContent = 'Every brief from the website form, Amelia and private bookings. Drag a card to move it through the pipeline.';
+  acts(`<button class="btn" id="rf">${ico('refresh')}Refresh</button><button class="btn primary" id="addB">${ico('plus')}Add booking</button>`);
   $('#rf').onclick = async () => { await loadEnq(); render(); };
+  $('#addB').onclick = openAddBooking;
   $('#view').innerHTML = `
     <div class="toolbar">
       <div class="q">${ico('search')}<input class="input" id="lq" placeholder="Search name, company, need…" value="${esc(S.leadQ)}"></div>
-      <div class="seg" role="group" aria-label="Source">${[['all', 'All'], ['form', 'Website form'], ['amelia', 'Amelia']].map(([k, l]) => `<button data-src="${k}" aria-pressed="${S.leadSrc === k}">${l}</button>`).join('')}</div>
+      <div class="seg" role="group" aria-label="Source">${[['all', 'All'], ['form', 'Website form'], ['amelia', 'Amelia'], ['social', 'Private / social']].map(([k, l]) => `<button data-src="${k}" aria-pressed="${S.leadSrc === k}">${l}</button>`).join('')}</div>
       <span class="sp"></span>
       <div class="seg" role="group" aria-label="View"><button data-v="board" aria-pressed="${S.leadView === 'board'}">${ico('board')}Board</button><button data-v="table" aria-pressed="${S.leadView === 'table'}">${ico('table')}Table</button></div>
     </div><div id="leadBody"></div>`;
@@ -621,7 +650,7 @@ function leadBody() {
       ${items.map(e => `<div class="kc" draggable="true" data-k="${esc(key(e))}" tabindex="0">
         <div class="t">${esc(nameOf(e))}</div>
         <div class="c">${esc(needOf(e)) || '<span class="faint">No details</span>'}</div>
-        <div class="f">${e.date ? `<span class="tag">${esc(String(e.date).slice(0, 24))}</span>` : ''}<span>${/amelia/i.test(e.source || '') ? 'Amelia' : 'Form'} · ${ago(e.at)}</span>${e.commission ? `<span class="money num">${gbp(e.commission)}</span>` : e.value ? `<span class="money num">${gbp(e.value)} job</span>` : ''}</div>
+        <div class="f">${e.shootStart ? `<span class="tag">${esc(rangeLabel(e.shootStart, e.shootEnd))}</span>` : e.date ? `<span class="tag">${esc(String(e.date).slice(0, 24))}</span>` : ''}<span>${esc(srcLabel(e))} · ${ago(e.at)}</span>${e.commission ? `<span class="money num">${gbp(e.commission)}</span>` : e.value ? `<span class="money num">${gbp(e.value)} job</span>` : ''}</div>
       </div>`).join('') || '<div class="faint" style="font-size:12.5px;padding:8px 6px">Nothing here</div>'}</div>`;
   }).join('')}</div>`;
   el.querySelectorAll('.kc').forEach(c => {
@@ -669,16 +698,18 @@ function drawer(html) {
   document.body.append(sc, d); d.querySelector('[data-close]')?.addEventListener('click', closeDrawer);
   return d;
 }
-const LABELS = { company: 'Company', email: 'Email', phone: 'Phone', date: 'Dates', location: 'Location', categories: 'Needs', items: 'Items', budget: 'Budget', summary: 'Summary', details: 'Details', offer: 'Offering', area: 'Area covered', links: 'Links', source: 'Source' };
+const LABELS = { company: 'Company', handle: 'Handle', platform: 'Came from', email: 'Email', phone: 'Phone', date: 'Dates', location: 'Location', categories: 'Needs', items: 'Items', budget: 'Budget', summary: 'Summary', details: 'Details', offer: 'Offering', area: 'Area covered', links: 'Links', source: 'Source' };
+let this_platform = '';
 function linkify(k, v) {
   if (k === 'email') return `<a href="mailto:${esc(v)}">${esc(v)}</a>`;
   if (k === 'phone') return `<a href="tel:${esc(String(v).replace(/\s/g, ''))}">${esc(v)}</a>`;
+  if (k === 'handle') { const h = String(v).replace(/^@/, ''), u = /tiktok/i.test(this_platform) ? 'https://www.tiktok.com/@' + h : /instagram/i.test(this_platform) ? 'https://instagram.com/' + h : ''; return u ? `<a href="${esc(u)}" target="_blank" rel="noopener">${esc(v)}</a>` : esc(v); }
   if (k === 'links') return esc(v).replace(/(https?:\/\/[^\s,]+)/g, '<a href="$1" target="_blank" rel="noopener">$1</a>');
   return esc(v);
 }
 function openLead(k) {
   const e = S.enq.find(x => key(x) === k); if (!e) return;
-  const st = e.status || 'new', partner = isPartner(e);
+  const st = e.status || 'new', partner = isPartner(e); this_platform = e.platform || '';
   const d = drawer(`
     <div class="dh"><span class="av-s" style="width:42px;height:42px;font-size:15px">${esc(initials(nameOf(e)))}</span>
       <div style="flex:1;min-width:0"><h2>${esc(nameOf(e))}</h2><div class="sub">${esc(e.source || '')} · ${fmt(e.at)}</div></div>
@@ -690,6 +721,9 @@ function openLead(k) {
       <div class="box"><h4>Money</h4><div class="two">
         <div class="field" style="margin:0"><label class="lbl" for="dVal">Job value (£)</label><input class="input num" id="dVal" inputmode="numeric" value="${e.value ?? ''}" placeholder="0"></div>
         <div class="field" style="margin:0"><label class="lbl" for="dCom">Commission (£)</label><input class="input num" id="dCom" inputmode="numeric" value="${e.commission ?? ''}" placeholder="300+"></div></div>
+        <div class="two" style="margin-top:12px">
+          <div class="field" style="margin:0"><label class="lbl" for="dS">Shoot starts (calendar)</label><input class="input" id="dS" type="date" value="${esc(e.shootStart || '')}"></div>
+          <div class="field" style="margin:0"><label class="lbl" for="dE">Shoot ends</label><input class="input" id="dE" type="date" value="${esc(e.shootEnd || '')}"></div></div>
         <div class="field" style="margin:12px 0 0"><label class="lbl" for="dNote">Notes</label><textarea class="input" id="dNote" rows="3" placeholder="Suppliers, prices, what was agreed…">${esc(e.note || '')}</textarea></div>
         <div style="display:flex;justify-content:flex-end;margin-top:10px"><button class="btn primary sm" id="dSave">Save</button></div></div>`}
       <dl class="kv">${Object.keys(LABELS).filter(k => e[k]).map(k => `<dt>${LABELS[k]}</dt><dd>${linkify(k, e[k])}</dd>`).join('')}</dl>
@@ -702,7 +736,7 @@ function openLead(k) {
     </div>`);
   d.querySelectorAll('#dSt [data-s]').forEach(b => b.onclick = async () => { const n = await patchLead(e, { status: b.dataset.s }, `Moved to ${ST[b.dataset.s]}`); if (n) openLead(key(n)); });
   d.querySelector('#dSave')?.addEventListener('click', async () => {
-    const n = await patchLead(e, { value: $('#dVal').value, commission: $('#dCom').value, note: $('#dNote').value }, 'Saved');
+    const n = await patchLead(e, { value: $('#dVal').value, commission: $('#dCom').value, note: $('#dNote').value, shootStart: $('#dS').value, shootEnd: $('#dE').value }, 'Saved');
     if (n) openLead(key(n));
   });
   d.querySelector('#dMail')?.addEventListener('click', () => {
@@ -716,6 +750,116 @@ function openLead(k) {
   };
 }
 addEventListener('keydown', ev => { if (ev.key === 'Escape') { closeDrawer(); closePal(); } });
+
+/* ---------------- calendar ---------------- */
+const ymd = d => d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+const dOf = s => new Date(s + 'T12:00:00');
+function rangeLabel(a, b) {
+  if (!a) return '';
+  const f = (s, o) => dOf(s).toLocaleDateString('en-GB', o);
+  if (!b || b === a) return f(a, { day: 'numeric', month: 'short' });
+  return dOf(a).getMonth() === dOf(b).getMonth() ? f(a, { day: 'numeric' }) + '–' + f(b, { day: 'numeric', month: 'short' }) : f(a, { day: 'numeric', month: 'short' }) + ' – ' + f(b, { day: 'numeric', month: 'short' });
+}
+const shoots = () => leads().filter(e => e.shootStart && e.status !== 'lost').map(e => ({ e, s: e.shootStart, en: e.shootEnd && e.shootEnd >= e.shootStart ? e.shootEnd : e.shootStart }));
+function renderCalendar() {
+  if (!S.calMonth) { const d = new Date(); S.calMonth = new Date(d.getFullYear(), d.getMonth(), 1); }
+  $('#pgSub').textContent = 'Shoot dates from your pipeline. Link it once and it shows up in your own calendar too.';
+  acts(`<button class="btn" id="calLink">${ico('link')}Link to my calendar</button><button class="btn primary" id="addB">${ico('plus')}Add booking</button>`);
+  $('#calLink').onclick = openCalLink; $('#addB').onclick = openAddBooking;
+  if (!S.loaded) { $('#view').innerHTML = `<div class="card cb">${skel(6)}</div>`; return; }
+  const m = S.calMonth, ev = shoots(), today = ymd(new Date());
+  const first = new Date(m); first.setDate(1 - (m.getDay() + 6) % 7);
+  const cells = Array.from({ length: 42 }, (_, i) => { const d = new Date(first); d.setDate(first.getDate() + i); return d; });
+  const weeks = cells[35].getMonth() !== m.getMonth() ? 5 : 6;
+  const on = day => ev.filter(x => x.s <= day && day <= x.en).sort((a, b) => a.s.localeCompare(b.s));
+  const chip = x => `<button class="ev pill plain st-${esc(x.e.status || 'new')}" data-k="${esc(key(x.e))}" title="${esc(nameOf(x.e) + ' · ' + (needOf(x.e) || ''))}">${esc(nameOf(x.e))}</button>`;
+  const upcoming = ev.filter(x => x.en >= today).sort((a, b) => a.s.localeCompare(b.s)).slice(0, 25);
+  const undated = leads().filter(e => !e.shootStart && ['new', 'quoted', 'won'].includes(e.status || 'new')).sort((a, b) => (b.at || '').localeCompare(a.at || ''));
+  $('#view').innerHTML = `
+    <div class="calhead"><button class="btn icon" id="cPrev" aria-label="Previous month">${ico('chev-l')}</button><button class="btn icon" id="cNext" aria-label="Next month">${ico('chev-r')}</button>
+      <h2>${m.toLocaleDateString('en-GB', { month: 'long', year: 'numeric' })}</h2><button class="btn sm" id="cToday">Today</button>
+      <span style="flex:1"></span><span class="faint" style="font-size:12.5px">${ev.filter(x => x.s.slice(0, 7) <= ymd(m).slice(0, 7) && x.en.slice(0, 7) >= ymd(m).slice(0, 7)).length} shoots this month</span></div>
+    <div class="cal">${['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map(d => `<div class="dow">${d}</div>`).join('')}
+      ${cells.slice(0, weeks * 7).map(d => { const k = ymd(d), list = on(k); return `<div class="day${d.getMonth() !== m.getMonth() ? ' out' : ''}${k === today ? ' today' : ''}"><span class="dn num">${d.getDate()}</span>${list.slice(0, 3).map(chip).join('')}${list.length > 3 ? `<span class="more">+${list.length - 3} more</span>` : ''}</div>`; }).join('')}</div>
+    <div class="grid g-main" style="margin-top:16px">
+      <div class="card"><div class="ch"><h3>Coming up</h3><div class="r faint" style="font-size:12.5px">${upcoming.length}</div></div><div class="cb agenda" style="padding:8px 0 4px"><div class="list">
+        ${upcoming.length ? upcoming.map(x => `<button class="li" data-k="${esc(key(x.e))}"><span class="when"><b class="num">${dOf(x.s).getDate()}</b><span>${dOf(x.s).toLocaleDateString('en-GB', { weekday: 'short' })} ${dOf(x.s).toLocaleDateString('en-GB', { month: 'short' })}</span></span>
+          <span class="m"><b>${esc(nameOf(x.e))}</b><span>${esc([rangeLabel(x.s, x.en), needOf(x.e), x.e.location].filter(Boolean).join(' · '))}</span></span><span class="pill st-${esc(x.e.status || 'new')}">${ST[x.e.status || 'new']}</span></button>`).join('')
+          : '<div class="empty">No shoots coming up. Add dates to a lead and it lands here.</div>'}</div></div></div>
+      <div class="card"><div class="ch"><h3>Not on the calendar yet</h3><div class="r faint" style="font-size:12.5px">${undated.length}</div></div><div class="cb" style="padding:8px 0 4px"><div class="list">
+        ${undated.length ? undated.slice(0, 12).map(e => `<button class="li" data-k="${esc(key(e))}"><span class="av-s">${esc(initials(nameOf(e)))}</span><span class="m"><b>${esc(nameOf(e))}</b><span>${esc(e.date ? 'Said: ' + e.date : 'No dates given')}</span></span><span class="pill st-${esc(e.status || 'new')}">${ST[e.status || 'new']}</span></button>`).join('')
+          : '<div class="empty">Every open lead has dates.</div>'}</div></div></div>
+    </div>`;
+  const mv = n => { S.calMonth = new Date(m.getFullYear(), m.getMonth() + n, 1); renderCalendar(); };
+  $('#cPrev').onclick = () => mv(-1); $('#cNext').onclick = () => mv(1);
+  $('#cToday').onclick = () => { S.calMonth = null; renderCalendar(); };
+  $('#view').querySelectorAll('[data-k]').forEach(b => b.addEventListener('click', ev => { ev.stopPropagation(); openLead(b.dataset.k); }));
+}
+function openCalLink() {
+  if (!S.icalKey) { toast('Sign out and back in to get your calendar link.', true); return; }
+  const https = `${location.origin}/api/hub?task=ical&k=${S.icalKey}`, webcal = https.replace(/^https:/, 'webcal:');
+  const d = drawer(`
+    <div class="dh"><div style="flex:1;min-width:0"><h2>Link to your calendar</h2><div class="sub">Every lead with shoot dates shows up in your own calendar and updates by itself.</div></div>
+      <button class="btn ghost icon" data-close aria-label="Close">${ico('x')}</button></div>
+    <div class="db">
+      <div class="box"><h4>Google Calendar</h4><p class="muted" style="margin:0 0 12px;font-size:13px">Opens Google Calendar and asks to add “Sourced. shoots”. Click <b>Add</b>.</p>
+        <a class="btn primary" href="https://calendar.google.com/calendar/r?cid=${encodeURIComponent(webcal)}" target="_blank" rel="noopener">${ico('cal')}Add to Google Calendar</a></div>
+      <div class="box"><h4>iPhone / Mac (Apple Calendar)</h4><p class="muted" style="margin:0 0 12px;font-size:13px">Open this on your iPhone or Mac and tap <b>Subscribe</b>.</p>
+        <a class="btn" href="${esc(webcal)}">${ico('cal')}Add to Apple Calendar</a></div>
+      <div class="box"><h4>Outlook or anything else</h4><p class="muted" style="margin:0 0 12px;font-size:13px">Add a calendar “from URL” / “from internet” and paste this link.</p>
+        <div class="copy"><input class="input" id="icalUrl" readonly value="${esc(https)}"><button class="btn" id="icalCopy">Copy</button></div></div>
+      <div class="note">${ico('info')}<div>Keep this link private: anyone with it can see your shoot dates. Booked jobs show as confirmed, new and quoted ones as tentative. Google refreshes subscribed calendars every few hours, Apple every hour or so.</div></div>
+    </div>`);
+  d.querySelector('#icalCopy').onclick = async () => { try { await navigator.clipboard.writeText(https); toast('Link copied'); } catch (_) { $('#icalUrl').select(); toast('Select and copy the link'); } };
+}
+
+/* ---------------- add private booking ---------------- */
+const PLATFORMS = ['Instagram', 'TikTok', 'WhatsApp', 'Facebook', 'Phone', 'Referral', 'Other'];
+function openAddBooking() {
+  const today = new Date().toISOString().slice(0, 10);
+  let plat = 'Instagram', stage = 'new';
+  const d = drawer(`
+    <div class="dh"><div style="flex:1;min-width:0"><h2>Add a private booking</h2><div class="sub">For jobs that came in by DM, WhatsApp, phone or word of mouth. No emails are sent.</div></div>
+      <button class="btn ghost icon" data-close aria-label="Close">${ico('x')}</button></div>
+    <form class="db" id="abForm" autocomplete="off">
+      <div class="box"><h4>Came from</h4><div class="seg wrap" id="abPlat">${PLATFORMS.map(p => `<button type="button" data-p="${p}" aria-pressed="${p === plat}">${p}</button>`).join('')}</div></div>
+      <div class="two"><div class="field"><label class="lbl" for="abName">Name</label><input class="input" id="abName" placeholder="Who you're dealing with"></div>
+        <div class="field"><label class="lbl" for="abHandle">Handle</label><input class="input" id="abHandle" placeholder="@username"></div></div>
+      <div class="two"><div class="field"><label class="lbl" for="abCo">Company / artist</label><input class="input" id="abCo" placeholder="Optional"></div>
+        <div class="field"><label class="lbl" for="abPhone">Phone</label><input class="input" id="abPhone" type="tel" placeholder="Optional"></div></div>
+      <div class="field"><label class="lbl" for="abEmail">Email</label><input class="input" id="abEmail" type="email" placeholder="Optional"></div>
+      <div class="field"><label class="lbl" for="abNeeds">What they need</label><input class="input" id="abNeeds" placeholder="e.g. Lamborghini Urus + 2 Sprinters"></div>
+      <div class="two"><div class="field"><label class="lbl" for="abS">Shoot starts</label><input class="input" id="abS" type="date"></div>
+        <div class="field"><label class="lbl" for="abE">Shoot ends</label><input class="input" id="abE" type="date"></div></div>
+      <div class="field"><label class="lbl" for="abLoc">Location</label><input class="input" id="abLoc" placeholder="e.g. East London"></div>
+      <div class="field"><label class="lbl" for="abDetails">Details</label><textarea class="input" id="abDetails" rows="3" placeholder="Paste the DM or summarise the brief"></textarea></div>
+      <div class="box"><h4>Stage</h4><div class="seg wrap" id="abSt">${ORDER.map(s => `<button type="button" data-s="${s}" aria-pressed="${s === stage}">${ST[s]}</button>`).join('')}</div>
+        <div class="two" style="margin-top:12px">
+          <div class="field" style="margin:0"><label class="lbl" for="abVal">Job value (£)</label><input class="input num" id="abVal" inputmode="numeric" placeholder="0"></div>
+          <div class="field" style="margin:0"><label class="lbl" for="abCom">Commission (£)</label><input class="input num" id="abCom" inputmode="numeric" placeholder="300+"></div></div>
+        <label style="display:flex;gap:8px;align-items:center;margin-top:12px;font-size:13px;color:var(--ink-2)"><input type="checkbox" id="abChase"> Send automatic quote chasers by email (2 and 5 days after Quoted)</label></div>
+      <div class="two"><div class="field"><label class="lbl" for="abRec">Received</label><input class="input" id="abRec" type="date" value="${today}" max="${today}"></div>
+        <div class="field"><label class="lbl" for="abNote">Notes</label><input class="input" id="abNote" placeholder="Suppliers, prices, agreed terms"></div></div>
+      <div class="err" id="abErr" style="color:var(--bad);font-size:13px;min-height:18px"></div>
+    </form>
+    <div class="df"><span style="flex:1"></span><button class="btn" data-close2>Cancel</button><button class="btn primary" id="abSave">${ico('plus')}Add to pipeline</button></div>`);
+  d.querySelector('[data-close2]').onclick = closeDrawer;
+  d.querySelectorAll('#abPlat [data-p]').forEach(b => b.onclick = () => { plat = b.dataset.p; d.querySelectorAll('#abPlat [data-p]').forEach(x => x.setAttribute('aria-pressed', x === b)); });
+  d.querySelectorAll('#abSt [data-s]').forEach(b => b.onclick = () => { stage = b.dataset.s; d.querySelectorAll('#abSt [data-s]').forEach(x => x.setAttribute('aria-pressed', x === b)); });
+  setTimeout(() => $('#abName').focus(), 60);
+  const v = id => $('#' + id).value;
+  $('#abSave').onclick = async () => {
+    const body = { platform: plat, status: stage, name: v('abName'), handle: v('abHandle'), company: v('abCo'), phone: v('abPhone'), email: v('abEmail'),
+      categories: v('abNeeds'), shootStart: v('abS'), shootEnd: v('abE'), date: rangeLabel(v('abS'), v('abE')), location: v('abLoc'), details: v('abDetails'), value: v('abVal'), commission: v('abCom'),
+      note: v('abNote'), received: v('abRec'), chase: $('#abChase').checked };
+    if (!body.name && !body.handle && !body.email && !body.phone) { $('#abErr').textContent = 'Add at least a name, handle, email or phone.'; return; }
+    $('#abSave').disabled = true;
+    try {
+      await api('/api/hub?task=addlead', { method: 'POST', body });
+      closeDrawer(); await loadEnq(); render(); toast(`Added ${body.name || body.handle} to ${ST[stage]}`);
+    } catch (e) { $('#abErr').textContent = e.message; $('#abSave').disabled = false; }
+  };
+}
 
 /* ---------------- outreach ---------------- */
 function renderOutreach() {
@@ -862,6 +1006,8 @@ function closePal() { $('#pal')?.remove(); $('#palScrim')?.remove(); }
 function palRender() {
   const q = $('#palIn').value.trim().toLowerCase();
   const nav = [...Object.entries(ROUTES).map(([k, r]) => ({ g: 'Go to', t: r.t, run: () => location.hash = '#' + k })),
+    { g: 'Actions', t: 'Link calendar to Google / Apple', run: () => { location.hash = '#calendar'; setTimeout(openCalLink, 50); } },
+    { g: 'Actions', t: 'Add a private booking', run: () => { location.hash = '#leads'; setTimeout(openAddBooking, 50); } },
     { g: 'Actions', t: 'Compose an email', run: () => location.hash = '#outreach/compose' },
     { g: 'Actions', t: 'Edit website text & photos', run: () => location.hash = '#website/edit' },
     { g: 'Actions', t: 'Edit listings', run: () => location.hash = '#website/listings' },
