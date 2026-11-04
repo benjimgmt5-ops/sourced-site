@@ -387,7 +387,7 @@ details.tx pre{white-space:pre-wrap;font:12.5px/1.55 var(--mono);background:var(
     <nav class="main" aria-label="Main">
       <a href="#overview" data-r="overview"><svg class="i"><use href="#i-home"/></svg>Overview</a>
       <a href="#leads" data-r="leads"><svg class="i"><use href="#i-leads"/></svg>Leads<span class="badge" id="navNew" hidden></span></a>
-      <a href="#inbox" data-r="inbox"><svg class="i"><use href="#i-chat"/></svg>WhatsApp inbox<span class="badge" id="navInbox" hidden></span></a>
+      <a href="#inbox" data-r="inbox" id="navInboxLink" hidden><svg class="i"><use href="#i-chat"/></svg>WhatsApp inbox<span class="badge" id="navInbox" hidden></span></a>
       <a href="#calendar" data-r="calendar"><svg class="i"><use href="#i-cal"/></svg>Calendar</a>
       <a href="#outreach" data-r="outreach"><svg class="i"><use href="#i-mail"/></svg>Outreach &amp; email</a>
       <a href="#website" data-r="website"><svg class="i"><use href="#i-globe"/></svg>Website</a>
@@ -787,7 +787,7 @@ addEventListener('keydown', ev => { if (ev.key === 'Escape') { closeDrawer(); cl
 /* ---------------- whatsapp inbox ---------------- */
 const waDigits = p => { let d = String(p || '').replace(/\D/g, ''); if (d.startsWith('00')) d = d.slice(2); if (d.startsWith('0')) d = '44' + d.slice(1); return d; };
 const prettyPhone = p => { const d = waDigits(p); return d.startsWith('44') && d.length === 12 ? '0' + d.slice(2, 6) + ' ' + d.slice(6) : '+' + d; };
-async function loadWa() { try { S.wa = await api('/api/inbox?task=status'); if (S.wa.ready) await loadThreads(true); } catch (_) { S.wa = { ready: false }; } }
+async function loadWa() { try { S.wa = await api('/api/inbox?task=status'); if (S.wa.ready) await loadThreads(true); } catch (_) { S.wa = { ready: false }; } $('#navInboxLink').hidden = !S.wa.ready; }
 async function loadThreads(quiet) {
   try { S.threads = (await api('/api/inbox?task=threads')).threads || []; S.waErr = null; }
   catch (e) { S.waErr = e.message; if (!quiet) toast(e.message, true); }
@@ -1129,7 +1129,6 @@ function closePal() { $('#pal')?.remove(); $('#palScrim')?.remove(); }
 function palRender() {
   const q = $('#palIn').value.trim().toLowerCase();
   const nav = [...Object.entries(ROUTES).map(([k, r]) => ({ g: 'Go to', t: r.t, run: () => location.hash = '#' + k })),
-    { g: 'Go to', t: 'WhatsApp inbox', run: () => location.hash = '#inbox' },
     { g: 'Actions', t: 'Link calendar to Google / Apple', run: () => { location.hash = '#calendar'; setTimeout(openCalLink, 50); } },
     { g: 'Actions', t: 'Add a private booking', run: () => { location.hash = '#leads'; setTimeout(openAddBooking, 50); } },
     { g: 'Actions', t: 'Compose an email', run: () => location.hash = '#outreach/compose' },
