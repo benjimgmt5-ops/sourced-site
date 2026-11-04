@@ -15,6 +15,7 @@ html,body{margin:0;background:var(--black);color:var(--white);font:15px/1.5 var(
 button,input,select,textarea{font:inherit;color:inherit}
 a{color:var(--white)}
 [hidden]{display:none!important}
+body.embed header.top{display:none!important}
 .brand{font-family:var(--display);font-size:28px;letter-spacing:.01em;line-height:1}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:40px;padding:0 16px;border:1px solid var(--steel);background:var(--graphite);cursor:pointer;font-weight:500;text-decoration:none;white-space:nowrap}
 .btn:hover{border-color:var(--ash)}
@@ -337,11 +338,14 @@ async function boot() {
 async function start(s) {
   s = s || await api('/api/login');
   $('#login').hidden = true; $('#app').hidden = false;
+  const embed = new URLSearchParams(location.search).get('embed');
+  if (embed) { document.body.classList.add('embed'); }
   $('#storageBanner').hidden = s.storage;
   content = await api('/api/content');
   frameReady = new Promise(r => (window.__frameResolve = r));
   reloadFrame();
   loadEnquiries();
+  if (embed && document.getElementById('tab-' + embed)) openTab(embed);
   setInterval(() => { if (!document.hidden && !$('#tab-enquiries').hidden) loadEnquiries(true); }, 60000);
 }
 

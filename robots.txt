@@ -2,5 +2,6 @@ User-agent: *
 Allow: /
 Disallow: /admin
 Disallow: /api/
+Disallow: /hub/
 
 Sitemap: https://www.wearesourced.co.uk/sitemap.xml

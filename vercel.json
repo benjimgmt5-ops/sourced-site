@@ -1,6 +1,23 @@
 {
   "headers": [
     {
+      "source": "/hub/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-store"
+        },
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "SAMEORIGIN"
+        }
+      ]
+    },
+    {
       "source": "/admin/(.*)",
       "headers": [
         {
@@ -44,6 +61,47 @@
     {
       "path": "/api/deals?task=scoreboard",
       "schedule": "0 8 * * 1"
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/",
+      "has": [
+        {
+          "type": "host",
+          "value": "hub.wearesourced.co.uk"
+        }
+      ],
+      "missing": [
+        {
+          "type": "query",
+          "key": "edit"
+        }
+      ],
+      "destination": "/hub/",
+      "permanent": false
+    },
+    {
+      "source": "/((?!api/|admin|hub/|media/|site-content\\.js|favicon\\.ico|site\\.webmanifest|robots\\.txt|_vercel/).+)",
+      "has": [
+        {
+          "type": "host",
+          "value": "hub.wearesourced.co.uk"
+        }
+      ],
+      "destination": "/hub/",
+      "permanent": false
+    },
+    {
+      "source": "/hub/:path*",
+      "missing": [
+        {
+          "type": "host",
+          "value": "hub.wearesourced.co.uk"
+        }
+      ],
+      "destination": "https://hub.wearesourced.co.uk/hub/",
+      "permanent": false
     }
   ]
 }

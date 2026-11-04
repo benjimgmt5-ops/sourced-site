@@ -1,0 +1,889 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#f4f4f2" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0a0a0a" media="(prefers-color-scheme: dark)">
+<title>Sourced. Hub</title>
+<link rel="icon" href="/media/favicon-32.png">
+<link rel="apple-touch-icon" href="/media/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f4f4f2;--surface:#fff;--surface-2:#fafaf9;--sunken:#efefec;--border:#e6e6e2;--border-strong:#d4d4cf;
+  --ink:#0b0b0b;--ink-2:#55554f;--ink-3:#8b8b84;--accent:#0b0b0b;--on-accent:#fff;
+  --track:#ececE8;--bar:#0b0b0b;--bar-muted:#c9c9c3;
+  --good:#16794a;--good-bg:#e7f5ed;--warn:#9a6500;--warn-bg:#fdf3dc;--bad:#c2312f;--bad-bg:#fdecea;--info:#2c4fbf;--info-bg:#eaeffc;
+  --shadow:0 1px 2px rgba(10,10,10,.04),0 1px 1px rgba(10,10,10,.03);--shadow-lg:0 24px 60px -12px rgba(10,10,10,.22),0 2px 6px rgba(10,10,10,.06);
+  --r-lg:18px;--r:12px;--r-sm:9px;
+  --font:'Geist',ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif;--mono:'Geist Mono',ui-monospace,Menlo,monospace;--display:Anton,'Arial Narrow',Impact,sans-serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0a0a0a;--surface:#141414;--surface-2:#181818;--sunken:#1d1d1d;--border:#242424;--border-strong:#333;
+  --ink:#f3f3f1;--ink-2:#a6a6a0;--ink-3:#73736e;--accent:#f3f3f1;--on-accent:#0a0a0a;--track:#222;--bar:#f3f3f1;--bar-muted:#3a3a3a;
+  --good:#4fd18b;--good-bg:#0f2a1c;--warn:#f0b43c;--warn-bg:#2b2210;--bad:#ff7b72;--bad-bg:#311515;--info:#8aa6ff;--info-bg:#172040;
+  --shadow:0 1px 0 rgba(255,255,255,.02);--shadow-lg:0 24px 60px -12px rgba(0,0,0,.7);color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0a0a0a;--surface:#141414;--surface-2:#181818;--sunken:#1d1d1d;--border:#242424;--border-strong:#333;
+  --ink:#f3f3f1;--ink-2:#a6a6a0;--ink-3:#73736e;--accent:#f3f3f1;--on-accent:#0a0a0a;--track:#222;--bar:#f3f3f1;--bar-muted:#3a3a3a;
+  --good:#4fd18b;--good-bg:#0f2a1c;--warn:#f0b43c;--warn-bg:#2b2210;--bad:#ff7b72;--bad-bg:#311515;--info:#8aa6ff;--info-bg:#172040;
+  --shadow:0 1px 0 rgba(255,255,255,.02);--shadow-lg:0 24px 60px -12px rgba(0,0,0,.7);color-scheme:dark}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{background:var(--bg);color:var(--ink);font:14px/1.5 var(--font);-webkit-font-smoothing:antialiased;letter-spacing:-.005em}
+button,input,select,textarea{font:inherit;color:inherit;letter-spacing:inherit}
+a{color:inherit}
+[hidden]{display:none!important}
+svg.i{width:18px;height:18px;flex:none;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.num{font-variant-numeric:tabular-nums}
+.brand{font-family:var(--display);font-size:26px;line-height:1;letter-spacing:.01em}
+.muted{color:var(--ink-2)}.faint{color:var(--ink-3)}
+:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+
+/* buttons & inputs */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:36px;padding:0 14px;border-radius:10px;border:1px solid var(--border);background:var(--surface);cursor:pointer;font-weight:500;white-space:nowrap;text-decoration:none;box-shadow:var(--shadow);transition:background .15s,border-color .15s}
+.btn:hover{border-color:var(--border-strong);background:var(--surface-2)}
+.btn.primary{background:var(--accent);color:var(--on-accent);border-color:var(--accent)}
+.btn.primary:hover{opacity:.88}
+.btn.ghost{border-color:transparent;background:transparent;box-shadow:none}
+.btn.ghost:hover{background:var(--sunken)}
+.btn.danger{color:var(--bad)}
+.btn.sm{height:30px;padding:0 10px;font-size:13px;border-radius:8px}
+.btn.icon{width:36px;padding:0}
+.btn:disabled{opacity:.45;cursor:default}
+.input,select.input,textarea.input{width:100%;height:38px;padding:0 12px;border-radius:10px;border:1px solid var(--border);background:var(--surface);outline:none;transition:border-color .15s,box-shadow .15s}
+textarea.input{height:auto;padding:10px 12px;resize:vertical;line-height:1.55}
+.input:focus{border-color:var(--ink);box-shadow:0 0 0 3px color-mix(in srgb,var(--ink) 10%,transparent)}
+label.lbl{display:block;font-size:12.5px;font-weight:500;color:var(--ink-2);margin:0 0 6px}
+.field{margin-bottom:14px}
+.seg{display:inline-flex;padding:3px;border-radius:11px;background:var(--sunken);gap:2px}
+.seg button{height:30px;padding:0 12px;border:0;border-radius:8px;background:transparent;cursor:pointer;color:var(--ink-2);font-weight:500;font-size:13px;display:inline-flex;align-items:center;gap:6px}
+.seg button[aria-pressed="true"]{background:var(--surface);color:var(--ink);box-shadow:var(--shadow),0 0 0 1px var(--border)}
+.pill{display:inline-flex;align-items:center;gap:6px;height:22px;padding:0 9px;border-radius:99px;font-size:12px;font-weight:500;background:var(--sunken);color:var(--ink-2);white-space:nowrap}
+.pill::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor;opacity:.9}
+.pill.plain::before{display:none}
+.st-new{background:var(--info-bg);color:var(--info)}.st-quoted{background:var(--warn-bg);color:var(--warn)}
+.st-won,.st-sent{background:var(--good-bg);color:var(--good)}.st-done{background:var(--sunken);color:var(--ink)}
+.st-lost,.st-failed{background:var(--bad-bg);color:var(--bad)}.st-sending{background:var(--warn-bg);color:var(--warn)}
+.badge{min-width:20px;height:20px;padding:0 6px;border-radius:99px;background:var(--accent);color:var(--on-accent);font-size:11.5px;font-weight:600;display:inline-flex;align-items:center;justify-content:center;margin-left:auto}
+
+/* login */
+#login{min-height:100%;display:grid;place-items:center;padding:24px;background:
+  radial-gradient(900px 500px at 50% -10%,color-mix(in srgb,var(--ink) 6%,transparent),transparent 70%),var(--bg)}
+.auth{width:100%;max-width:400px;background:var(--surface);border:1px solid var(--border);border-radius:22px;padding:32px;box-shadow:var(--shadow-lg)}
+.auth .mark{width:52px;height:52px;border-radius:15px;background:var(--accent);color:var(--on-accent);display:grid;place-items:center;font-family:var(--display);font-size:26px;margin-bottom:20px}
+.auth h1{font-size:22px;margin:0 0 4px;font-weight:600;letter-spacing:-.02em}
+.auth p{margin:0 0 22px}
+.auth .err{color:var(--bad);font-size:13px;min-height:20px;margin-top:10px}
+.auth .foot{margin-top:18px;padding-top:16px;border-top:1px solid var(--border);font-size:12.5px;display:flex;justify-content:space-between}
+
+/* shell */
+#app{display:grid;grid-template-columns:260px 1fr;min-height:100%}
+aside.side{position:sticky;top:0;height:100vh;display:flex;flex-direction:column;gap:6px;padding:18px 14px;border-right:1px solid var(--border);background:var(--bg)}
+.side .head{display:flex;align-items:center;gap:10px;padding:4px 8px 14px}
+.side .head .tag{font-size:11.5px;font-weight:600;color:var(--ink-2);background:var(--sunken);border-radius:6px;padding:2px 7px;letter-spacing:.02em}
+.search{display:flex;align-items:center;gap:10px;height:38px;padding:0 10px 0 12px;border-radius:11px;border:1px solid var(--border);background:var(--surface);color:var(--ink-3);cursor:pointer;width:100%;text-align:left;box-shadow:var(--shadow);margin-bottom:10px}
+.search span{flex:1}
+kbd{font:500 11px var(--mono);padding:2px 6px;border-radius:6px;border:1px solid var(--border);background:var(--surface-2);color:var(--ink-2)}
+.navlbl{font-size:11.5px;font-weight:600;color:var(--ink-3);padding:12px 10px 6px;letter-spacing:.03em;text-transform:uppercase}
+nav.main a{display:flex;align-items:center;gap:11px;height:38px;padding:0 10px;border-radius:10px;text-decoration:none;color:var(--ink-2);font-weight:500}
+nav.main a:hover{background:var(--sunken);color:var(--ink)}
+nav.main a[aria-current="page"]{background:var(--surface);color:var(--ink);box-shadow:var(--shadow),0 0 0 1px var(--border)}
+.side .grow{flex:1}
+.goal{border:1px solid var(--border);background:var(--surface);border-radius:14px;padding:14px;margin:8px 0;box-shadow:var(--shadow)}
+.goal .t{display:flex;justify-content:space-between;font-size:12.5px;color:var(--ink-2);margin-bottom:8px}
+.goal b{font-size:20px;font-weight:600;letter-spacing:-.02em;display:block;margin-bottom:10px}
+.meter{height:8px;border-radius:99px;background:var(--track);overflow:hidden}
+.meter i{display:block;height:100%;border-radius:99px;background:var(--bar);transition:width .6s cubic-bezier(.2,.8,.2,1)}
+.acct{display:flex;align-items:center;gap:10px;padding:10px;border-radius:12px}
+.acct .av{width:34px;height:34px;border-radius:10px;background:var(--accent);color:var(--on-accent);display:grid;place-items:center;font-weight:600}
+.acct .who{flex:1;min-width:0;line-height:1.3}.acct .who b{font-weight:600;display:block}.acct .who span{font-size:12px;color:var(--ink-3);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:block}
+
+main.page{min-width:0;padding:22px 32px 48px}
+.topbar{display:flex;align-items:center;gap:12px;margin:0 0 22px;min-height:40px}
+.topbar h1{font-size:24px;font-weight:600;letter-spacing:-.025em;margin:0}
+.topbar .sub{color:var(--ink-2);font-size:13.5px;margin-top:2px}
+.topbar .acts{margin-left:auto;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+#menuBtn{display:none}
+
+/* cards */
+.grid{display:grid;gap:16px}
+.g4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.g3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.g5{grid-template-columns:repeat(5,minmax(0,1fr))}
+.g-main{grid-template-columns:minmax(0,1.65fr) minmax(0,1fr)}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);box-shadow:var(--shadow);min-width:0}
+.card .ch{display:flex;align-items:center;gap:10px;padding:16px 18px 0}
+.card .ch h3{margin:0;font-size:14.5px;font-weight:600;letter-spacing:-.01em}
+.card .ch .r{margin-left:auto;display:flex;gap:8px;align-items:center}
+.card .cb{padding:16px 18px 18px}
+.stat{padding:16px 18px}
+.stat .k{display:flex;align-items:center;gap:8px;color:var(--ink-2);font-size:13px;font-weight:500}
+.stat .k .ico{width:28px;height:28px;border-radius:9px;background:var(--sunken);display:grid;place-items:center;color:var(--ink)}
+.stat .k .ico svg{width:15px;height:15px}
+.stat .v{font-size:28px;font-weight:600;letter-spacing:-.03em;margin:12px 0 4px;line-height:1.1}
+.stat .s{font-size:12.5px;color:var(--ink-3)}
+.stat .meter{margin-top:12px;height:6px}
+.empty{padding:36px 16px;text-align:center;color:var(--ink-3)}
+.skel{background:linear-gradient(90deg,var(--sunken),var(--surface-2),var(--sunken));background-size:200% 100%;animation:sk 1.2s infinite;border-radius:8px;height:14px}
+@keyframes sk{to{background-position:-200% 0}}
+
+/* chart */
+.chart{position:relative}
+.chart svg{display:block;width:100%;height:auto;overflow:visible}
+.chart .grid-l{stroke:var(--border);stroke-width:1}
+.chart .ax{fill:var(--ink-3);font:11px var(--font)}
+.chart .b{fill:var(--bar);transition:opacity .15s}
+.chart .b.dim{opacity:.28}
+.chart .hit{fill:transparent;cursor:default}
+.tip{position:absolute;pointer-events:none;background:var(--ink);color:var(--bg);border-radius:9px;padding:7px 10px;font-size:12px;line-height:1.35;white-space:nowrap;transform:translate(-50%,-100%);margin-top:-8px;box-shadow:var(--shadow-lg);z-index:3}
+.tip b{font-weight:600;font-size:13px}
+.headline{display:flex;align-items:baseline;gap:10px;margin:2px 0 12px}
+.headline b{font-size:26px;font-weight:600;letter-spacing:-.03em}
+
+/* stage bars */
+.stages{display:flex;flex-direction:column;gap:12px}
+.stage .row{display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px}
+.stage .row b{font-weight:600}
+.stage .meter{height:10px}
+.stage.lost .meter i{background:var(--bar-muted)}
+
+/* lists */
+.list{display:flex;flex-direction:column}
+.li{display:flex;align-items:center;gap:12px;padding:11px 18px;border-top:1px solid var(--border);cursor:pointer;text-align:left;background:none;border-left:0;border-right:0;border-bottom:0;width:100%}
+.li:first-child{border-top:0}
+.li:hover{background:var(--surface-2)}
+.av-s{width:34px;height:34px;border-radius:10px;background:var(--sunken);display:grid;place-items:center;font-weight:600;font-size:13px;flex:none;color:var(--ink)}
+.li .m{flex:1;min-width:0;line-height:1.35}
+.li .m b{font-weight:600;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.li .m span{color:var(--ink-3);font-size:12.5px;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.alert{display:flex;gap:12px;padding:12px 18px;border-top:1px solid var(--border)}
+.alert:first-child{border-top:0}
+.alert .dot{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;flex:none}
+.alert .dot svg{width:15px;height:15px}
+.alert b{font-weight:600;display:block}
+.alert span{font-size:12.5px;color:var(--ink-2)}
+
+/* toolbar */
+.toolbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:16px}
+.toolbar .q{position:relative;flex:1;min-width:200px;max-width:340px}
+.toolbar .q svg{position:absolute;left:11px;top:10px;width:16px;height:16px;color:var(--ink-3)}
+.toolbar .q input{padding-left:34px}
+.toolbar .sp{flex:1}
+
+/* board */
+.board{display:grid;grid-template-columns:repeat(5,minmax(210px,1fr));gap:14px;overflow-x:auto;padding-bottom:8px;align-items:start}
+.col{background:var(--sunken);border-radius:var(--r-lg);padding:10px;min-height:200px;transition:background .15s,box-shadow .15s}
+.col.over{box-shadow:inset 0 0 0 2px var(--ink)}
+.col .h{display:flex;align-items:center;gap:8px;padding:4px 6px 10px;font-weight:600}
+.col .h .n{color:var(--ink-3);font-weight:500}
+.col .h .sum{margin-left:auto;font-size:12px;color:var(--ink-2);font-weight:500}
+.kc{background:var(--surface);border:1px solid var(--border);border-radius:13px;padding:12px;margin-bottom:8px;cursor:grab;box-shadow:var(--shadow);transition:transform .12s,box-shadow .12s}
+.kc:hover{box-shadow:var(--shadow),0 0 0 1px var(--border-strong)}
+.kc.dragging{opacity:.4}
+.kc .t{font-weight:600;line-height:1.3;margin-bottom:2px}
+.kc .c{font-size:12.5px;color:var(--ink-2);margin-bottom:8px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.kc .f{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--ink-3);flex-wrap:wrap}
+.kc .f .money{margin-left:auto;color:var(--ink);font-weight:600}
+.tag{display:inline-flex;align-items:center;height:20px;padding:0 7px;border-radius:6px;background:var(--sunken);font-size:11.5px;color:var(--ink-2);font-weight:500}
+
+/* table */
+.tbl-wrap{overflow-x:auto}
+table.tbl{width:100%;border-collapse:collapse;font-size:13.5px}
+.tbl th{text-align:left;font-weight:500;color:var(--ink-3);font-size:12.5px;padding:11px 14px;border-bottom:1px solid var(--border);white-space:nowrap;background:var(--surface-2)}
+.tbl th:first-child{border-top-left-radius:var(--r-lg)}.tbl th:last-child{border-top-right-radius:var(--r-lg)}
+.tbl td{padding:11px 14px;border-bottom:1px solid var(--border);vertical-align:middle}
+.tbl tr:last-child td{border-bottom:0}
+.tbl tbody tr{cursor:pointer}
+.tbl tbody tr:hover td{background:var(--surface-2)}
+.tbl .who{display:flex;align-items:center;gap:10px;min-width:180px}
+.tbl .who b{font-weight:600;display:block;line-height:1.3}
+.tbl .who span{font-size:12px;color:var(--ink-3)}
+.tbl .clip{max-width:340px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tbl .r{text-align:right}
+.pager{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border-top:1px solid var(--border);font-size:13px;color:var(--ink-2)}
+
+/* drawer */
+.scrim{position:fixed;inset:0;background:rgba(10,10,10,.32);backdrop-filter:blur(2px);z-index:40;animation:fade .2s}
+.drawer{position:fixed;top:10px;right:10px;bottom:10px;width:min(520px,calc(100vw - 20px));background:var(--surface);border:1px solid var(--border);border-radius:20px;box-shadow:var(--shadow-lg);z-index:41;display:flex;flex-direction:column;animation:slide .25s cubic-bezier(.2,.8,.2,1)}
+@keyframes fade{from{opacity:0}}@keyframes slide{from{transform:translateX(30px);opacity:0}}
+.drawer .dh{display:flex;align-items:flex-start;gap:12px;padding:18px 18px 14px;border-bottom:1px solid var(--border)}
+.drawer .dh h2{margin:0;font-size:18px;font-weight:600;letter-spacing:-.02em;line-height:1.25}
+.drawer .dh .sub{font-size:12.5px;color:var(--ink-3);margin-top:3px}
+.drawer .db{flex:1;overflow:auto;padding:18px}
+.drawer .df{padding:14px 18px;border-top:1px solid var(--border);display:flex;gap:8px;flex-wrap:wrap}
+.kv{display:grid;grid-template-columns:110px 1fr;gap:9px 14px;font-size:13.5px;margin:0 0 18px}
+.kv dt{color:var(--ink-3)}.kv dd{margin:0;white-space:pre-wrap;word-break:break-word}
+.box{border:1px solid var(--border);border-radius:14px;padding:14px;margin-bottom:16px;background:var(--surface-2)}
+.box h4{margin:0 0 10px;font-size:13px;font-weight:600}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.seg.wrap{flex-wrap:wrap}
+details.tx summary{cursor:pointer;font-weight:500;color:var(--ink-2);font-size:13px}
+details.tx pre{white-space:pre-wrap;font:12.5px/1.55 var(--mono);background:var(--sunken);padding:12px;border-radius:10px;max-height:260px;overflow:auto}
+
+/* tabs inside page */
+.ptabs{display:flex;gap:4px;border-bottom:1px solid var(--border);margin-bottom:18px;overflow-x:auto}
+.ptabs button{height:40px;padding:0 4px;margin-right:16px;border:0;background:none;cursor:pointer;color:var(--ink-2);font-weight:500;border-bottom:2px solid transparent;margin-bottom:-1px;white-space:nowrap;display:inline-flex;gap:8px;align-items:center}
+.ptabs button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--ink)}
+.ptabs .cnt{font-size:11.5px;color:var(--ink-3);background:var(--sunken);border-radius:99px;padding:1px 7px}
+
+.tpl{display:flex;flex-direction:column}
+.tpl .cb{flex:1;display:flex;flex-direction:column}
+.tpl .sj{font-weight:600;margin-bottom:8px;line-height:1.35}
+.tpl .bd{font-size:12.5px;color:var(--ink-2);white-space:pre-wrap;max-height:150px;overflow:hidden;-webkit-mask-image:linear-gradient(#000 60%,transparent);mask-image:linear-gradient(#000 60%,transparent);flex:1}
+.compose{max-width:760px}
+.note{display:flex;gap:10px;align-items:flex-start;padding:12px 14px;border-radius:12px;background:var(--surface-2);border:1px solid var(--border);color:var(--ink-2);font-size:13px;margin-bottom:16px}
+.note svg{width:16px;height:16px;margin-top:2px;flex:none}
+
+/* website */
+.frame-wrap{border:1px solid var(--border);border-radius:var(--r-lg);overflow:hidden;background:var(--surface);box-shadow:var(--shadow);height:calc(100vh - 210px);min-height:520px}
+.frame-wrap iframe{display:block;width:100%;height:100%;border:0;background:#000}
+.pages{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
+.pages a{display:flex;align-items:center;gap:10px;padding:12px 14px;border:1px solid var(--border);border-radius:12px;text-decoration:none;background:var(--surface);font-weight:500;box-shadow:var(--shadow)}
+.pages a:hover{border-color:var(--border-strong)}
+.pages a span{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pages a svg{width:15px;height:15px;color:var(--ink-3)}
+
+/* palette */
+.pal{position:fixed;left:50%;top:12vh;transform:translateX(-50%);width:min(620px,calc(100vw - 24px));background:var(--surface);border:1px solid var(--border);border-radius:18px;box-shadow:var(--shadow-lg);z-index:61;overflow:hidden;animation:fade .15s}
+.pal input{width:100%;height:54px;border:0;border-bottom:1px solid var(--border);padding:0 18px;font-size:15px;outline:none;background:transparent}
+.pal .res{max-height:52vh;overflow:auto;padding:6px}
+.pal .grp{font-size:11.5px;font-weight:600;color:var(--ink-3);padding:10px 12px 4px;text-transform:uppercase;letter-spacing:.03em}
+.pal .it{display:flex;align-items:center;gap:12px;padding:9px 12px;border-radius:10px;cursor:pointer}
+.pal .it[aria-selected="true"]{background:var(--sunken)}
+.pal .it span{color:var(--ink-3);font-size:12.5px;margin-left:auto}
+#palScrim{z-index:60}
+
+#toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:11px 16px;border-radius:12px;font-weight:500;box-shadow:var(--shadow-lg);z-index:80;max-width:calc(100vw - 32px);animation:fade .2s}
+#toast.bad{background:var(--bad);color:#fff}
+
+@media (max-width:1180px){.g4{grid-template-columns:repeat(2,minmax(0,1fr))}.g5{grid-template-columns:repeat(3,minmax(0,1fr))}.g-main{grid-template-columns:1fr}.g3{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:860px){
+  #app{grid-template-columns:1fr}
+  aside.side{position:fixed;left:0;top:0;bottom:0;width:280px;z-index:50;transform:translateX(-110%);transition:transform .25s;background:var(--bg);visibility:hidden}
+  body.nav-open aside.side{transform:none;visibility:visible;box-shadow:var(--shadow-lg)}
+  .topbar{flex-wrap:wrap;align-items:flex-start}
+  .topbar>div:nth-child(2){flex:1;min-width:0}
+  .topbar .acts{margin-left:0;width:100%}
+  .topbar .acts .btn{flex:1}
+  body.nav-open #navScrim{display:block}
+  #menuBtn{display:inline-flex}
+  main.page{padding:14px 16px 40px}
+  .topbar h1{font-size:20px}
+  .g5{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .g3{grid-template-columns:1fr}
+  .stat .v{font-size:24px}
+  .frame-wrap{height:calc(100vh - 190px)}
+  .kv{grid-template-columns:96px 1fr}
+}
+@media (max-width:520px){.g4{grid-template-columns:1fr 1fr}.stat{padding:14px}.toolbar .q{max-width:none;min-width:100%}.two{grid-template-columns:1fr}}
+#navScrim{display:none;position:fixed;inset:0;background:rgba(0,0,0,.3);z-index:49}
+@media (forced-colors:active){.meter i,.chart .b{background:CanvasText;fill:CanvasText}}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V20h14V9.5"/><path d="M10 20v-6h4v6"/></symbol>
+  <symbol id="i-leads" viewBox="0 0 24 24"><rect x="3" y="4" width="5" height="16" rx="1.5"/><rect x="10" y="4" width="5" height="11" rx="1.5"/><rect x="17" y="4" width="4" height="7" rx="1.5"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="m4 7 8 6 8-6"/></symbol>
+  <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></symbol>
+  <symbol id="i-hand" viewBox="0 0 24 24"><path d="M16 11h1a3 3 0 0 1 0 6h-1"/><circle cx="9" cy="8" r="3.5"/><path d="M3 20a6 6 0 0 1 12 0"/><path d="M17 4a3 3 0 0 1 0 6"/></symbol>
+  <symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></symbol>
+  <symbol id="i-out" viewBox="0 0 24 24"><path d="M15 4h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-3"/><path d="M10 17l-5-5 5-5M5 12h11"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 11a8 8 0 0 0-14.6-4.5L4 8"/><path d="M4 3v5h5"/><path d="M4 13a8 8 0 0 0 14.6 4.5L20 16"/><path d="M20 21v-5h-5"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></symbol>
+  <symbol id="i-ext" viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9"/><path d="M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></symbol>
+  <symbol id="i-send" viewBox="0 0 24 24"><path d="M21 3 10 14"/><path d="m21 3-7 18-4-7-7-4z"/></symbol>
+  <symbol id="i-pound" viewBox="0 0 24 24"><path d="M17 20H7c2-1.5 2.5-3.5 2.5-6V9a4 4 0 0 1 7.5-2"/><path d="M6 13h8"/></symbol>
+  <symbol id="i-file" viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 3 2 20h20z"/><path d="M12 10v4M12 17h.01"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 4.5 4.5L19 7"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></symbol>
+  <symbol id="i-trash" viewBox="0 0 24 24"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></symbol>
+  <symbol id="i-board" viewBox="0 0 24 24"><rect x="3" y="4" width="7" height="16" rx="2"/><rect x="14" y="4" width="7" height="10" rx="2"/></symbol>
+  <symbol id="i-table" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M3 15h18M9 10v10"/></symbol>
+</svg>
+
+<!-- LOGIN -->
+<section id="login" hidden>
+  <form class="auth" id="loginForm" autocomplete="on">
+    <div class="mark">S.</div>
+    <h1>Welcome back</h1>
+    <p class="muted">Sign in to the Sourced. hub.</p>
+    <div class="field"><label class="lbl" for="pw">Password</label><input class="input" id="pw" type="password" autocomplete="current-password" required></div>
+    <button class="btn primary" style="width:100%;height:42px" id="loginBtn">Sign in</button>
+    <div class="err" id="loginErr" role="alert"></div>
+    <div class="foot faint"><span>hub.wearesourced.co.uk</span><span>Private</span></div>
+  </form>
+</section>
+
+<!-- APP -->
+<div id="app" hidden>
+  <aside class="side" id="side">
+    <div class="head"><span class="brand">Sourced.</span><span class="tag">HUB</span></div>
+    <button class="search" id="openPal"><svg class="i"><use href="#i-search"/></svg><span>Search</span><kbd>⌘K</kbd></button>
+    <nav class="main" aria-label="Main">
+      <a href="#overview" data-r="overview"><svg class="i"><use href="#i-home"/></svg>Overview</a>
+      <a href="#leads" data-r="leads"><svg class="i"><use href="#i-leads"/></svg>Leads<span class="badge" id="navNew" hidden></span></a>
+      <a href="#outreach" data-r="outreach"><svg class="i"><use href="#i-mail"/></svg>Outreach &amp; email</a>
+      <a href="#website" data-r="website"><svg class="i"><use href="#i-globe"/></svg>Website</a>
+      <a href="#partners" data-r="partners"><svg class="i"><use href="#i-hand"/></svg>Partners<span class="badge" id="navPartners" hidden></span></a>
+    </nav>
+    <div class="grow"></div>
+    <div class="goal" id="sideGoal">
+      <div class="t"><span>This week</span><span id="sgPct">0%</span></div>
+      <b class="num" id="sgVal">£0 <span class="faint" style="font-size:13px;font-weight:500">/ £1,000</span></b>
+      <div class="meter"><i id="sgBar" style="width:0"></i></div>
+    </div>
+    <nav class="main" aria-label="Settings"><a href="#settings" data-r="settings"><svg class="i"><use href="#i-gear"/></svg>Settings</a></nav>
+    <div class="acct">
+      <div class="av">B</div>
+      <div class="who"><b>Benji</b><span>hello@wearesourced.co.uk</span></div>
+      <button class="btn ghost icon sm" id="themeBtn" title="Switch theme" aria-label="Switch theme"><svg class="i"><use href="#i-moon"/></svg></button>
+    </div>
+  </aside>
+  <div id="navScrim"></div>
+
+  <main class="page">
+    <div class="topbar">
+      <button class="btn icon" id="menuBtn" aria-label="Menu"><svg class="i"><use href="#i-menu"/></svg></button>
+      <div><h1 id="pgTitle">Overview</h1><div class="sub" id="pgSub"></div></div>
+      <div class="acts" id="pgActs"></div>
+    </div>
+    <div id="view"></div>
+  </main>
+</div>
+
+<div id="toast" role="status" hidden></div>
+
+<script>
+'use strict';
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const ico = (n, cls = 'i') => `<svg class="${cls}"><use href="#i-${n}"/></svg>`;
+const gbp = n => '£' + Math.round(n || 0).toLocaleString('en-GB');
+const WEEK_TARGET = 1000, MIN_COMMISSION = 300;
+const ST = { new: 'New', quoted: 'Quoted', won: 'Won', done: 'Job done', lost: 'Lost' };
+const ORDER = ['new', 'quoted', 'won', 'done', 'lost'];
+const S = { enq: [], out: null, leadView: localStorage.getItem('hub.leadView') || 'board', leadQ: '', leadSrc: 'all', outTab: 'sent', outQ: '', webTab: 'edit', sentPage: 0, loaded: false };
+const isPartner = e => /^partner/i.test(e.source || '');
+const leads = () => S.enq.filter(e => !isPartner(e));
+const partners = () => S.enq.filter(isPartner);
+const key = e => (e.at || '') + '|' + (e.email || e.phone || e.name || '');
+
+function toast(msg, bad) { const t = $('#toast'); t.textContent = msg; t.className = bad ? 'bad' : ''; t.hidden = false; clearTimeout(toast.t); toast.t = setTimeout(() => t.hidden = true, bad ? 6000 : 2800); }
+async function api(path, opts = {}) {
+  const r = await fetch(path, { credentials: 'same-origin', headers: { 'Content-Type': 'application/json' }, ...opts, body: opts.body ? JSON.stringify(opts.body) : undefined });
+  let d = {}; try { d = await r.json(); } catch (_) {}
+  if (r.status === 401) { showLogin(); throw new Error(d.error || 'Please sign in again.'); }
+  if (!r.ok) throw new Error(d.error || 'Something went wrong (' + r.status + ')');
+  return d;
+}
+function ago(t) {
+  const s = (Date.now() - new Date(t)) / 1000;
+  if (s < 60) return 'just now'; if (s < 3600) return Math.floor(s / 60) + 'm ago'; if (s < 86400) return Math.floor(s / 3600) + 'h ago';
+  if (s < 86400 * 7) return Math.floor(s / 86400) + 'd ago';
+  return new Date(t).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+}
+const fmt = t => { try { return new Date(t).toLocaleString('en-GB', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }); } catch (_) { return t; } };
+const initials = s => (String(s || '?').trim().split(/\s+/).slice(0, 2).map(w => w[0]).join('') || '?').toUpperCase();
+const nameOf = e => e.name || e.company || e.email || e.phone || 'Website visitor';
+const needOf = e => e.categories || e.items || e.summary || (e.details || '').slice(0, 120) || e.offer || '';
+function weekStart() { const d = new Date(); d.setHours(0, 0, 0, 0); d.setDate(d.getDate() - (d.getDay() + 6) % 7); return d; }
+
+/* ---------------- theme ---------------- */
+function applyTheme(t) {
+  if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t; else delete document.documentElement.dataset.theme;
+  const dark = t === 'dark' || (t !== 'light' && matchMedia('(prefers-color-scheme: dark)').matches);
+  $('#themeBtn').innerHTML = ico(dark ? 'sun' : 'moon');
+}
+let theme = (() => { try { return localStorage.getItem('hub.theme') || 'system'; } catch (_) { return 'system'; } })();
+applyTheme(theme);
+$('#themeBtn').addEventListener('click', () => {
+  const dark = document.documentElement.dataset.theme === 'dark' || (!document.documentElement.dataset.theme && matchMedia('(prefers-color-scheme: dark)').matches);
+  theme = dark ? 'light' : 'dark'; try { localStorage.setItem('hub.theme', theme); } catch (_) {} applyTheme(theme);
+});
+
+/* ---------------- auth ---------------- */
+function showLogin() { $('#app').hidden = true; $('#login').hidden = false; setTimeout(() => $('#pw').focus(), 40); }
+$('#loginForm').addEventListener('submit', async e => {
+  e.preventDefault(); $('#loginErr').textContent = ''; $('#loginBtn').disabled = true;
+  try { await api('/api/hub?task=login', { method: 'POST', body: { password: $('#pw').value } }); $('#pw').value = ''; start(); }
+  catch (er) { $('#loginErr').textContent = er.message; }
+  $('#loginBtn').disabled = false;
+});
+async function logout() { await api('/api/hub?task=login', { method: 'DELETE' }).catch(() => {}); location.hash = ''; location.reload(); }
+
+async function boot() {
+  try { const s = await api('/api/hub?task=session'); if (!s.loggedIn) return showLogin(); start(); }
+  catch (e) { showLogin(); $('#loginErr').textContent = e.message; }
+}
+async function start() {
+  $('#login').hidden = true; $('#app').hidden = false;
+  route();
+  await Promise.all([loadEnq(), loadOut()]);
+  S.loaded = true; route();
+  setInterval(() => { if (!document.hidden) loadEnq(true).then(() => { if (['overview', 'leads', 'partners'].includes(cur())) render(); }); }, 60000);
+}
+async function loadEnq(quiet) {
+  try { S.enq = (await api('/api/enquiry')).enquiries || []; S.enqErr = null; }
+  catch (e) { S.enqErr = e.message; if (!quiet) toast(e.message, true); }
+  sideStats();
+}
+async function loadOut(quiet) {
+  try { S.out = await api('/api/hub?task=outreach'); S.outErr = null; }
+  catch (e) { S.outErr = e.message; if (!quiet) toast(e.message, true); }
+}
+
+/* ---------------- metrics ---------------- */
+function metrics() {
+  const ws = weekStart(), inW = t => t && new Date(t) >= ws;
+  const L = leads();
+  const wonW = L.filter(e => (e.status === 'won' || e.status === 'done') && inW(e.wonAt));
+  const comm = wonW.reduce((a, e) => a + (e.commission || 0), 0);
+  const open = L.filter(e => e.status === 'quoted');
+  const d7 = Date.now() - 7 * 864e5;
+  return {
+    comm, wonW, pct: Math.min(100, Math.round(comm / WEEK_TARGET * 100)),
+    open, openComm: open.reduce((a, e) => a + (e.commission || 0), 0),
+    new7: L.filter(e => new Date(e.at) >= d7).length,
+    newCount: L.filter(e => (e.status || 'new') === 'new').length,
+    stale: L.filter(e => (e.status || 'new') === 'new' && Date.now() - new Date(e.at) > 864e5),
+    quotedW: L.filter(e => inW(e.quotedAt)).length,
+    needJobs: Math.max(0, Math.ceil(WEEK_TARGET / MIN_COMMISSION) - wonW.length)
+  };
+}
+function sideStats() {
+  const m = metrics();
+  $('#sgVal').innerHTML = `${gbp(m.comm)} <span class="faint" style="font-size:13px;font-weight:500">/ ${gbp(WEEK_TARGET)}</span>`;
+  $('#sgPct').textContent = m.pct + '%'; $('#sgBar').style.width = m.pct + '%';
+  $('#navNew').hidden = !m.newCount; $('#navNew').textContent = m.newCount;
+  const p = partners().filter(e => Date.now() - new Date(e.at) < 7 * 864e5).length;
+  $('#navPartners').hidden = !p; $('#navPartners').textContent = p;
+}
+
+/* ---------------- router ---------------- */
+const ROUTES = {
+  overview: { t: 'Overview', fn: renderOverview },
+  leads: { t: 'Leads', fn: renderLeads },
+  outreach: { t: 'Outreach & email', fn: renderOutreach },
+  website: { t: 'Website', fn: renderWebsite },
+  partners: { t: 'Partners', fn: renderPartners },
+  settings: { t: 'Settings', fn: renderSettings }
+};
+const cur = () => { const h = location.hash.slice(1).split('/')[0]; return ROUTES[h] ? h : 'overview'; };
+function route() {
+  const r = cur();
+  document.querySelectorAll('nav.main a').forEach(a => a.dataset.r === r ? a.setAttribute('aria-current', 'page') : a.removeAttribute('aria-current'));
+  document.body.classList.remove('nav-open');
+  $('#pgTitle').textContent = ROUTES[r].t; document.title = ROUTES[r].t + ' · Sourced. Hub';
+  render();
+}
+function render() { const r = cur(); $('#pgSub').textContent = ''; $('#pgActs').innerHTML = ''; ROUTES[r].fn(); }
+addEventListener('hashchange', route);
+$('#menuBtn').addEventListener('click', () => document.body.classList.add('nav-open'));
+$('#navScrim').addEventListener('click', () => document.body.classList.remove('nav-open'));
+function acts(html) { $('#pgActs').innerHTML = html; }
+const skel = n => Array.from({ length: n }, () => '<div class="skel" style="margin:12px 0"></div>').join('');
+
+/* ---------------- overview ---------------- */
+function greet() { const h = new Date().getHours(); return h < 12 ? 'Good morning' : h < 18 ? 'Good afternoon' : 'Good evening'; }
+function renderOverview() {
+  $('#pgTitle').textContent = greet() + ', Benji';
+  $('#pgSub').textContent = new Date().toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long' }) + ' · here\'s where Sourced. stands';
+  acts(`<button class="btn" id="rf">${ico('refresh')}Refresh</button><a class="btn primary" href="#outreach/compose">${ico('send')}New email</a>`);
+  $('#rf').onclick = async () => { await Promise.all([loadEnq(), loadOut()]); render(); toast('Up to date'); };
+  if (!S.loaded) { $('#view').innerHTML = `<div class="grid g4">${Array(4).fill('<div class="card stat">' + skel(3) + '</div>').join('')}</div>`; return; }
+  const m = metrics(), o = S.out?.stats;
+  const L = leads();
+  const cnt = s => L.filter(e => (e.status || 'new') === s).length;
+  const max = Math.max(1, ...ORDER.map(cnt));
+  const recent = [...L].sort((a, b) => (b.at || '').localeCompare(a.at || '')).slice(0, 6);
+  const alerts = [];
+  m.stale.forEach(e => alerts.push({ k: 'warn', i: 'clock', t: `${nameOf(e)} is waiting for a quote`, s: `Brief came in ${ago(e.at)}. Speed wins jobs.`, e }));
+  m.open.filter(e => e.quotedAt && Date.now() - new Date(e.quotedAt) > 4 * 864e5).forEach(e => alerts.push({ k: 'info', i: 'phone', t: `Call ${nameOf(e)} about their quote`, s: `Quoted ${ago(e.quotedAt)}${e.commission ? ' · ' + gbp(e.commission) + ' commission' : ''}`, e }));
+  m.wonW.filter(e => e.commission != null && e.commission < MIN_COMMISSION).forEach(e => alerts.push({ k: 'bad', i: 'pound', t: `${nameOf(e)} is under the £300 minimum`, s: `${gbp(e.commission)} commission`, e }));
+  if (o && o.failedRecent) alerts.push({ k: 'bad', i: 'alert', t: `${o.failedRecent} outreach email${o.failedRecent > 1 ? 's' : ''} failed recently`, s: 'Open the sent log to see why.', href: '#outreach' });
+  const tone = { warn: 'st-quoted', info: 'st-new', bad: 'st-lost', good: 'st-won' };
+
+  $('#view').innerHTML = `
+  <div class="grid g4">
+    <div class="card stat"><div class="k"><span class="ico">${ico('pound')}</span>Commission this week</div>
+      <div class="v num">${gbp(m.comm)}</div><div class="s">${m.pct}% of ${gbp(WEEK_TARGET)} · ${m.wonW.length} job${m.wonW.length === 1 ? '' : 's'} won</div>
+      <div class="meter"><i style="width:${m.pct}%"></i></div></div>
+    <div class="card stat"><div class="k"><span class="ico">${ico('file')}</span>Open quotes</div>
+      <div class="v num">${m.open.length}</div><div class="s">${gbp(m.openComm)} commission waiting to close</div></div>
+    <div class="card stat"><div class="k"><span class="ico">${ico('leads')}</span>New briefs</div>
+      <div class="v num">${m.new7}</div><div class="s">Last 7 days · ${m.newCount} not yet quoted</div></div>
+    <div class="card stat"><div class="k"><span class="ico">${ico('mail')}</span>Outreach sent</div>
+      <div class="v num">${o ? o.sent7.toLocaleString('en-GB') : '–'}</div><div class="s">${o ? `Last 7 days · ${o.waiting.toLocaleString('en-GB')} queued` : (S.outErr || 'Loading…')}</div></div>
+  </div>
+  <div class="grid g-main" style="margin-top:16px">
+    <div class="card"><div class="ch"><h3>Outreach, last 14 days</h3><div class="r faint" style="font-size:12.5px">New emails per day</div></div>
+      <div class="cb"><div class="headline"><b class="num">${o ? S.out.series.reduce((a, d) => a + d.sent, 0).toLocaleString('en-GB') : '–'}</b><span class="muted">first-touch emails · ${o ? S.out.series.reduce((a, d) => a + d.followups, 0) : 0} follow-ups</span></div>
+      <div class="chart" id="outChart"></div></div></div>
+    <div class="card"><div class="ch"><h3>Pipeline</h3><div class="r"><a class="btn sm" href="#leads">Open board</a></div></div>
+      <div class="cb"><div class="headline"><b class="num">${L.length}</b><span class="muted">briefs in total</span></div>
+      <div class="stages">${ORDER.map(s => `<div class="stage ${s}"><div class="row"><span>${ST[s]}</span><b class="num">${cnt(s)}</b></div><div class="meter"><i style="width:${cnt(s) / max * 100}%"></i></div></div>`).join('')}</div></div></div>
+  </div>
+  <div class="grid g-main" style="margin-top:16px">
+    <div class="card"><div class="ch"><h3>Latest briefs</h3><div class="r"><a class="btn sm" href="#leads">View all</a></div></div>
+      <div class="cb" style="padding:8px 0 4px"><div class="list">${recent.length ? recent.map(e => `
+        <button class="li" data-k="${esc(key(e))}"><span class="av-s">${esc(initials(nameOf(e)))}</span><span class="m"><b>${esc(nameOf(e))}${e.company && e.name ? ' <span class="faint" style="display:inline;font-weight:400">· ' + esc(e.company) + '</span>' : ''}</b><span>${esc(needOf(e)) || esc(e.source)}</span></span>
+        <span class="pill st-${esc(e.status || 'new')}">${ST[e.status || 'new']}</span><span class="faint num" style="font-size:12px;width:62px;text-align:right">${ago(e.at)}</span></button>`).join('') : '<div class="empty">No briefs yet. They land here from the website form and Amelia.</div>'}</div></div></div>
+    <div class="card"><div class="ch"><h3>Needs attention</h3><div class="r faint" style="font-size:12.5px">${alerts.length || ''}</div></div>
+      <div class="cb" style="padding:8px 0 4px">${alerts.length ? alerts.slice(0, 7).map((a, i) => `
+        <div class="alert" ${a.e ? `data-k="${esc(key(a.e))}" style="cursor:pointer"` : a.href ? `data-href="${a.href}" style="cursor:pointer"` : ''}><span class="dot ${tone[a.k]}">${ico(a.i)}</span><div><b>${esc(a.t)}</b><span>${esc(a.s)}</span></div></div>`).join('')
+        : `<div class="alert"><span class="dot st-won">${ico('check')}</span><div><b>All clear</b><span>Every brief is quoted and nothing's overdue.</span></div></div>`}</div></div>
+  </div>`;
+  const drawOut = () => S.out && $('#outChart') && barChart($('#outChart'), S.out.series.map(d => ({ label: d.day, v: d.sent, f: d.followups })));
+  drawOut(); clearTimeout(renderOverview.t); onresize = () => { clearTimeout(renderOverview.t); renderOverview.t = setTimeout(drawOut, 120); };
+  $('#view').querySelectorAll('[data-k]').forEach(el => el.addEventListener('click', () => openLead(el.dataset.k)));
+  $('#view').querySelectorAll('[data-href]').forEach(el => el.addEventListener('click', () => location.hash = el.dataset.href));
+}
+
+function barChart(el, data) {
+  const W = Math.max(280, Math.round(el.clientWidth || 640)), H = 220, pl = 34, pr = 6, pt = 10, pb = 26;
+  const max = Math.max(4, ...data.map(d => d.v));
+  const nice = (() => { const st = Math.pow(10, Math.floor(Math.log10(max))); const m = max / st; return (m <= 2 ? 2 : m <= 5 ? 5 : 10) * st; })();
+  const iw = W - pl - pr, ih = H - pt - pb, n = data.length, slot = iw / n, bw = Math.min(26, slot * .56);
+  const y = v => pt + ih - v / nice * ih;
+  const lab = d => new Date(d + 'T12:00:00').toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+  let s = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Outreach emails sent per day, last 14 days">`;
+  for (let i = 0; i <= 4; i++) { const v = nice / 4 * i, yy = y(v); s += `<line class="grid-l" x1="${pl}" x2="${W - pr}" y1="${yy}" y2="${yy}"/><text class="ax" x="${pl - 8}" y="${yy + 4}" text-anchor="end">${Math.round(v)}</text>`; }
+  data.forEach((d, i) => {
+    const x = pl + slot * i + (slot - bw) / 2, h = Math.max(d.v ? 2 : 0, ih - (y(d.v) - pt)), top = pt + ih - h, r = Math.min(4, bw / 2, h);
+    if (h > 0) s += `<path class="b" data-i="${i}" d="M${x},${pt + ih} V${top + r} Q${x},${top} ${x + r},${top} H${x + bw - r} Q${x + bw},${top} ${x + bw},${top + r} V${pt + ih} Z"/>`;
+    if ((n - 1 - i) % (W < 480 ? 3 : 2) === 0) s += `<text class="ax" x="${x + bw / 2}" y="${H - 6}" text-anchor="middle">${lab(d.label)}</text>`;
+    s += `<rect class="hit" data-i="${i}" x="${pl + slot * i}" y="${pt}" width="${slot}" height="${ih}"/>`;
+  });
+  el.innerHTML = s + '</svg><div class="tip" hidden></div>';
+  const tip = el.querySelector('.tip'), svg = el.querySelector('svg');
+  el.querySelectorAll('.hit').forEach(h => {
+    const show = () => {
+      const i = +h.dataset.i, d = data[i], box = svg.getBoundingClientRect(), sx = box.width / W, sy = box.height / H;
+      el.querySelectorAll('.b').forEach(b => b.classList.toggle('dim', b.dataset.i != i));
+      tip.hidden = false; tip.innerHTML = `<div>${new Date(d.label + 'T12:00:00').toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' })}</div><b>${d.v} new</b> · ${d.f} follow-up${d.f === 1 ? '' : 's'}`;
+      tip.style.left = ((pl + slot * i + slot / 2) * sx) + 'px'; tip.style.top = (y(d.v) * sy) + 'px';
+    };
+    h.addEventListener('mouseenter', show); h.addEventListener('touchstart', show, { passive: true });
+  });
+  el.addEventListener('mouseleave', () => { tip.hidden = true; el.querySelectorAll('.b').forEach(b => b.classList.remove('dim')); });
+}
+
+/* ---------------- leads ---------------- */
+function filteredLeads(list = leads()) {
+  const q = S.leadQ.trim().toLowerCase();
+  return list.filter(e => {
+    if (S.leadSrc === 'amelia' && !/amelia/i.test(e.source || '')) return false;
+    if (S.leadSrc === 'form' && /amelia/i.test(e.source || '')) return false;
+    if (!q) return true;
+    return ['name', 'company', 'email', 'phone', 'categories', 'items', 'details', 'summary', 'location', 'note'].some(k => String(e[k] || '').toLowerCase().includes(q));
+  }).sort((a, b) => (b.at || '').localeCompare(a.at || ''));
+}
+function renderLeads() {
+  $('#pgSub').textContent = 'Every brief from the website form and Amelia. Drag a card to move it through the pipeline.';
+  acts(`<button class="btn" id="rf">${ico('refresh')}Refresh</button>`);
+  $('#rf').onclick = async () => { await loadEnq(); render(); };
+  $('#view').innerHTML = `
+    <div class="toolbar">
+      <div class="q">${ico('search')}<input class="input" id="lq" placeholder="Search name, company, need…" value="${esc(S.leadQ)}"></div>
+      <div class="seg" role="group" aria-label="Source">${[['all', 'All'], ['form', 'Website form'], ['amelia', 'Amelia']].map(([k, l]) => `<button data-src="${k}" aria-pressed="${S.leadSrc === k}">${l}</button>`).join('')}</div>
+      <span class="sp"></span>
+      <div class="seg" role="group" aria-label="View"><button data-v="board" aria-pressed="${S.leadView === 'board'}">${ico('board')}Board</button><button data-v="table" aria-pressed="${S.leadView === 'table'}">${ico('table')}Table</button></div>
+    </div><div id="leadBody"></div>`;
+  $('#lq').addEventListener('input', e => { S.leadQ = e.target.value; leadBody(); });
+  $('#view').querySelectorAll('[data-src]').forEach(b => b.onclick = () => { S.leadSrc = b.dataset.src; renderLeads(); });
+  $('#view').querySelectorAll('[data-v]').forEach(b => b.onclick = () => { S.leadView = b.dataset.v; try { localStorage.setItem('hub.leadView', S.leadView); } catch (_) {} renderLeads(); });
+  leadBody();
+}
+function leadBody() {
+  const el = $('#leadBody'); if (!el) return;
+  if (!S.loaded) { el.innerHTML = `<div class="card cb">${skel(6)}</div>`; return; }
+  if (S.enqErr && !S.enq.length) { el.innerHTML = `<div class="card empty">${esc(S.enqErr)}</div>`; return; }
+  const L = filteredLeads();
+  if (S.leadView === 'table') { el.innerHTML = leadTable(L); bindRows(el); return; }
+  el.innerHTML = `<div class="board">${ORDER.map(s => {
+    const items = L.filter(e => (e.status || 'new') === s);
+    const sum = items.reduce((a, e) => a + (e.commission || 0), 0);
+    return `<div class="col" data-col="${s}"><div class="h"><span class="pill st-${s}">${ST[s]}</span><span class="n">${items.length}</span>${sum ? `<span class="sum num">${gbp(sum)}</span>` : ''}</div>
+      ${items.map(e => `<div class="kc" draggable="true" data-k="${esc(key(e))}" tabindex="0">
+        <div class="t">${esc(nameOf(e))}</div>
+        <div class="c">${esc(needOf(e)) || '<span class="faint">No details</span>'}</div>
+        <div class="f">${e.date ? `<span class="tag">${esc(String(e.date).slice(0, 24))}</span>` : ''}<span>${/amelia/i.test(e.source || '') ? 'Amelia' : 'Form'} · ${ago(e.at)}</span>${e.commission ? `<span class="money num">${gbp(e.commission)}</span>` : e.value ? `<span class="money num">${gbp(e.value)} job</span>` : ''}</div>
+      </div>`).join('') || '<div class="faint" style="font-size:12.5px;padding:8px 6px">Nothing here</div>'}</div>`;
+  }).join('')}</div>`;
+  el.querySelectorAll('.kc').forEach(c => {
+    c.addEventListener('click', () => openLead(c.dataset.k));
+    c.addEventListener('keydown', ev => { if (ev.key === 'Enter') openLead(c.dataset.k); });
+    c.addEventListener('dragstart', ev => { ev.dataTransfer.setData('text/plain', c.dataset.k); c.classList.add('dragging'); });
+    c.addEventListener('dragend', () => c.classList.remove('dragging'));
+  });
+  el.querySelectorAll('.col').forEach(col => {
+    col.addEventListener('dragover', ev => { ev.preventDefault(); col.classList.add('over'); });
+    col.addEventListener('dragleave', () => col.classList.remove('over'));
+    col.addEventListener('drop', async ev => {
+      ev.preventDefault(); col.classList.remove('over');
+      const k = ev.dataTransfer.getData('text/plain'), e = S.enq.find(x => key(x) === k);
+      if (!e || (e.status || 'new') === col.dataset.col) return;
+      await patchLead(e, { status: col.dataset.col }, `Moved to ${ST[col.dataset.col]}`);
+    });
+  });
+}
+function leadTable(L) {
+  if (!L.length) return '<div class="card empty">No briefs match.</div>';
+  return `<div class="card tbl-wrap"><table class="tbl"><thead><tr><th>Client</th><th>Needs</th><th>Dates</th><th>Status</th><th class="r">Job value</th><th class="r">Commission</th><th>Received</th></tr></thead><tbody>
+    ${L.map(e => `<tr data-k="${esc(key(e))}"><td><div class="who"><span class="av-s">${esc(initials(nameOf(e)))}</span><div><b>${esc(nameOf(e))}</b><span>${esc(e.email || e.phone || e.company || '')}</span></div></div></td>
+      <td><div class="clip">${esc(needOf(e))}</div></td><td class="clip" style="max-width:150px">${esc(e.date || '–')}</td>
+      <td><span class="pill st-${esc(e.status || 'new')}">${ST[e.status || 'new']}</span></td>
+      <td class="r num">${e.value ? gbp(e.value) : '–'}</td><td class="r num">${e.commission ? gbp(e.commission) : '–'}</td><td class="faint num" style="white-space:nowrap">${fmt(e.at)}</td></tr>`).join('')}
+  </tbody></table></div>`;
+}
+function bindRows(el) { el.querySelectorAll('tr[data-k]').forEach(r => r.addEventListener('click', () => openLead(r.dataset.k))); }
+
+async function patchLead(e, body, msg) {
+  try {
+    await api('/api/enquiry', { method: 'PATCH', body: { url: e.url, ...body } });
+    const k = key(e); await loadEnq(); render(); toast(msg || 'Saved');
+    return S.enq.find(x => key(x) === k);
+  } catch (er) { toast(er.message, true); }
+}
+
+/* ---------------- drawer ---------------- */
+function closeDrawer() { document.querySelectorAll('.scrim:not(#palScrim),.drawer').forEach(n => n.remove()); }
+function drawer(html) {
+  closeDrawer();
+  const sc = document.createElement('div'); sc.className = 'scrim'; sc.onclick = closeDrawer;
+  const d = document.createElement('div'); d.className = 'drawer'; d.setAttribute('role', 'dialog'); d.setAttribute('aria-modal', 'true'); d.innerHTML = html;
+  document.body.append(sc, d); d.querySelector('[data-close]')?.addEventListener('click', closeDrawer);
+  return d;
+}
+const LABELS = { company: 'Company', email: 'Email', phone: 'Phone', date: 'Dates', location: 'Location', categories: 'Needs', items: 'Items', budget: 'Budget', summary: 'Summary', details: 'Details', offer: 'Offering', area: 'Area covered', links: 'Links', source: 'Source' };
+function linkify(k, v) {
+  if (k === 'email') return `<a href="mailto:${esc(v)}">${esc(v)}</a>`;
+  if (k === 'phone') return `<a href="tel:${esc(String(v).replace(/\s/g, ''))}">${esc(v)}</a>`;
+  if (k === 'links') return esc(v).replace(/(https?:\/\/[^\s,]+)/g, '<a href="$1" target="_blank" rel="noopener">$1</a>');
+  return esc(v);
+}
+function openLead(k) {
+  const e = S.enq.find(x => key(x) === k); if (!e) return;
+  const st = e.status || 'new', partner = isPartner(e);
+  const d = drawer(`
+    <div class="dh"><span class="av-s" style="width:42px;height:42px;font-size:15px">${esc(initials(nameOf(e)))}</span>
+      <div style="flex:1;min-width:0"><h2>${esc(nameOf(e))}</h2><div class="sub">${esc(e.source || '')} · ${fmt(e.at)}</div></div>
+      <button class="btn ghost icon" data-close aria-label="Close">${ico('x')}</button></div>
+    <div class="db">
+      ${partner ? `<div class="note">${ico('info')}<div>Partner sign-up${e.onboarded ? ' · onboarding email sent ' + esc(fmt(e.onboarded)) : ''}</div></div>` : `
+      <div class="box"><h4>Stage</h4><div class="seg wrap" id="dSt">${ORDER.map(s => `<button data-s="${s}" aria-pressed="${st === s}">${ST[s]}</button>`).join('')}</div>
+        ${e.quotedAt ? `<div class="faint" style="font-size:12px;margin-top:8px">Quoted ${esc(fmt(e.quotedAt))}${e.chased ? ' · ' + esc(e.chased) + ' sent automatically' : ''}</div>` : ''}</div>
+      <div class="box"><h4>Money</h4><div class="two">
+        <div class="field" style="margin:0"><label class="lbl" for="dVal">Job value (£)</label><input class="input num" id="dVal" inputmode="numeric" value="${e.value ?? ''}" placeholder="0"></div>
+        <div class="field" style="margin:0"><label class="lbl" for="dCom">Commission (£)</label><input class="input num" id="dCom" inputmode="numeric" value="${e.commission ?? ''}" placeholder="300+"></div></div>
+        <div class="field" style="margin:12px 0 0"><label class="lbl" for="dNote">Notes</label><textarea class="input" id="dNote" rows="3" placeholder="Suppliers, prices, what was agreed…">${esc(e.note || '')}</textarea></div>
+        <div style="display:flex;justify-content:flex-end;margin-top:10px"><button class="btn primary sm" id="dSave">Save</button></div></div>`}
+      <dl class="kv">${Object.keys(LABELS).filter(k => e[k]).map(k => `<dt>${LABELS[k]}</dt><dd>${linkify(k, e[k])}</dd>`).join('')}</dl>
+      ${e.transcript ? `<details class="tx"><summary>Amelia transcript</summary><pre>${esc(e.transcript)}</pre></details>` : ''}
+    </div>
+    <div class="df">
+      ${e.email ? `<button class="btn primary" id="dMail">${ico('send')}Email</button>` : ''}
+      ${e.phone ? `<a class="btn" href="tel:${esc(String(e.phone).replace(/\s/g, ''))}">${ico('phone')}Call</a>` : ''}
+      <span style="flex:1"></span><button class="btn danger" id="dDel">${ico('trash')}Delete</button>
+    </div>`);
+  d.querySelectorAll('#dSt [data-s]').forEach(b => b.onclick = async () => { const n = await patchLead(e, { status: b.dataset.s }, `Moved to ${ST[b.dataset.s]}`); if (n) openLead(key(n)); });
+  d.querySelector('#dSave')?.addEventListener('click', async () => {
+    const n = await patchLead(e, { value: $('#dVal').value, commission: $('#dCom').value, note: $('#dNote').value }, 'Saved');
+    if (n) openLead(key(n));
+  });
+  d.querySelector('#dMail')?.addEventListener('click', () => {
+    closeDrawer(); const first = (e.name || '').trim().split(/\s+/)[0];
+    S.draft = { to: e.email, subject: partner ? 'Welcome to Sourced.' : 'Your brief | Sourced.', text: `Hi${first ? ' ' + first : ''},\n\n\n\nBest,\n\nBenji\nSourced.\n07590 474421` };
+    location.hash = '#outreach/compose';
+  });
+  d.querySelector('#dDel').onclick = async () => {
+    if (!confirm(`Delete ${nameOf(e)}'s ${partner ? 'sign-up' : 'brief'}? This can't be undone.`)) return;
+    try { await api('/api/enquiry', { method: 'DELETE', body: { url: e.url } }); closeDrawer(); await loadEnq(); render(); toast('Deleted'); } catch (er) { toast(er.message, true); }
+  };
+}
+addEventListener('keydown', ev => { if (ev.key === 'Escape') { closeDrawer(); closePal(); } });
+
+/* ---------------- outreach ---------------- */
+function renderOutreach() {
+  const sub = location.hash.split('/')[1]; if (['sent', 'queue', 'templates', 'compose', 'lists'].includes(sub)) S.outTab = sub;
+  $('#pgSub').textContent = S.out?.sender ? `Sending as ${S.out.sender} · replies go to ${S.out.replyTo.join(', ')}` : 'Cold outreach, follow-ups and one-off emails from your Sourced. address.';
+  acts(`<button class="btn" id="rf">${ico('refresh')}Refresh</button><button class="btn primary" id="cmp">${ico('send')}Compose</button>`);
+  $('#rf').onclick = async () => { await loadOut(); render(); toast('Up to date'); };
+  $('#cmp').onclick = () => { location.hash = '#outreach/compose'; };
+  if (!S.out) { $('#view').innerHTML = S.outErr ? `<div class="card empty">${esc(S.outErr)}</div>` : `<div class="grid g5">${Array(5).fill('<div class="card stat">' + skel(2) + '</div>').join('')}</div>`; return; }
+  const o = S.out.stats, n = v => Number(v || 0).toLocaleString('en-GB');
+  $('#view').innerHTML = `
+    <div class="grid g5" style="margin-bottom:20px">
+      <div class="card stat"><div class="k">Waiting to send</div><div class="v num">${n(o.waiting)}</div><div class="s">${n(o.queued)} queued in total</div></div>
+      <div class="card stat"><div class="k">Sent</div><div class="v num">${n(o.sentTotal)}</div><div class="s">${n(o.sent7)} in the last 7 days</div></div>
+      <div class="card stat"><div class="k">Follow-ups</div><div class="v num">${n(o.followupsTotal)}</div><div class="s">${n(o.followupsDue)} due now</div></div>
+      <div class="card stat"><div class="k">Replied</div><div class="v num">${n(o.replied)}</div><div class="s">${n(o.suppressed)} opted out</div></div>
+      <div class="card stat"><div class="k">Failed</div><div class="v num">${n(o.failedRecent)}</div><div class="s">In the latest 150 sends</div></div>
+    </div>
+    <div class="ptabs" role="tablist">${[['sent', 'Sent log', S.out.recent.length], ['queue', 'Queue', o.waiting], ['templates', 'Templates', S.out.templates.length], ['compose', 'Compose'], ['lists', 'Replied & opted out', o.replied + o.suppressed]]
+      .map(([k, l, c]) => `<button role="tab" data-t="${k}" aria-selected="${S.outTab === k}">${l}${c != null ? `<span class="cnt num">${n(c)}</span>` : ''}</button>`).join('')}</div>
+    <div id="outBody"></div>`;
+  $('#view').querySelectorAll('[data-t]').forEach(b => b.onclick = () => { location.hash = '#outreach/' + b.dataset.t; });
+  ({ sent: outSent, queue: outQueue, templates: outTemplates, compose: outCompose, lists: outLists })[S.outTab]();
+}
+const prettyKey = k => k.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+function outSent() {
+  const q = S.outQ.toLowerCase();
+  const rows = S.out.recent.filter(r => !q || (r.to + ' ' + r.subject).toLowerCase().includes(q));
+  const stepL = { first: 'First email', f1: 'Follow-up 1', f2: 'Follow-up 2', manual: 'One-off' };
+  $('#outBody').innerHTML = `<div class="toolbar"><div class="q">${ico('search')}<input class="input" id="oq" placeholder="Search recipient or subject" value="${esc(S.outQ)}"></div></div>
+    <div class="card tbl-wrap"><table class="tbl"><thead><tr><th>Recipient</th><th>Subject</th><th>Type</th><th>Status</th><th>Sent</th></tr></thead><tbody>
+    ${rows.length ? rows.map(r => `<tr title="${esc(r.detail)}"><td><div class="who"><span class="av-s">${esc(initials(r.to.split('@')[0].replace(/[._-]/g, ' ')))}</span><div><b>${esc(r.to.split('@')[0])}</b><span>@${esc(r.to.split('@')[1] || '')}</span></div></div></td>
+      <td><div class="clip">${esc(r.subject)}</div></td><td class="faint" style="white-space:nowrap">${stepL[r.step] || r.step}</td>
+      <td><span class="pill st-${esc(r.status)}">${esc(r.status[0].toUpperCase() + r.status.slice(1))}</span></td><td class="faint num" style="white-space:nowrap">${fmt(r.at)}</td></tr>`).join('') : '<tr><td colspan="5"><div class="empty">Nothing sent yet.</div></td></tr>'}
+    </tbody></table></div>`;
+  $('#oq').addEventListener('input', e => { S.outQ = e.target.value; const p = e.target.selectionStart; outSent(); const i = $('#oq'); i.focus(); i.setSelectionRange(p, p); });
+}
+function outQueue() {
+  const u = S.out.upcoming;
+  $('#outBody').innerHTML = `<div class="note">${ico('info')}<div>The sender goes out every 10 minutes, 5 at a time, so the queue drains by itself. New contacts are added by your daily outreach job.</div></div>
+    <div class="card"><div class="list">${u.length ? u.map((m, i) => `<button class="li" data-i="${i}"><span class="av-s">${esc(initials(m.to.split('@')[0].replace(/[._-]/g, ' ')))}</span>
+      <span class="m"><b>${esc(m.to)}</b><span>${esc(m.subject)}</span></span>${m.priority ? '<span class="pill st-new">Reply</span>' : ''}<span class="faint" style="font-size:12px">#${i + 1}</span></button>`).join('') : '<div class="empty">Queue is empty. Every queued email has gone out.</div>'}</div>
+    ${S.out.stats.waiting > u.length ? `<div class="pager">Showing the next ${u.length} of ${S.out.stats.waiting.toLocaleString('en-GB')}</div>` : ''}</div>`;
+  $('#outBody').querySelectorAll('[data-i]').forEach(b => b.onclick = () => {
+    const m = u[b.dataset.i];
+    drawer(`<div class="dh"><div style="flex:1;min-width:0"><h2>${esc(m.subject)}</h2><div class="sub">To ${esc(m.to)} · position ${+b.dataset.i + 1} in the queue</div></div><button class="btn ghost icon" data-close aria-label="Close">${ico('x')}</button></div>
+      <div class="db"><div style="white-space:pre-wrap;line-height:1.6">${esc(m.text)}</div></div>`);
+  });
+}
+function outTemplates() {
+  $('#outBody').innerHTML = `<div class="grid g3">${S.out.templates.map((t, i) => `<div class="card tpl"><div class="ch"><span class="tag">${esc(prettyKey(t.key))}</span></div>
+    <div class="cb"><div class="sj">${esc(t.subject)}</div><div class="bd">${esc(t.text)}</div>
+    <div style="display:flex;gap:8px;margin-top:14px"><button class="btn sm" data-view="${i}">Read</button><button class="btn sm primary" data-use="${i}">Use in compose</button></div></div></div>`).join('')}</div>`;
+  $('#outBody').querySelectorAll('[data-view]').forEach(b => b.onclick = () => { const t = S.out.templates[b.dataset.view];
+    drawer(`<div class="dh"><div style="flex:1;min-width:0"><h2>${esc(t.subject)}</h2><div class="sub">${esc(prettyKey(t.key))} template · {name} is filled in per contact</div></div><button class="btn ghost icon" data-close aria-label="Close">${ico('x')}</button></div><div class="db"><div style="white-space:pre-wrap;line-height:1.6">${esc(t.text)}</div></div>`); });
+  $('#outBody').querySelectorAll('[data-use]').forEach(b => b.onclick = () => { const t = S.out.templates[b.dataset.use]; S.draft = { to: '', subject: t.subject.replace(/\{name\}/g, ''), text: t.text.replace(/\{name\}/g, 'there') }; location.hash = '#outreach/compose'; });
+}
+function outCompose() {
+  const d = S.draft || { to: '', subject: '', text: '\n\nBest,\n\nBenji\nSourced.\nSee it. Say it. Sourced.\nwww.wearesourced.co.uk | 07590 474421' };
+  $('#outBody').innerHTML = `<div class="card compose"><div class="cb">
+    <div class="note" style="margin-bottom:18px">${ico('info')}<div>Sends one email now from <b>${esc(S.out.sender || 'your Sourced. address')}</b>. Replies go to ${esc(S.out.replyTo.join(', '))}. It's logged in the sent log.</div></div>
+    <div class="field"><label class="lbl" for="cTo">To</label><input class="input" id="cTo" type="email" placeholder="name@company.com" value="${esc(d.to)}"></div>
+    <div class="field"><label class="lbl" for="cSub">Subject</label><input class="input" id="cSub" value="${esc(d.subject)}"></div>
+    <div class="field"><label class="lbl" for="cTxt">Message</label><textarea class="input" id="cTxt" rows="14">${esc(d.text)}</textarea></div>
+    <div style="display:flex;gap:8px;justify-content:flex-end"><button class="btn" id="cClr">Clear</button><button class="btn primary" id="cSend">${ico('send')}Send email</button></div></div></div>`;
+  const keep = () => { S.draft = { to: $('#cTo').value, subject: $('#cSub').value, text: $('#cTxt').value }; };
+  ['#cTo', '#cSub', '#cTxt'].forEach(s => $(s).addEventListener('input', keep));
+  $('#cClr').onclick = () => { S.draft = null; outCompose(); };
+  $('#cSend').onclick = async () => {
+    keep(); const b = $('#cSend');
+    if (!confirm(`Send this email to ${S.draft.to}?`)) return;
+    b.disabled = true;
+    try { await api('/api/hub?task=send', { method: 'POST', body: S.draft }); toast('Sent to ' + S.draft.to); S.draft = null; await loadOut(true); location.hash = '#outreach/sent'; render(); }
+    catch (e) { toast(e.message, true); b.disabled = false; }
+  };
+}
+function outLists() {
+  const box = (t, arr, s) => `<div class="card"><div class="ch"><h3>${t}</h3><div class="r faint">${arr.length}</div></div><div class="cb" style="padding:8px 0 4px"><div class="list">
+    ${arr.length ? arr.map(a => `<div class="li" style="cursor:default"><span class="av-s">${esc(initials(String(a).replace(/[@._-]/g, ' ')))}</span><span class="m"><b>${esc(a)}</b><span>${s}</span></span></div>`).join('') : '<div class="empty">None</div>'}</div></div></div>`;
+  $('#outBody').innerHTML = `<div class="note">${ico('info')}<div>Anyone here never gets automatic follow-ups. Opted-out addresses are never emailed again.</div></div><div class="grid g-main">${box('Replied', S.out.replied, 'Follow-ups stopped')}${box('Opted out', S.out.suppress, 'Never emailed')}</div>`;
+}
+
+/* ---------------- website ---------------- */
+const WEB_TABS = [['edit', 'Text & photos'], ['videos', 'Videos'], ['listings', 'Listings'], ['more', 'Version history']];
+const PAGES = [['/', 'Home page'], ['/location-houses-london/', 'Location houses'], ['/supercar-hire-music-videos/', 'Supercar hire'], ['/vip-sprinter-hire-london/', 'VIP Sprinters'],
+  ['/set-security-close-protection/', 'Set security'], ['/film-crew-and-kit-hire-london/', 'Crew & kit'], ['/picture-vehicles-film-tv/', 'Picture vehicles'], ['/private-jet-hire-artists/', 'Private jets'], ['/guides/', 'Guides'], ['/partners/', 'Partners sign-up']];
+function renderWebsite() {
+  const sub = location.hash.split('/')[1]; if (WEB_TABS.some(t => t[0] === sub)) S.webTab = sub;
+  $('#pgSub').textContent = 'Edit wearesourced.co.uk. Changes go live as soon as you press Save & publish.';
+  acts(`<a class="btn" href="https://www.wearesourced.co.uk" target="_blank" rel="noopener">${ico('ext')}View live site</a>`);
+  $('#view').innerHTML = `<div class="ptabs" role="tablist">${WEB_TABS.map(([k, l]) => `<button role="tab" data-w="${k}" aria-selected="${S.webTab === k}">${l}</button>`).join('')}<button role="tab" data-w="pages" aria-selected="${S.webTab === 'pages'}">All pages</button></div>
+    ${S.webTab === 'pages'
+      ? `<div class="pages">${PAGES.map(([p, l]) => `<a href="https://www.wearesourced.co.uk${p}" target="_blank" rel="noopener">${ico('file')}<span>${l}</span>${ico('ext')}</a>`).join('')}</div>`
+      : `<div class="frame-wrap"><iframe id="webFrame" title="Website editor" src="/admin/?embed=${S.webTab}"></iframe></div>`}`;
+  $('#view').querySelectorAll('[data-w]').forEach(b => b.onclick = () => { location.hash = '#website/' + b.dataset.w; });
+}
+
+/* ---------------- partners ---------------- */
+function renderPartners() {
+  $('#pgSub').textContent = 'Suppliers who signed up at /partners. First 3 months free, then £124.99/month.';
+  acts(`<a class="btn" href="https://www.wearesourced.co.uk/partners/" target="_blank" rel="noopener">${ico('ext')}Sign-up page</a>`);
+  if (!S.loaded) { $('#view').innerHTML = `<div class="card cb">${skel(5)}</div>`; return; }
+  const P = partners().sort((a, b) => (b.at || '').localeCompare(a.at || ''));
+  const d30 = P.filter(e => Date.now() - new Date(e.at) < 30 * 864e5).length;
+  const billable = P.filter(e => Date.now() - new Date(e.at) > 90 * 864e5).length;
+  $('#view').innerHTML = `<div class="grid g3" style="margin-bottom:20px">
+      <div class="card stat"><div class="k">Partners signed up</div><div class="v num">${P.length}</div><div class="s">${d30} in the last 30 days</div></div>
+      <div class="card stat"><div class="k">Onboarded</div><div class="v num">${P.filter(e => e.onboarded).length}</div><div class="s">Welcome email sent</div></div>
+      <div class="card stat"><div class="k">Past free period</div><div class="v num">${billable}</div><div class="s">Signed up 90+ days ago</div></div></div>
+    ${P.length ? `<div class="card tbl-wrap"><table class="tbl"><thead><tr><th>Partner</th><th>Offering</th><th>Area</th><th>Onboarded</th><th>Signed up</th></tr></thead><tbody>
+      ${P.map(e => `<tr data-k="${esc(key(e))}"><td><div class="who"><span class="av-s">${esc(initials(e.company || nameOf(e)))}</span><div><b>${esc(e.company || nameOf(e))}</b><span>${esc(e.email || e.phone || '')}</span></div></div></td>
+        <td><div class="clip">${esc(e.offer || e.categories || e.details || '')}</div></td><td class="clip" style="max-width:160px">${esc(e.area || e.location || '–')}</td>
+        <td>${e.onboarded ? '<span class="pill st-won">Sent</span>' : '<span class="pill st-quoted">Pending</span>'}</td><td class="faint num" style="white-space:nowrap">${fmt(e.at)}</td></tr>`).join('')}</tbody></table></div>`
+      : '<div class="card empty">No partner sign-ups yet.</div>'}`;
+  bindRows($('#view'));
+}
+
+/* ---------------- settings ---------------- */
+function renderSettings() {
+  $('#pgSub').textContent = 'Hub preferences and shortcuts.';
+  $('#view').innerHTML = `<div class="grid g-main"><div class="card"><div class="ch"><h3>Appearance</h3></div><div class="cb">
+      <div class="seg" id="thSeg">${[['system', 'System'], ['light', 'Light'], ['dark', 'Dark']].map(([k, l]) => `<button data-th="${k}" aria-pressed="${theme === k}">${l}</button>`).join('')}</div></div></div>
+    <div class="card"><div class="ch"><h3>Targets</h3></div><div class="cb"><dl class="kv" style="margin:0"><dt>Weekly commission</dt><dd class="num">${gbp(WEEK_TARGET)}</dd><dt>Minimum per job</dt><dd class="num">${gbp(MIN_COMMISSION)}</dd><dt>Scoreboard email</dt><dd>Mondays, to sourced.admin@gmail.com</dd></dl></div></div>
+    <div class="card"><div class="ch"><h3>Shortcuts</h3></div><div class="cb"><div class="pages">
+      <a href="https://www.wearesourced.co.uk" target="_blank" rel="noopener">${ico('globe')}<span>Live website</span>${ico('ext')}</a>
+      <a href="/admin/" target="_blank" rel="noopener">${ico('gear')}<span>Classic back end</span>${ico('ext')}</a>
+      <a href="https://vercel.com/dashboard" target="_blank" rel="noopener">${ico('file')}<span>Vercel</span>${ico('ext')}</a>
+      <a href="https://resend.com/emails" target="_blank" rel="noopener">${ico('mail')}<span>Resend email log</span>${ico('ext')}</a></div></div></div>
+    <div class="card"><div class="ch"><h3>Session</h3></div><div class="cb"><p class="muted" style="margin:0 0 14px">You stay signed in on this device for 30 days.</p><button class="btn danger" id="lo">${ico('out')}Sign out</button></div></div></div>`;
+  $('#view').querySelectorAll('[data-th]').forEach(b => b.onclick = () => { theme = b.dataset.th; try { localStorage.setItem('hub.theme', theme); } catch (_) {} applyTheme(theme); renderSettings(); });
+  $('#lo').onclick = logout;
+}
+
+/* ---------------- command palette ---------------- */
+let palSel = 0, palItems = [];
+function openPal() {
+  closePal();
+  const sc = document.createElement('div'); sc.className = 'scrim'; sc.id = 'palScrim'; sc.onclick = closePal;
+  const p = document.createElement('div'); p.className = 'pal'; p.id = 'pal'; p.setAttribute('role', 'dialog');
+  p.innerHTML = '<input id="palIn" placeholder="Jump to a page, or search briefs and partners…" autocomplete="off"><div class="res" id="palRes"></div>';
+  document.body.append(sc, p); const i = $('#palIn'); i.focus(); i.addEventListener('input', palRender); i.addEventListener('keydown', palKey); palRender();
+}
+function closePal() { $('#pal')?.remove(); $('#palScrim')?.remove(); }
+function palRender() {
+  const q = $('#palIn').value.trim().toLowerCase();
+  const nav = [...Object.entries(ROUTES).map(([k, r]) => ({ g: 'Go to', t: r.t, run: () => location.hash = '#' + k })),
+    { g: 'Actions', t: 'Compose an email', run: () => location.hash = '#outreach/compose' },
+    { g: 'Actions', t: 'Edit website text & photos', run: () => location.hash = '#website/edit' },
+    { g: 'Actions', t: 'Edit listings', run: () => location.hash = '#website/listings' },
+    { g: 'Actions', t: 'Switch light / dark', run: () => $('#themeBtn').click() }]
+    .filter(x => !q || x.t.toLowerCase().includes(q));
+  const people = q ? S.enq.filter(e => [e.name, e.company, e.email, e.phone, e.categories, e.details].some(v => String(v || '').toLowerCase().includes(q))).slice(0, 8)
+    .map(e => ({ g: isPartner(e) ? 'Partners' : 'Briefs', t: nameOf(e), s: ST[e.status || 'new'] && !isPartner(e) ? ST[e.status || 'new'] : 'Partner', run: () => openLead(key(e)) })) : [];
+  palItems = [...people, ...nav]; palSel = 0;
+  let g = '';
+  $('#palRes').innerHTML = palItems.map((x, i) => (x.g !== g ? `<div class="grp">${g = x.g}</div>` : '') + `<div class="it" data-i="${i}" aria-selected="${i === 0}">${esc(x.t)}${x.s ? `<span>${esc(x.s)}</span>` : ''}</div>`).join('') || '<div class="empty">No matches</div>';
+  $('#palRes').querySelectorAll('.it').forEach(el => { el.onclick = () => { closePal(); palItems[el.dataset.i].run(); }; el.onmousemove = () => palMark(+el.dataset.i); });
+}
+function palMark(i) { palSel = i; document.querySelectorAll('#palRes .it').forEach(el => el.setAttribute('aria-selected', +el.dataset.i === i)); document.querySelector(`#palRes .it[data-i="${i}"]`)?.scrollIntoView({ block: 'nearest' }); }
+function palKey(e) {
+  if (e.key === 'ArrowDown') { e.preventDefault(); palMark(Math.min(palItems.length - 1, palSel + 1)); }
+  if (e.key === 'ArrowUp') { e.preventDefault(); palMark(Math.max(0, palSel - 1)); }
+  if (e.key === 'Enter' && palItems[palSel]) { const it = palItems[palSel]; closePal(); it.run(); }
+}
+$('#openPal').addEventListener('click', openPal);
+addEventListener('keydown', e => { if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k' && !$('#app').hidden) { e.preventDefault(); $('#pal') ? closePal() : openPal(); } });
+
+boot();
+</script>
+</body>
+</html>
