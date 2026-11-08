@@ -46,6 +46,12 @@ production_company template. Do not mention project details you can't confirm.
 If one category runs short, top up from another, but never skip a category entirely two days in a row.
 Rotate across London, the Home Counties and other UK cities so the same areas aren't hit every day.
 
+**Extra focus (Benji, 2026-11-08):** every run, on top of the mix above, push extra contacts in: location houses,
+mansions and country estates for hire; derelict, disused and industrial buildings and warehouses; unique filming
+locations (caves, heritage railways, piers, lighthouses, theatres, livery halls, bunkers, forts, lidos); private jet
+and helicopter charter; private yacht, boat, RIB and Thames boat charter. Jets and boats use vehicle_transport_supplier;
+locations use location_owner. Keep covering every other category too.
+
 **Reserve list:** seo-src/reserve-production.txt holds checked production companies (Company|email). Use up to 15 a day from it for the production_company quota, removing the lines you queue.
 
 ## Rules
