@@ -22,3 +22,8 @@ The weekly job takes the first unchecked line. Add new ideas anywhere below.
 - [ ] Unit base, parking and logistics for London shoots
 - [ ] Short-notice shoots: what can be sourced in 48 hours
 - [ ] Launch events in London: venues, transport and door security
+- [ ] Rolls-Royce hire in London for shoots and events: Phantom, Ghost and Cullinan compared
+- [ ] Maybach hire in the UK: what's included and how to book
+- [ ] Range Rover and Defender chauffeur hire in London for artists and talent
+- [ ] Security for gallery openings and art events in London
+- [ ] Star-lit lounge coach hire for tours and artist travel
