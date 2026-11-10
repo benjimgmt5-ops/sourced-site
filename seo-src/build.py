@@ -93,8 +93,8 @@ def footer():
     svc = "<br>".join(f'<a href="/{E(s["slug"])}/">{E(s["nav"])}</a>' for s in SERVICES)
     return f"""<footer><div class="wrap cols">
 <div><div class="logo" style="font-size:24px;color:#fff">Sourced.</div><p>See it. Say it. Sourced.<br>Production sourcing across London and the UK.</p></div>
-<div><strong style="color:#fff">Services</strong><br>{svc}</div>
-<div><strong style="color:#fff">Contact</strong><br><a href="mailto:{EMAIL}">{EMAIL}</a><br><a href="tel:{PHONE_INTL}">{PHONE_DISPLAY}</a><br><a href="https://www.instagram.com/sourced_uk/" target="_blank" rel="noopener">Instagram</a><br><a href="/guides/">Guides</a></div>
+<div><strong style="color:#fff">Services</strong><br>{svc}<br><a href="/location-scouting/">Location scouting</a></div>
+<div><strong style="color:#fff">Contact</strong><br><a href="mailto:{EMAIL}">{EMAIL}</a><br><a href="tel:{PHONE_INTL}">{PHONE_DISPLAY}</a><br><a href="https://www.instagram.com/sourced_uk/" target="_blank" rel="noopener">Instagram</a><br><a href="/guides/">Guides</a><br><a href="/partners/">List with us</a></div>
 </div><div class="wrap"><p>© {datetime.date.today().year} Sourced.</p></div></footer>"""
 
 
@@ -360,10 +360,84 @@ document.getElementById('pf').addEventListener('submit', async function (ev) {{
     return path
 
 
+def build_scouting(gals, imgs):
+    path = "/location-scouting/"
+    desc = "Location scouting and venue sourcing for music videos, films, fashion and photo shoots. Shortlists in 48 hours, bookings handled, on-site recces. Mansions, Art Deco, brutalist, industrial, period and unique spaces across London and the UK."
+    hero_src = _img(imgs, "m1_pool") or "/media/mansion-hall.jpg"
+    tiers = [
+        ("Shortlist", "A bespoke search for your brief.", ["6 to 10 locations that fit your look, budget and dates", "Photos, rates and availability in one deck", "Turned around in 48 hours, faster for urgent shoots"]),
+        ("Shortlist and bookings", "Everything in Shortlist, and we do the legwork.", ["We contact the owners and hold your dates", "Rates negotiated for you", "Permits, parking and filming clearance sorted"]),
+        ("Full recce", "Everything in Shortlist and bookings, plus feet on the ground.", ["We visit your top locations in person", "Recce report per location: power, access, parking, noise, light and unit base", "Photos and video walkthroughs for your director and DOP"]),
+    ]
+    tier_html = "".join(f'<div class="card"><h3>{E(t)}</h3><p>{E(d)}</p><ul class="tl">' + "".join(f"<li>{E(b)}</li>" for b in bl) + f'</ul><a class="btn ghost sbtn" href="#scout" data-tier="{E(t)}">Enquire about {E(t.lower())}</a></div>' for t, d, bl in tiers)
+    styles = ["Modern and glass houses", "Mansions and gated homes", "Period and stately homes", "Art Deco", "Brutalist and concrete", "Industrial and warehouses", "Retro and mid-century", "Americana and diners", "Gothic and dark", "Unique: forts, bunkers, tunnels"]
+    chips = "".join(f'<button type="button" class="chip" data-style="{E(x)}">{E(x)}</button>' for x in styles)
+    props = [(k, g) for k, g in gals.items() if g.get("tab") == "properties"][:6]
+    cards = ""
+    for k, g in props:
+        src = _img(imgs, g["imgs"][0])
+        if src:
+            cards += f'<a class="pcard" href="/#/item/{E(k)}"><img src="{E(src)}" alt="{E(g["name"])}" loading="lazy"><span><strong>{E(g["name"])}</strong><small>{E(g.get("loc") or g.get("sub") or "")}</small></span></a>'
+    form = """<form id="sf" class="pform" novalidate>
+<input type="text" name="hp" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true">
+<div class="row"><label>Your name<input name="name" required autocomplete="name"></label><label>Company or artist<input name="company" autocomplete="organization"></label></div>
+<div class="row"><label>Email<input name="email" type="email" required autocomplete="email"></label><label>Phone<input name="phone" type="tel" autocomplete="tel"></label></div>
+<div class="row"><label>Shoot dates<input name="date" placeholder="e.g. 14 to 15 March"></label><label>Where?<input name="location" placeholder="e.g. London, within the M25, anywhere in the UK"></label></div>
+<div class="row"><label>Service<select name="tier"><option>Shortlist</option><option>Shortlist and bookings</option><option>Full recce</option><option>Not sure yet</option></select></label><label>Look or style<input name="style" id="sstyle" placeholder="e.g. Art Deco, brutalist, mansion with pool"></label></div>
+<label>Tell us about the shoot<textarea name="details" rows="5" placeholder="Type of shoot, crew size, rooms or features you need, budget, references"></textarea></label>
+<button class="btn" type="submit">Send scouting request</button><p id="smsg" class="pmsg" role="status"></p></form>
+<script>
+document.querySelectorAll('.chip').forEach(function(c){c.addEventListener('click',function(){c.classList.toggle('on');var v=Array.from(document.querySelectorAll('.chip.on')).map(function(x){return x.dataset.style;}).join(', ');document.getElementById('sstyle').value=v;});});
+document.querySelectorAll('.sbtn').forEach(function(b){b.addEventListener('click',function(){var s=document.querySelector('#sf select[name=tier]');if(s)s.value=b.dataset.tier;});});
+document.getElementById('sf').addEventListener('submit', async function (ev) {
+  ev.preventDefault();
+  var f = ev.target, m = document.getElementById('smsg');
+  var d = Object.fromEntries(new FormData(f).entries());
+  if (!d.name || !d.email) { m.textContent = 'Please add your name and email.'; return; }
+  d.source = 'Location scouting'; d.categories = 'Properties';
+  d.summary = 'Location scouting: ' + (d.tier || '') + (d.style ? ' | Style: ' + d.style : '');
+  delete d.tier; delete d.style;
+  m.textContent = 'Sending...';
+  try {
+    var r = await fetch('/api/enquiry', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(d) });
+    if (!r.ok) throw new Error();
+    f.reset(); document.querySelectorAll('.chip.on').forEach(function(c){c.classList.remove('on');});
+    m.textContent = "Thanks, we've got it. We'll come back to you with options.";
+  } catch (e) { m.textContent = 'Something went wrong. Please email sourced.admin@gmail.com instead.'; }
+});
+</script>"""
+    css = """<style>.pform{max-width:860px;margin:24px 0}.pform label{display:block;margin:0 0 16px;color:var(--mist);font-size:15px}
+.pform input,.pform textarea,.pform select{display:block;width:100%;margin-top:6px;background:var(--ink);border:1px solid var(--steel);border-radius:10px;color:#fff;font:inherit;padding:12px}
+.pform .row{display:grid;grid-template-columns:1fr 1fr;gap:16px}@media(max-width:640px){.pform .row{grid-template-columns:1fr}}
+.pform button{border:0;cursor:pointer;font-size:16px}.pmsg{color:#fff;min-height:1.5em}
+.tl{margin:12px 0 18px;padding-left:18px}.tl li{font-size:15px;margin:4px 0}.card .btn{font-size:14px;padding:10px 16px}
+.chips{display:flex;flex-wrap:wrap;gap:10px;margin:16px 0}.chip{background:transparent;color:#fff;border:1px solid var(--steel);border-radius:999px;padding:9px 16px;font:inherit;font-size:14px;cursor:pointer}.chip.on{background:#fff;color:#000;border-color:#fff}
+.pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;margin:20px 0}.pcard{display:block;text-decoration:none;background:var(--ink);border:1px solid var(--graphite);border-radius:14px;overflow:hidden}
+.pcard img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block}.pcard span{display:block;padding:12px 14px}.pcard small{display:block;color:var(--ash);font-size:13px;margin-top:2px}</style>"""
+    ld = [breadcrumb_ld([("Home", "/"), ("Location scouting", path)]),
+          {"@context": "https://schema.org", "@type": "Service", "name": "Location scouting and venue sourcing", "serviceType": "Location scouting",
+           "areaServed": "United Kingdom", "provider": {"@type": "ProfessionalService", "name": "Sourced.", "url": SITE + "/", "telephone": PHONE_INTL, "email": EMAIL}}]
+    doc = head("Location Scouting & Venue Sourcing UK | Sourced.", desc, path, hero_src, ld) + css + f"""<body>{nav()}
+<section class="hero"><img src="{E(hero_src)}" alt="Modern house with pool used as a shoot location" fetchpriority="high">
+<div class="wrap"><p class="crumbs"><a href="/">Home</a> / Location scouting</p><p class="kicker">Location scouting · Venue sourcing</p><h1>Find the location nobody else has</h1>
+<p class="lede">Tell us the look. We find it, book it and get you cleared to shoot. Mansions, Art Deco blocks, brutalist estates, warehouses, period houses and the strange, specific places that never show up on public listings.</p>
+<div class="ctas"><a class="btn" href="#scout">Start a search</a><a class="btn ghost" href="/location-houses-london/">See our locations</a></div></div></section>
+<main class="wrap"><h2>How we scout</h2><div class="grid">{tier_html}</div>
+<h2>Browse by look</h2><div class="prose"><p>Pick the looks you're after and we'll build your shortlist around them. Our team has access to private homes, heritage sites, venues and industrial spaces across London, the Home Counties and the rest of the UK.</p></div>
+<div class="chips">{chips}</div>
+<h2>From our locations</h2><div class="pgrid">{cards}</div>
+<h2 id="scout">Start a scouting request</h2>{form}
+<h2>Own a location?</h2><div class="prose"><p>If your house, venue or building hires out for filming, <a href="/partners/">list it with Sourced.</a> Your first 3 months are free.</p></div>
+</main>{footer()}</body></html>"""
+    write(path, doc)
+    return path
+
+
 if __name__ == "__main__":
     _g, _i = _home_data()
     paths = {"services": [build_service(s) for s in SERVICES] + [build_vehicle(v, _g, _i) for v in VEHICLES], "guides": [build_guide(g) for g in GUIDES]}
     build_guides_index()
     paths["services"].append(build_partners())
+    paths["services"].append(build_scouting(_g, _i))
     build_sitemap(paths)
     print(f"Built {len(paths['services'])} service pages, {len(paths['guides'])} guides, sitemap.xml")
