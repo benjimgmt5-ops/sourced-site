@@ -343,7 +343,8 @@ document.getElementById('pf').addEventListener('submit', async function (ev) {{
 .pform .row{display:grid;grid-template-columns:1fr 1fr;gap:16px}@media(max-width:640px){.pform .row{grid-template-columns:1fr}}
 .pform fieldset{border:1px solid var(--graphite);border-radius:12px;margin:0 0 16px;padding:14px}.pform legend{color:#fff;padding:0 6px}
 .chks{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:4px 16px}.pform .chk{display:flex;gap:8px;align-items:center;margin:4px 0;color:#fff}
-.pform .chk input{width:auto;margin:0}.pform button{border:0;cursor:pointer;font-size:16px}.pmsg{color:#fff;min-height:1.5em}</style>"""
+.pform .chk input{width:auto;margin:0}.pform button{border:0;cursor:pointer;font-size:16px}.pmsg{color:#fff;min-height:1.5em}
+.grid.g2{grid-template-columns:repeat(2,1fr)}@media(max-width:640px){.grid.g2{grid-template-columns:1fr}}</style>"""
     ld = [breadcrumb_ld([("Home", "/"), ("Partners", path)])]
     doc = head("Become a Sourced. Partner | List Your Location, Cars or Services", desc, path, hero["src"], ld) + css + f"""<body>{nav()}
 <section class="hero"><img src="{E(hero['src'])}" alt="{E(hero['alt'])}" fetchpriority="high">
@@ -354,6 +355,19 @@ document.getElementById('pf').addEventListener('submit', async function (ev) {{
 <div class="card"><h3>1. Tell us what you offer</h3><p>A few details and links. It takes two minutes, and your first 3 months are free.</p></div>
 <div class="card"><h3>2. We send you matching briefs</h3><p>When a production needs a space, car or service like yours, we bring you the brief.</p></div>
 <div class="card"><h3>3. You stay in control</h3><p>You set your rates and availability, and approve every booking.</p></div></div>
+<h2 id="homeowners">For homeowners</h2><div class="prose"><p>Thinking about opening your home to shoots for the first time? Here's how we look after it.</p></div>
+<div class="grid">
+<div class="card"><h3>You decide everything</h3><p>You set your day rate, choose your dates and approve every booking. You can turn down any shoot you're not comfortable with, with no penalty.</p></div>
+<div class="card"><h3>Insured productions only</h3><p>Every production must show us valid public liability insurance before we confirm a booking. A damage deposit can be agreed for every shoot.</p></div>
+<div class="card"><h3>Security on site</h3><p>We can put a professional security team on site for the whole booking, so your home is protected from arrival to wrap.</p></div>
+<div class="card"><h3>Agreed rules, in writing</h3><p>Rooms that are off limits, crew numbers, parking, start and finish times: everything is agreed and confirmed before anyone arrives.</p></div>
+<div class="card"><h3>Protected floors and walls</h3><p>Productions protect floors, doorways and furniture, and any furniture that's moved is put back where it was.</p></div>
+<div class="card"><h3>Paid properly</h3><p>Payment terms are agreed up front, so you know exactly what you're getting before the shoot day.</p></div></div>
+<h2 id="shoot-day">What happens on shoot day</h2><div class="grid g2">
+<div class="card"><h3>1. You're met by a Sourced. agent</h3><p>Your dedicated Sourced. agent arrives before the crew, walks the house with you and confirms the rules for the day.</p></div>
+<div class="card"><h3>2. We run the whole booking</h3><p>Your agent manages the production from start to finish: arrivals, parking, crew, deliveries and timings. You don't have to do anything, and you're welcome to stay or head out for the day.</p></div>
+<div class="card"><h3>3. Your home is protected throughout</h3><p>Your agent checks floor and wall protection, keeps the crew to the agreed areas and deals with any questions so they never land on you.</p></div>
+<div class="card"><h3>4. Returned exactly as we received it</h3><p>At wrap, your agent does a full walkthrough with you. Your location is returned exactly how it was received, and anything that isn't right is put right.</p></div></div>
 <h2>Who we work with</h2><div class="prose"><p>Location houses and mansions, warehouses, studios, venues and industrial spaces; supercar, classic and picture car owners; chauffeur, Sprinter, coach and jet operators; security and close protection teams; caterers; trailer, dressing room and toilet hire; crews and kit houses.</p></div>
 <h2 id="join">Join as a partner</h2>{form}</main>{footer()}</body></html>"""
     write(path, doc)
