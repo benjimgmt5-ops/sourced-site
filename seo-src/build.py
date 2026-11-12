@@ -223,7 +223,7 @@ def build_guides_index():
     desc = "Practical guides to sourcing locations, cars, transport, security and crew for music videos, film, fashion and photo shoots in London."
     doc = head("Shoot Sourcing Guides | Sourced.", desc, path, hero["src"],
                [breadcrumb_ld([("Home", "/"), ("Guides", path)])]) + f"""<body>{nav()}
-<section class="hero"><img src="{hero['src']}" alt="{hero['alt']}"><div class="wrap"><p class="crumbs"><a href="/">Home</a> / Guides</p>
+<section class="hero" style="background:#000"><div class="wrap"><p class="crumbs"><a href="/">Home</a> / Guides</p>
 <p class="kicker">Guides</p><h1>Shoot sourcing guides</h1><p class="lede">{E(desc)}</p></div></section>
 <main class="wrap"><div class="guides">{items}</div>{cta_block('Got a shoot coming up?')}</main>{footer()}</body></html>"""
     write(path, doc)
