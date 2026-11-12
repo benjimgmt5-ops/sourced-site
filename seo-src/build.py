@@ -113,6 +113,14 @@ footer .wordmark{font-size:64px}
 .btn.ghost:hover{background:rgba(255,255,255,.2)!important}
 header.top .wordmark{font-size:34px}
 .hero:after{background:linear-gradient(180deg,rgba(10,10,10,.05),#0a0a0a 94%)!important}
+/* corner texture */
+body{position:relative}
+body:before{content:"";position:absolute;top:0;right:0;width:min(1100px,75vw);height:1100px;pointer-events:none;z-index:3;mix-blend-mode:screen;opacity:.8;
+background:repeating-radial-gradient(circle at 100% 0,rgba(255,255,255,.10) 0 1px,transparent 1px 18px),radial-gradient(rgba(255,255,255,.22) 1px,transparent 1.5px) 0 0/14px 14px;
+-webkit-mask:radial-gradient(ellipse 100% 100% at 100% 0,#000 0%,rgba(0,0,0,.55) 35%,transparent 72%);mask:radial-gradient(ellipse 100% 100% at 100% 0,#000 0%,rgba(0,0,0,.55) 35%,transparent 72%);animation:texdrift 18s ease-in-out infinite alternate}
+@keyframes texdrift{from{background-position:0 0,0 0}to{background-position:0 0,14px 28px}}
+@media (max-width:700px){body:before{width:100vw;height:700px;opacity:.4}}
+@media (prefers-reduced-motion:reduce){body:before{animation:none}}
 /* title animation */
 .fx .w{display:inline-block;overflow:hidden;vertical-align:top;padding-bottom:.08em;margin-bottom:-.08em}
 .fx .w>span{display:inline-block;transform:translateY(110%) skewY(4deg);opacity:0;filter:blur(6px);transition:transform 1s cubic-bezier(.16,.84,.24,1),opacity .9s ease,filter .9s ease}
@@ -273,7 +281,7 @@ def build_guide(g):
         f'<li><a href="/{E(o["slug"])}/">{E(o["nav"])}</a></li>' for o in links) + "</ul>"
     date_h = datetime.date.fromisoformat(g["date"]).strftime("%-d %B %Y")
     doc = head(g["title"], g["description"], path, g["hero"]["src"], ld) + f"""<body>{nav()}
-<section class="hero" style="background:#000">
+<section class="hero">
 <div class="wrap"><p class="crumbs"><a href="/">Home</a> / <a href="/guides/">Guides</a></p><p class="kicker">Guide · {E(date_h)}</p><h1>{E(g['h1'])}</h1>
 <p class="lede">{E(g['lede'])}</p></div></section>
 <main class="wrap"><article class="prose">{body}{faqs}</article>{related}{cta_block('Planning a shoot?')}</main>{footer()}</body></html>"""
@@ -290,7 +298,7 @@ def build_guides_index():
     desc = "Practical guides to sourcing locations, cars, transport, security and crew for music videos, film, fashion and photo shoots in London."
     doc = head("Shoot Sourcing Guides | Sourced.", desc, path, hero["src"],
                [breadcrumb_ld([("Home", "/"), ("Guides", path)])]) + f"""<body>{nav()}
-<section class="hero" style="background:#000"><div class="wrap"><p class="crumbs"><a href="/">Home</a> / Guides</p>
+<section class="hero"><div class="wrap"><p class="crumbs"><a href="/">Home</a> / Guides</p>
 <p class="kicker">Guides</p><h1>Shoot sourcing guides</h1><p class="lede">{E(desc)}</p></div></section>
 <main class="wrap"><div class="guides">{items}</div>{cta_block('Got a shoot coming up?')}</main>{footer()}</body></html>"""
     write(path, doc)
