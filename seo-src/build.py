@@ -206,7 +206,7 @@ def build_guide(g):
         f'<li><a href="/{E(o["slug"])}/">{E(o["nav"])}</a></li>' for o in links) + "</ul>"
     date_h = datetime.date.fromisoformat(g["date"]).strftime("%-d %B %Y")
     doc = head(g["title"], g["description"], path, g["hero"]["src"], ld) + f"""<body>{nav()}
-<section class="hero"><img src="{E(g['hero']['src'])}" alt="{E(g['hero']['alt'])}" fetchpriority="high">
+<section class="hero" style="background:#000">
 <div class="wrap"><p class="crumbs"><a href="/">Home</a> / <a href="/guides/">Guides</a></p><p class="kicker">Guide · {E(date_h)}</p><h1>{E(g['h1'])}</h1>
 <p class="lede">{E(g['lede'])}</p></div></section>
 <main class="wrap"><article class="prose">{body}{faqs}</article>{related}{cta_block('Planning a shoot?')}</main>{footer()}</body></html>"""
