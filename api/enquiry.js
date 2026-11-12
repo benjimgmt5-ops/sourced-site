@@ -1,6 +1,7 @@
 import { put, list, del, requireAdmin, storageReady, readJSON } from './_lib.js';
 import config from './_config.json' with { type: 'json' };
 import { partnerEmail } from './_partner-email.js';
+import { finish, footerHtml, footerText, stripSignoff } from './_footer.js';
 
 const FIELDS = ['name', 'company', 'email', 'phone', 'date', 'location', 'categories', 'items', 'details', 'budget', 'transcript', 'source', 'summary', 'offer', 'area', 'links'];
 
@@ -43,8 +44,8 @@ async function emailClient(e) {
     + (asked.length ? `<table cellpadding="6" style="border-collapse:collapse;margin:8px 0 16px">`
       + asked.map(k => `<tr><td valign="top" style="color:#666;white-space:nowrap">${LABELS[k]}</td><td style="white-space:pre-wrap">${esc(e[k])}</td></tr>`).join('') + `</table>` : '')
     + `<p>Nothing is booked until you accept a quote. If anything changes, just reply to this email.</p>`
-    + `<p style="color:#666">Sourced.<br>See it. Say it. Sourced.</p></div>`;
-  await sendEmail({ to: [e.email], reply_to: adminInbox()[0], subject: 'We\'ve got your brief | Sourced.', text, html });
+    + footerHtml() + `</div>`;
+  await sendEmail({ to: [e.email], reply_to: adminInbox()[0], subject: 'We\'ve got your brief | Sourced.', text: stripSignoff(text) + footerText(), html });
 }
 
 // Copy of each brief to the admin inbox through Resend (https://resend.com).
@@ -71,8 +72,8 @@ async function emailAdmin(e, req) {
 async function emailReview(e) {
   const f = (e.name || '').trim().split(/\s+/)[0];
   const t = `Hi${f ? ' ' + f : ''},\n\nThanks for booking with Sourced. We hope the shoot went brilliantly.\n\nIf you have a minute, a quick Google review would mean a lot to us and helps other productions find us:\n${config.reviewUrl}\n\nWhenever you need anything for the next one, just reply to this email.\n\nSourced.\nSee it. Say it. Sourced.`;
-  await sendEmail({ to: [e.email], reply_to: adminInbox()[0], subject: 'Thanks from Sourced.', text: t,
-    html: `<div style="font-family:Arial,sans-serif;font-size:15px;line-height:1.5;color:#000;max-width:560px"><p style="font-size:26px;font-weight:bold;margin:0 0 20px">Sourced.</p>` + t.split('\n\n').map(p => `<p>${esc(p).replace(/\n/g, '<br>').replace(esc(config.reviewUrl), `<a href="${esc(config.reviewUrl)}" style="color:#000">Leave a Google review</a>`)}</p>`).join('') + `</div>` });
+  const wrap = b => `<div style="font-family:Arial,sans-serif;font-size:15px;line-height:1.5;color:#000;max-width:560px"><p style="font-size:26px;font-weight:bold;margin:0 0 20px">Sourced.</p>` + b.split('\n\n').map(p => `<p>${esc(p).replace(/\n/g, '<br>').replace(esc(config.reviewUrl), `<a href="${esc(config.reviewUrl)}" style="color:#000">Leave a Google review</a>`)}</p>`).join('') + `</div>`;
+  await sendEmail({ to: [e.email], reply_to: adminInbox()[0], subject: 'Thanks from Sourced.', ...finish(t, wrap) });
 }
 
 export default async function handler(req, res) {

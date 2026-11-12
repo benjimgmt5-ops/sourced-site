@@ -12,6 +12,7 @@ import queue from './_outreach.json' with { type: 'json' };
 import suppress from './_suppress.json' with { type: 'json' };
 import replied from './_replied.json' with { type: 'json' };
 import config from './_config.json' with { type: 'json' };
+import { finish } from './_footer.js';
 
 // Follow-ups: sent automatically to anyone who hasn't replied (api/_replied.json) or asked to be removed.
 const FOLLOWUPS = [
@@ -105,12 +106,13 @@ export default async function handler(req, res) {
     await put(`outreach/sent/${m.id}.json`, JSON.stringify({ to: m.to, subject: m.subject, at: new Date().toISOString(), status: 'sending' }),
       { access: 'public', contentType: 'application/json', addRandomSuffix: false, allowOverwrite: true });
     let status = 'sent', detail = '';
+    const out = finish(m.text, html, { unsub: !m.priority });
     try {
       const r = await fetch('https://api.resend.com/emails', {
         method: 'POST',
         headers: { Authorization: `Bearer ${process.env.RESEND_API_KEY}`, 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          from, to: [m.to], reply_to: replyToList(), subject: m.subject, text: m.text, html: html(m.text),
+          from, to: [m.to], reply_to: replyToList(), subject: m.subject, text: out.text, html: out.html,
           ...(m.cc ? { cc: [].concat(m.cc) } : {}),
           headers: { ...(m.priority ? {} : { 'List-Unsubscribe': `<mailto:${replyTo()}?subject=remove>` }), ...(m.headers || {}) }
         }),

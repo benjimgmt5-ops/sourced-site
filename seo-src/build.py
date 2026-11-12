@@ -95,7 +95,7 @@ def footer():
 <div><div class="logo" style="font-size:24px;color:#fff">Sourced.</div><p>See it. Say it. Sourced.<br>Production sourcing across London and the UK.</p></div>
 <div><strong style="color:#fff">Services</strong><br>{svc}<br><a href="/location-scouting/">Location scouting</a></div>
 <div><strong style="color:#fff">Contact</strong><br><a href="mailto:{EMAIL}">{EMAIL}</a><br><a href="tel:{PHONE_INTL}">{PHONE_DISPLAY}</a><br><a href="https://www.instagram.com/sourced_uk/" target="_blank" rel="noopener">Instagram</a><br><a href="/guides/">Guides</a><br><a href="/partners/">List with us</a><br><a href="/list-your-house-for-filming/">List your house</a></div>
-</div><div class="wrap"><p>© {datetime.date.today().year} Sourced.</p></div></footer>"""
+</div><div class="wrap"><p>© {datetime.date.today().year} Sourced. · <a href="/privacy/">Privacy policy</a> · <a href="/privacy/#cookies">Cookies</a></p></div></footer>"""
 
 
 def head(title, desc, path, image, extra_ld):
@@ -540,6 +540,39 @@ document.getElementById('sf').addEventListener('submit', async function (ev) {
     return path
 
 
+def build_privacy():
+    path = "/privacy/"
+    title = "Privacy, GDPR and Cookie Policy | Sourced."
+    desc = "How Sourced. collects, uses and protects your personal data under UK GDPR, your rights, and the cookies our website uses."
+    sections = [
+        ("Who we are", f"SOURCED. is a London production sourcing service run by Benjamin Peagam (trading as Benji), Director of SOURCED. He is the data controller for the personal data described here. You can contact us about anything in this policy at {EMAIL} or {PHONE_DISPLAY}."),
+        ("What we collect", "When you send a brief or talk to Amelia, our AI assistant: your name, email, phone number, company, and the details of your shoot or event (dates, locations, budget and what you need).\n\nWhen you join as a partner or list your house: your name and business details, contact details, the address of your location or service, photos, and your rates.\n\nWhen we contact businesses about working with us: business names and work contact details that the business has published, such as a general enquiries email address.\n\nWhen you email, call or message us: the content of those messages so we can reply and keep a record of your booking."),
+        ("How we use it and our lawful basis", "We use your data to reply to you, prepare quotes, arrange and manage bookings, list and promote partners, and handle payments. When this is part of a booking or a partner agreement, the lawful basis is contract. When we contact businesses about our services or follow up an enquiry, the basis is our legitimate interests in running and growing SOURCED., and every outreach email lets you opt out. Where we need your consent, for example to feature your photos or location publicly, we ask first, and you can withdraw consent at any time."),
+        ("Who we share it with", "We only share what is needed to deliver your booking. For example, we pass a production's shoot details to the location, vehicle or security partner they've booked, and a partner's details to the client who has booked them. We also use trusted service providers to run SOURCED.: Vercel (website hosting and storage), Resend (email delivery), ElevenLabs (the Amelia voice assistant), Google (email and website fonts) and Meta (WhatsApp, if you message us there). Some of these providers are based outside the UK. Where that happens, your data is protected by UK-approved safeguards such as standard contractual clauses. We never sell your data."),
+        ("How long we keep it", "We keep booking and quote records for up to 6 years for accounting and legal reasons. We keep enquiries that don't become bookings, and outreach contact details, for up to 2 years, unless you ask us to delete them sooner. If you ask us not to contact you, we keep only your email address on a do-not-contact list so we can make sure we never email you again."),
+        ("Your rights under UK GDPR", f"You have the right to access the personal data we hold about you, to have it corrected, to have it deleted, to restrict or object to how we use it (including for marketing), and to receive a copy of it in a portable format. To use any of these rights, email {EMAIL}. We'll reply within one month. You can stop marketing emails at any time by replying \"remove\"."),
+        ("Complaints", "If you're unhappy with how we've handled your data, please contact us first so we can put it right. You also have the right to complain to the Information Commissioner's Office (ICO) at ico.org.uk or on 0303 123 1113."),
+        ("Keeping your data safe", "Your data is stored with secure, access-controlled providers. Only the SOURCED. team can see your details, and only for the purposes set out in this policy."),
+    ]
+    cookies = [
+        ("Cookies", "Cookies are small files a website stores on your device. Our website only uses cookies and similar browser storage that are strictly necessary for it to work. We don't use advertising cookies, and we don't use tracking or analytics cookies to follow you around the web."),
+        ("What we use", "Our staff hub uses a secure login cookie so our team can stay signed in. It isn't set for visitors. If you use Amelia, our AI voice assistant, the ElevenLabs service may store small amounts of data in your browser so the conversation works. Our pages load fonts from Google Fonts, which means Google receives your IP address to deliver them, but no cookies are set for this."),
+        ("Managing cookies", "Because we only use necessary cookies, we don't show a cookie banner. You can block or delete cookies at any time in your browser settings, although parts of the site, such as the voice assistant, may not work properly. If we ever add non-essential cookies, we'll ask for your consent first and update this page."),
+    ]
+    sec_html = "".join(f"<h2>{E(h)}</h2><div class=\"prose\">{para(t)}</div>" for h, t in sections)
+    ck_html = "".join((f"<h2 id=\"cookies\">{E(h)}</h2>" if i == 0 else f"<h3>{E(h)}</h3>") + f"<div class=\"prose\">{para(t)}</div>" for i, (h, t) in enumerate(cookies))
+    ld = [breadcrumb_ld([("Home", "/"), ("Privacy policy", path)])]
+    doc = head(title, desc, path, "/media/icon-512.png", ld) + f"""<body>{nav()}
+<main class="wrap" style="padding-top:40px;padding-bottom:60px"><p class="crumbs"><a href="/">Home</a> / Privacy policy</p>
+<h1>Privacy, GDPR and cookie policy</h1>
+<div class="prose"><p>This policy explains how SOURCED. collects, uses and protects your personal data, in line with the UK General Data Protection Regulation (UK GDPR) and the Data Protection Act 2018, and how our website uses cookies. Last updated {E(datetime.date.today().strftime('%-d %B %Y'))}.</p></div>
+{sec_html}{ck_html}
+<h2>Changes to this policy</h2><div class="prose"><p>We may update this policy from time to time. The latest version will always be on this page.</p></div>
+</main>{footer()}</body></html>"""
+    write(path, doc)
+    return path
+
+
 if __name__ == "__main__":
     _g, _i = _home_data()
     paths = {"services": [build_service(s) for s in SERVICES] + [build_vehicle(v, _g, _i) for v in VEHICLES], "guides": [build_guide(g) for g in GUIDES]}
@@ -547,5 +580,6 @@ if __name__ == "__main__":
     paths["services"].append(build_partners())
     paths["services"].append(build_list_house())
     paths["services"].append(build_scouting(_g, _i))
+    paths["services"].append(build_privacy())
     build_sitemap(paths)
     print(f"Built {len(paths['services'])} service pages, {len(paths['guides'])} guides, sitemap.xml")

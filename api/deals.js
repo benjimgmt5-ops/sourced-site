@@ -5,6 +5,7 @@
 import { put, list, del } from '@vercel/blob';
 import config from './_config.json' with { type: 'json' };
 import { partnerEmail } from './_partner-email.js';
+import { finish } from './_footer.js';
 
 const DAY = 864e5;
 const MIN_COMMISSION = 300, WEEK_TARGET = 1000;
@@ -80,7 +81,7 @@ async function chase() {
     }
     if (!step) continue;
     try {
-      await send({ to: [e.email], reply_to: replyTo(), subject: 'Your Sourced. quote', text, html: wrap(text) });
+      await send({ to: [e.email], reply_to: replyTo(), subject: 'Your Sourced. quote', ...finish(text, wrap) });
       e.chased = step; e.chasedAt = new Date().toISOString();
       await rewrite(e);
       sent.push({ to: e.email, step });

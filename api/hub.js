@@ -8,6 +8,7 @@
 //   POST   /api/hub?task=send       -> { to, subject, text }  one-off email from the Sourced. sender (admin)
 // A hub login issues the same signed session as /admin, so every existing API (enquiry, content, upload) works.
 import crypto from 'node:crypto';
+import { finish } from './_footer.js';
 import { put, list, isAdmin, requireAdmin, sessionCookie, clearCookie, passwordSet } from './_lib.js';
 import queue from './_outreach.json' with { type: 'json' };
 import suppress from './_suppress.json' with { type: 'json' };
@@ -112,7 +113,7 @@ async function sendOne(b) {
   const r = await fetch('https://api.resend.com/emails', {
     method: 'POST',
     headers: { Authorization: `Bearer ${process.env.RESEND_API_KEY}`, 'Content-Type': 'application/json' },
-    body: JSON.stringify({ from, to: [to], reply_to: replyTo(), subject, text, html: html(text) }),
+    body: JSON.stringify({ from, to: [to], reply_to: replyTo(), subject, ...finish(text, html) }),
     signal: AbortSignal.timeout(10000)
   });
   const ok = r.ok, detail = ok ? '' : (await r.text()).slice(0, 300);

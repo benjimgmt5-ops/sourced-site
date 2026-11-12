@@ -1,3 +1,4 @@
+import { finish } from './_footer.js';
 // Benji's onboarding email for new suppliers (partner sign-ups). Used on sign-up (api/enquiry.js)
 // and by the hourly job (api/deals.js) for sign-ups that haven't had it yet.
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -18,7 +19,7 @@ export function partnerEmail(e) {
     `Thanks,`,
     `Benji\nSOURCED.`
   ].join('\n\n');
-  const html = `<div style="font-family:Arial,sans-serif;font-size:15px;line-height:1.5;color:#000;max-width:560px"><p style="font-size:26px;font-weight:bold;margin:0 0 20px">Sourced.</p>`
-    + text.split('\n\n').map(p => `<p>${esc(p).replace(/\n/g, '<br>')}</p>`).join('') + `</div>`;
-  return { subject: 'Join SOURCED. – 3 months free hosting', text, html };
+  const wrap = t => `<div style="font-family:Arial,sans-serif;font-size:15px;line-height:1.5;color:#000;max-width:560px"><p style="font-size:26px;font-weight:bold;margin:0 0 20px">Sourced.</p>`
+    + t.split('\n\n').map(p => `<p>${esc(p).replace(/\n/g, '<br>')}</p>`).join('') + `</div>`;
+  return { subject: 'Join SOURCED. – 3 months free hosting', ...finish(text, wrap) };
 }
