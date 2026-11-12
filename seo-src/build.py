@@ -94,7 +94,7 @@ def footer():
     return f"""<footer><div class="wrap cols">
 <div><div class="logo" style="font-size:24px;color:#fff">Sourced.</div><p>See it. Say it. Sourced.<br>Production sourcing across London and the UK.</p></div>
 <div><strong style="color:#fff">Services</strong><br>{svc}<br><a href="/location-scouting/">Location scouting</a></div>
-<div><strong style="color:#fff">Contact</strong><br><a href="mailto:{EMAIL}">{EMAIL}</a><br><a href="tel:{PHONE_INTL}">{PHONE_DISPLAY}</a><br><a href="https://www.instagram.com/sourced_uk/" target="_blank" rel="noopener">Instagram</a><br><a href="/guides/">Guides</a><br><a href="/partners/">List with us</a></div>
+<div><strong style="color:#fff">Contact</strong><br><a href="mailto:{EMAIL}">{EMAIL}</a><br><a href="tel:{PHONE_INTL}">{PHONE_DISPLAY}</a><br><a href="https://www.instagram.com/sourced_uk/" target="_blank" rel="noopener">Instagram</a><br><a href="/guides/">Guides</a><br><a href="/partners/">List with us</a><br><a href="/list-your-house-for-filming/">List your house</a></div>
 </div><div class="wrap"><p>© {datetime.date.today().year} Sourced.</p></div></footer>"""
 
 
@@ -355,7 +355,7 @@ document.getElementById('pf').addEventListener('submit', async function (ev) {{
 <div class="card"><h3>1. Tell us what you offer</h3><p>A few details and links. It takes two minutes, and your first 3 months are free.</p></div>
 <div class="card"><h3>2. We send you matching briefs</h3><p>When a production needs a space, car or service like yours, we bring you the brief.</p></div>
 <div class="card"><h3>3. You stay in control</h3><p>You set your rates and availability, and approve every booking.</p></div></div>
-<h2 id="homeowners">For homeowners</h2><div class="prose"><p>Thinking about opening your home to shoots for the first time? Here's how we look after it.</p></div>
+<h2 id="homeowners">For homeowners</h2><div class="prose"><p>Thinking about opening your home to shoots for the first time? Here's how we look after it. <a href="/list-your-house-for-filming/">List your house here</a>.</p></div>
 <div class="grid">
 <div class="card"><h3>You decide everything</h3><p>You set your day rate, choose your dates and approve every booking. You can turn down any shoot you're not comfortable with, with no penalty.</p></div>
 <div class="card"><h3>Insured productions only</h3><p>Every production must show us valid public liability insurance before we confirm a booking. A damage deposit can be agreed for every shoot.</p></div>
@@ -370,6 +370,99 @@ document.getElementById('pf').addEventListener('submit', async function (ev) {{
 <div class="card"><h3>4. Returned exactly as we received it</h3><p>At wrap, your agent does a full walkthrough with you. Your location is returned exactly how it was received, and anything that isn't right is put right.</p></div></div>
 <h2>Who we work with</h2><div class="prose"><p>Location houses and mansions, warehouses, studios, venues and industrial spaces; supercar, classic and picture car owners; chauffeur, Sprinter, coach and jet operators; security and close protection teams; caterers; trailer, dressing room and toilet hire; crews and kit houses.</p></div>
 <h2 id="join">Join as a partner</h2>{form}</main>{footer()}</body></html>"""
+    write(path, doc)
+    return path
+
+
+def build_list_house():
+    path = "/list-your-house-for-filming/"
+    title = "List Your House for Filming & Photoshoots | Sourced."
+    desc = "Earn from your home. List your house with Sourced. for music videos, fashion shoots, adverts and films. You set the rate and approve every booking. First 3 months free."
+    hero = {"src": "/media/i/m1_pool.jpg", "alt": "Modern house with pool used for a shoot"}
+    if not (ROOT / hero["src"].lstrip("/")).exists():
+        hero["src"] = "/media/mansion-hall.jpg"
+    looks = [("Modern and glass houses", "Clean lines, big windows and open-plan living for fashion, beauty and adverts."),
+             ("Mansions and gated homes", "Grand entrances, driveways and big rooms for music videos and luxury shoots."),
+             ("Pools and big gardens", "Pools, hot tubs, terraces and lawns are some of the most requested features."),
+             ("Period and country houses", "Georgian, Victorian and Tudor homes with character for drama and editorial."),
+             ("Townhouses and apartments", "Stylish London homes with great light, staircases and kitchens."),
+             ("Barns, farms and unusual homes", "Converted barns, cottages and one-off architecture for something different.")]
+    look_html = "".join(f'<div class="card"><h3>{E(t)}</h3><p>{E(d)}</p></div>' for t, d in looks)
+    gal = [("m1_hall", "Hallway of a location house"), ("glass_pool", "Glass house with pool"), ("redbrick_front", "Red brick house frontage"),
+           ("sunset_living", "Living room in a location house"), ("stone_new_pool", "Stone house with pool"), ("m2_stairs", "Grand staircase")]
+    gal_html = "".join(f'<img src="/media/i/{k}.jpg" alt="{E(a)}" loading="lazy">' for k, a in gal if (ROOT / "media" / "i" / f"{k}.jpg").exists())
+    feats = ["Swimming pool or hot tub", "Large garden or grounds", "Gated driveway and parking", "Big kitchen", "Grand staircase or hallway",
+             "Period features", "Modern or glass architecture", "Cinema or games room", "Gym or spa", "Rooftop or terrace"]
+    checks = "".join(f'<label class="chk"><input type="checkbox" name="feat" value="{E(o)}"> {E(o)}</label>' for o in feats)
+    faqs = [
+        {"q": "What does it cost to list my house?", "a": "Your first 3 months are completely free. After that it's £124.99 a month to keep your home listed and actively promoted to production companies, paid by direct debit with one month's notice to cancel. You keep 100% of your location fee. Our commission is charged to the production on top, and we're always transparent about it."},
+        {"q": "How much can I earn?", "a": "You set your own day rate. What a shoot pays depends on the size of the shoot, how long they need the house and which rooms they use. We'll talk you through what similar homes charge when we set up your listing."},
+        {"q": "Do I have to be at home on the shoot day?", "a": "No. A Sourced. agent meets you before the crew arrives, walks the house with you and runs the booking from start to finish. You're welcome to stay or head out for the day."},
+        {"q": "What if something gets damaged?", "a": "Every production must show us valid public liability insurance before we confirm a booking, and a damage deposit can be agreed for every shoot. Floors, doorways and furniture are protected, and your home is returned exactly as we received it. It's also worth letting your home insurer know you're hosting shoots."},
+        {"q": "Can I say no to a shoot?", "a": "Yes. You approve every booking, and you can turn down any shoot you're not comfortable with, with no penalty. Rooms that are off limits, crew numbers, parking and timings are all agreed in writing before anyone arrives."},
+        {"q": "What kind of shoots will I get?", "a": "Music videos, fashion and beauty shoots, adverts, brand content, films, TV and photography. We tell you what the shoot is before you agree to it."},
+    ]
+    faq_html = "".join(f'<details><summary>{E(f["q"])}</summary><p>{E(f["a"])}</p></details>' for f in faqs)
+    form = """<form id="hf" class="pform" novalidate>
+<input type="text" name="hp" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true">
+<div class="row"><label>Your name<input name="name" required autocomplete="name"></label><label>Email<input name="email" type="email" required autocomplete="email"></label></div>
+<div class="row"><label>Phone<input name="phone" type="tel" autocomplete="tel"></label><label>Town and postcode<input name="area" placeholder="e.g. Chigwell, IG7"></label></div>
+<label>Type of home<select name="ptype"><option>Detached house</option><option>Mansion or gated home</option><option>Modern or glass house</option><option>Period or country house</option><option>Townhouse</option><option>Apartment or penthouse</option><option>Barn, farm or cottage</option><option>Something else</option></select></label>
+<fieldset><legend>Standout features</legend><div class="chks">""" + checks + """</div></fieldset>
+<label>Photo links<input name="links" placeholder="Instagram, Google Drive, Dropbox or an estate agent listing"></label>
+<label>Tell us about your home<textarea name="details" rows="5" placeholder="Bedrooms, best rooms, parking, any rooms that are off limits, when it's usually free"></textarea></label>
+<button class="btn" type="submit">List my house</button><p id="hmsg" class="pmsg" role="status"></p></form>
+<script>
+document.getElementById('hf').addEventListener('submit', async function (ev) {
+  ev.preventDefault();
+  var f = ev.target, m = document.getElementById('hmsg');
+  var d = Object.fromEntries(new FormData(f).entries());
+  if (!d.name || !d.email) { m.textContent = 'Please add your name and email.'; return; }
+  var feats = Array.from(f.querySelectorAll('input[name=feat]:checked')).map(function (i) { return i.value; }).join(', ');
+  d.offer = 'Location house or mansion'; d.source = 'Partner sign-up (homeowner)'; d.company = '';
+  d.categories = 'Partner: Location house or mansion';
+  d.details = 'Type: ' + (d.ptype || '') + (feats ? '\\nFeatures: ' + feats : '') + (d.details ? '\\n\\n' + d.details : '');
+  delete d.ptype; delete d.feat;
+  m.textContent = 'Sending...';
+  try {
+    var r = await fetch('/api/enquiry', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(d) });
+    if (!r.ok) throw new Error();
+    f.reset(); m.textContent = "Thanks, your house is in. We'll be in touch to set up your listing.";
+  } catch (e) { m.textContent = 'Something went wrong. Please email sourced.admin@gmail.com instead.'; }
+});
+</script>"""
+    css = """<style>.pform{max-width:760px;margin:24px 0}.pform label{display:block;margin:0 0 16px;color:var(--mist);font-size:15px}
+.pform input,.pform textarea,.pform select{display:block;width:100%;margin-top:6px;background:var(--ink);border:1px solid var(--steel);border-radius:10px;color:#fff;font:inherit;padding:12px}
+.pform .row{display:grid;grid-template-columns:1fr 1fr;gap:16px}@media(max-width:640px){.pform .row{grid-template-columns:1fr}}
+.pform fieldset{border:1px solid var(--graphite);border-radius:12px;margin:0 0 16px;padding:14px}.pform legend{color:#fff;padding:0 6px}
+.chks{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:4px 16px}.pform .chk{display:flex;gap:8px;align-items:center;margin:4px 0;color:#fff}
+.pform .chk input{width:auto;margin:0}.pform button{border:0;cursor:pointer;font-size:16px}.pmsg{color:#fff;min-height:1.5em}
+.grid.g2{grid-template-columns:repeat(2,1fr)}@media(max-width:640px){.grid.g2{grid-template-columns:1fr}}</style>"""
+    ld = [breadcrumb_ld([("Home", "/"), ("List your house", path)]), faq_ld(faqs)]
+    doc = head(title, desc, path, hero["src"], ld) + css + f"""<body>{nav()}
+<section class="hero"><img src="{E(hero['src'])}" alt="{E(hero['alt'])}" fetchpriority="high">
+<div class="wrap"><p class="crumbs"><a href="/">Home</a> / List your house</p><p class="kicker">For homeowners · First 3 months free</p><h1>Earn from your home. List it for filming.</h1>
+<p class="lede">Music videos, fashion shoots, adverts and films need real homes. List your house with Sourced. and we'll bring you vetted productions, run every booking and return your home exactly as we found it.</p>
+<div class="ctas"><a class="btn" href="#list">List my house</a><a class="btn ghost" href="#faq">Questions</a></div></div></section>
+<main class="wrap"><h2>How it works</h2><div class="grid">
+<div class="card"><h3>1. Tell us about your home</h3><p>A few details and some photos. It takes two minutes.</p></div>
+<div class="card"><h3>2. We list and promote it</h3><p>We put your home in front of production companies, directors and artists' teams.</p></div>
+<div class="card"><h3>3. You approve every booking</h3><p>You set your day rate and your dates, and say yes or no to each shoot.</p></div>
+<div class="card"><h3>4. Get paid</h3><p>You keep 100% of your location fee. Payment terms are agreed before the shoot day.</p></div></div>
+<h2>Homes productions are looking for</h2><div class="grid">{look_html}</div>
+<div class="gallery">{gal_html}</div>
+<h2>Your home is protected</h2><div class="grid">
+<div class="card"><h3>Insured productions only</h3><p>Every production must show us valid public liability insurance before we confirm a booking. A damage deposit can be agreed for every shoot.</p></div>
+<div class="card"><h3>Agreed rules, in writing</h3><p>Rooms that are off limits, crew numbers, parking, start and finish times: everything is confirmed before anyone arrives.</p></div>
+<div class="card"><h3>Security on site</h3><p>We can put a professional security team on site for the whole booking, from arrival to wrap.</p></div>
+<div class="card"><h3>Protected floors and walls</h3><p>Floors, doorways and furniture are protected, and anything that's moved is put back where it was.</p></div></div>
+<h2>What happens on shoot day</h2><div class="grid g2">
+<div class="card"><h3>You're met by a Sourced. agent</h3><p>Your agent arrives before the crew, walks the house with you and confirms the rules for the day.</p></div>
+<div class="card"><h3>Returned exactly as we received it</h3><p>At wrap, your agent does a full walkthrough with you, and anything that isn't right is put right.</p></div></div>
+<h2 id="faq">Questions homeowners ask</h2>{faq_html}
+<h2 id="list">List your house</h2>{form}
+<div class="prose"><p>Run a venue, fleet or production service instead? <a href="/partners/">Join as a partner</a>.</p></div>
+</main>{footer()}</body></html>"""
     write(path, doc)
     return path
 
@@ -441,7 +534,7 @@ document.getElementById('sf').addEventListener('submit', async function (ev) {
 <div class="chips">{chips}</div>
 <h2>From our locations</h2><div class="pgrid">{cards}</div>
 <h2 id="scout">Start a scouting request</h2>{form}
-<h2>Own a location?</h2><div class="prose"><p>If your house, venue or building hires out for filming, <a href="/partners/">list it with Sourced.</a> Your first 3 months are free.</p></div>
+<h2>Own a location?</h2><div class="prose"><p>If you own a house, <a href="/list-your-house-for-filming/">list it for filming</a>. If you run a venue or building that hires out, <a href="/partners/">list it with Sourced.</a> Your first 3 months are free.</p></div>
 </main>{footer()}</body></html>"""
     write(path, doc)
     return path
@@ -452,6 +545,7 @@ if __name__ == "__main__":
     paths = {"services": [build_service(s) for s in SERVICES] + [build_vehicle(v, _g, _i) for v in VEHICLES], "guides": [build_guide(g) for g in GUIDES]}
     build_guides_index()
     paths["services"].append(build_partners())
+    paths["services"].append(build_list_house())
     paths["services"].append(build_scouting(_g, _i))
     build_sitemap(paths)
     print(f"Built {len(paths['services'])} service pages, {len(paths['guides'])} guides, sitemap.xml")
