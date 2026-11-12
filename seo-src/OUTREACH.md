@@ -30,6 +30,7 @@ events, lifestyle management and transport. Every day must include a real mix. A
 | music_management_label | artist management, record labels, music video commissioners, tour managers | 6 |
 | lifestyle_concierge | lifestyle management, concierge, luxury travel and VIP services, wedding and private event planners | 5 |
 | talent_model_agency / photo_studio_photographer | model and talent agencies, photo studios, photographers' agents | 5 |
+| sports_club | football clubs (commercial, partnerships, club media/TV teams), women's teams, sports content and athlete agencies | 5 |
 
 **Suppliers (people we book) - about 20 a day**
 | Template | Who | Daily |
