@@ -95,6 +95,24 @@ footer{background:linear-gradient(180deg,#1c1c1c,#131313)!important;border-top:1
 .brief .btn{background:#fff!important;color:#000!important;border-color:#fff!important;border-radius:999px}
 .brief .btn:hover{background:#e6e6e6!important}
 @keyframes fill{0%{background:#3a3a3a}100%{background:#262626}}
+/* lux 3 */
+.wordmark{font-family:var(--display);font-size:46px;line-height:1;letter-spacing:.5px;color:#fff;background:linear-gradient(100deg,#fff 0%,#fff 40%,#9a9a9a 50%,#fff 60%,#fff 100%);background-size:300% 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:sheen 6s ease-in-out infinite;text-decoration:none}
+footer .wordmark{font-size:64px}
+@media (max-width:820px){.wordmark{font-size:36px}}
+@media (max-width:360px){.wordmark{font-size:30px}}
+.agent-tag{background:rgba(255,255,255,.06)!important;border:1px solid rgba(255,255,255,.22)!important;border-radius:999px;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);box-shadow:0 0 18px rgba(255,255,255,.08)}
+.agent-dot{box-shadow:0 0 10px #fff}
+/* white buttons: shiny reflective sweep */
+.btn:not(.ghost){position:relative;overflow:hidden;background:linear-gradient(180deg,#fff 0%,#f1f1f1 55%,#dcdcdc 100%)!important;color:#000!important;border-color:#fff!important;box-shadow:inset 0 1px 0 #fff,0 6px 22px -8px rgba(255,255,255,.45)}
+.btn:not(.ghost):after{content:"";position:absolute;top:-50%;left:-60%;width:40%;height:200%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.95),transparent);transform:skewX(-20deg);animation:btnshine 4.5s ease-in-out infinite;pointer-events:none}
+@keyframes btnshine{0%,60%{left:-60%}100%{left:140%}}
+.btn.ghost{background:rgba(255,255,255,.06)!important;border:1px solid rgba(255,255,255,.25)!important;backdrop-filter:blur(8px)}
+.logo,.logo:hover{text-decoration:none!important}
+.btn{border-radius:999px!important}
+.btn.ghost{background:rgba(255,255,255,.12)!important;border:1px solid rgba(255,255,255,.35)!important}
+.btn.ghost:hover{background:rgba(255,255,255,.2)!important}
+header.top .wordmark{font-size:34px}
+.hero:after{background:linear-gradient(180deg,rgba(10,10,10,.05),#0a0a0a 94%)!important}
 /* title animation */
 .fx .w{display:inline-block;overflow:hidden;vertical-align:top;padding-bottom:.08em;margin-bottom:-.08em}
 .fx .w>span{display:inline-block;transform:translateY(110%) skewY(4deg);opacity:0;filter:blur(6px);transition:transform 1s cubic-bezier(.16,.84,.24,1),opacity .9s ease,filter .9s ease}
@@ -122,7 +140,7 @@ def nav():
         f'<a class="hide-sm" href="/{E(s["slug"])}/">{E(s["nav"])}</a>' for s in SERVICES
     )
     return f"""<header class="top"><div class="wrap bar">
-<a class="logo" href="/" aria-label="Sourced. home">Sourced.</a>
+<a class="logo" href="/" aria-label="Sourced. home"><span class="wordmark">Sourced.</span></a>
 <nav class="navlinks" aria-label="Services">{links}<a href="/guides/">Guides</a></nav>
 <a class="btn" href="/#brief">Get a quote</a>
 </div></header>"""
@@ -131,7 +149,7 @@ def nav():
 def footer():
     svc = "<br>".join(f'<a href="/{E(s["slug"])}/">{E(s["nav"])}</a>' for s in SERVICES)
     return f"""<footer><div class="wrap cols">
-<div><div class="logo" style="font-size:24px;color:#fff">Sourced.</div><p>See it. Say it. Sourced.<br>Production sourcing across London and the UK.</p></div>
+<div><div class="logo"><span class="wordmark">Sourced.</span></div><p>See it. Say it. Sourced.<br>Production sourcing across London and the UK.</p></div>
 <div><strong style="color:#fff">Services</strong><br>{svc}<br><a href="/location-scouting/">Location scouting</a></div>
 <div><strong style="color:#fff">Contact</strong><br><a href="mailto:{EMAIL}">{EMAIL}</a><br><a href="tel:{PHONE_INTL}">{PHONE_DISPLAY}</a><br><a href="https://www.instagram.com/sourced_uk/" target="_blank" rel="noopener">Instagram</a><br><a href="/guides/">Guides</a><br><a href="/partners/">List with us</a><br><a href="/list-your-house-for-filming/">List your house</a></div>
 </div><div class="wrap"><p>© {datetime.date.today().year} Sourced. · <a href="/privacy/">Privacy policy</a> · <a href="/privacy/#cookies">Cookies</a></p></div></footer><script>(function(){{var rm=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
