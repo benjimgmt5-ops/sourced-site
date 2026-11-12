@@ -105,13 +105,21 @@ footer .wordmark{font-size:64px}
 header.top .wordmark{font-size:34px}
 .hero:after{background:linear-gradient(180deg,rgba(10,10,10,.05),#0a0a0a 94%)!important}
 /* corner texture */
+html,body{overflow-x:clip}
 body{position:relative}
-body:before{content:"";position:absolute;top:0;right:0;width:min(1100px,75vw);height:1100px;pointer-events:none;z-index:3;mix-blend-mode:screen;opacity:.8;
-background:repeating-radial-gradient(circle at 100% 0,rgba(255,255,255,.10) 0 1px,transparent 1px 18px),radial-gradient(rgba(255,255,255,.22) 1px,transparent 1.5px) 0 0/14px 14px;
--webkit-mask:radial-gradient(ellipse 100% 100% at 100% 0,#000 0%,rgba(0,0,0,.55) 35%,transparent 72%);mask:radial-gradient(ellipse 100% 100% at 100% 0,#000 0%,rgba(0,0,0,.55) 35%,transparent 72%);animation:texdrift 18s ease-in-out infinite alternate}
-@keyframes texdrift{from{background-position:0 0,0 0}to{background-position:0 0,14px 28px}}
-@media (max-width:700px){body:before{width:100vw;height:700px;opacity:.4}}
-@media (prefers-reduced-motion:reduce){body:before{animation:none}}
+body:before{content:"";position:absolute;top:0;right:0;width:min(1500px,95vw);height:1400px;pointer-events:none;z-index:3;mix-blend-mode:screen;opacity:1;
+background:repeating-radial-gradient(circle at 100% 0,rgba(255,255,255,.16) 0 1px,transparent 1px 22px),radial-gradient(rgba(255,255,255,.32) 1.1px,transparent 1.7px) 0 0/16px 16px;
+-webkit-mask:radial-gradient(ellipse 100% 100% at 100% 0,#000 0%,rgba(0,0,0,.6) 38%,transparent 75%);mask:radial-gradient(ellipse 100% 100% at 100% 0,#000 0%,rgba(0,0,0,.6) 38%,transparent 75%);animation:texdrift 14s ease-in-out infinite alternate,texpulse 6s ease-in-out infinite}
+@keyframes texdrift{from{background-size:auto,16px 16px;background-position:0 0,0 0}to{background-size:auto,16px 16px;background-position:0 0,16px 32px}}
+@keyframes texpulse{0%,100%{opacity:.75}50%{opacity:1}}
+body:after{content:"";position:absolute;top:-700px;right:-700px;width:1400px;height:1400px;border-radius:50%;pointer-events:none;z-index:3;mix-blend-mode:screen;
+background:conic-gradient(from 0deg,transparent 0deg,rgba(255,255,255,.14) 18deg,transparent 40deg,transparent 180deg,rgba(255,255,255,.08) 200deg,transparent 225deg);
+-webkit-mask:radial-gradient(circle,transparent 8%,#000 20%,#000 45%,transparent 70%);mask:radial-gradient(circle,transparent 8%,#000 20%,#000 45%,transparent 70%);animation:ringspin 22s linear infinite}
+@media (max-width:700px){body:before{height:900px;width:100vw}body:after{width:900px;height:900px;top:-450px;right:-450px}}
+@media (prefers-reduced-motion:reduce){body:before,body:after{animation:none}}
+/* film grain + vignette for depth */
+html:after{content:"";position:fixed;inset:0;pointer-events:none;z-index:2147483000;opacity:.06;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+@keyframes ringspin{to{transform:rotate(360deg)}}
 /* lux 4 */
 .btn{transition:transform .45s cubic-bezier(.2,.9,.25,1.2),box-shadow .45s ease,background .35s ease,letter-spacing .45s ease!important;letter-spacing:.02em;will-change:transform}
 .btn:hover{transform:scale(1.07)!important;letter-spacing:.06em}
