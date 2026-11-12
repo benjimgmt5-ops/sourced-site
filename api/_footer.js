@@ -49,7 +49,7 @@ export function footerHtml({ unsub = false } = {}) {
     + `<tr><td style="padding:22px 0 0;border-bottom:1px solid #e5e5e5"></td></tr>`
     + `<tr><td style="padding:14px 0 0">` + legal.map(p => `<p style="${small}">${p}</p>`).join('')
     + (unsub ? `<p style="${small}">${esc(UNSUB)}</p>` : '') + `</td></tr>`
-    + `<tr><td align="center" style="padding:18px 0 4px"><img src="${SITE}/media/email/sourced-logo-watermark.png" width="180" alt="" style="display:block;margin:0 auto;border:0"></td></tr>`
+    + `<tr><td align="center" style="padding:18px 0 4px"><img src="${SITE}/media/email/sourced-logo-watermark-v2.png" width="190" alt="" style="display:block;margin:0 auto;border:0"></td></tr>`
     + `</table>`;
 }
 
