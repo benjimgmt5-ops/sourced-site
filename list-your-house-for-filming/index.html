@@ -57,6 +57,31 @@ footer a{text-decoration:none}footer a:hover{color:var(--white)}
 .guides{display:grid;gap:14px;margin:24px 0}
 .guides a{display:block;text-decoration:none;background:var(--ink);border:1px solid var(--graphite);border-radius:14px;padding:20px}
 .guides a:hover{border-color:var(--steel)}.guides small{color:var(--ash)}
+/* lux upgrade */
+body{background:radial-gradient(1200px 600px at 80% -10%,#1b1b1b 0%,transparent 60%),radial-gradient(900px 500px at -10% 40%,#141414 0%,transparent 60%),#050505;background-attachment:fixed}
+.top,header.top{background:linear-gradient(180deg,rgba(14,14,14,.94),rgba(6,6,6,.9))!important;border-bottom:1px solid #232323!important;box-shadow:0 1px 0 rgba(255,255,255,.03)}
+.kicker{display:flex;align-items:center;gap:12px;letter-spacing:3.5px;color:#a8a8a8}
+.kicker:before{content:"";width:28px;height:1px;background:linear-gradient(90deg,#d9d9d9,transparent)}
+.card,.guides a,.cta{background:linear-gradient(160deg,#1a1a1a 0%,#111 55%,#0b0b0b 100%)!important;border:1px solid #262626!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.05),0 20px 40px -24px rgba(0,0,0,.9);transition:transform .35s ease,border-color .35s ease}
+.card:hover,.guides a:hover{transform:translateY(-3px);border-color:#3a3a3a!important}
+.about,.brief,.live{background:linear-gradient(180deg,#121212,#0a0a0a)!important;border-top:1px solid #222;border-bottom:1px solid #1a1a1a}
+.btn{transition:transform .25s ease,box-shadow .25s ease,background .25s ease}
+.btn:hover{transform:translateY(-2px);box-shadow:0 10px 30px -10px rgba(255,255,255,.35)}
+.btn.ghost{background:rgba(40,40,40,.45)!important;border-color:#3a3a3a!important}
+.btn.ghost:hover{background:rgba(60,60,60,.6)!important;box-shadow:none}
+details{border-color:#232323!important}
+footer{background:linear-gradient(180deg,#0e0e0e,#070707);border-top:1px solid #232323!important}
+.related a{background:#141414;border-color:#2e2e2e!important}
+/* title animation */
+.fx .w{display:inline-block;overflow:hidden;vertical-align:top;padding-bottom:.08em;margin-bottom:-.08em}
+.fx .w>span{display:inline-block;transform:translateY(110%) skewY(4deg);opacity:0;filter:blur(6px);transition:transform 1s cubic-bezier(.16,.84,.24,1),opacity .9s ease,filter .9s ease}
+.fx.in .w>span{transform:none;opacity:1;filter:none}
+h1.fx.in .w>span{background:linear-gradient(100deg,#fff 0%,#fff 42%,#8d8d8d 50%,#fff 58%,#fff 100%);background-size:300% 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:sheen 7s ease-in-out 1.4s infinite}
+@keyframes sheen{0%{background-position:100% 0}45%,100%{background-position:0 0}}
+.fx-line{position:relative}
+.fx-line:after{content:"";display:block;height:1px;width:0;margin-top:14px;background:linear-gradient(90deg,#cfcfcf,transparent);transition:width 1.4s cubic-bezier(.16,.84,.24,1) .3s}
+.fx-line.in:after{width:min(180px,40%)}
+@media (prefers-reduced-motion:reduce){.fx .w>span{transform:none!important;opacity:1!important;filter:none!important;transition:none}h1.fx .w>span{animation:none!important}}
 </style><script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.wearesourced.co.uk/"}, {"@type": "ListItem", "position": 2, "name": "List your house", "item": "https://www.wearesourced.co.uk/list-your-house-for-filming/"}]}</script><script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "What does it cost to list my house?", "acceptedAnswer": {"@type": "Answer", "text": "Your first 3 months are completely free. After that it's £124.99 a month to keep your home listed and actively promoted to production companies, paid by direct debit with one month's notice to cancel. You keep 100% of your location fee. Our commission is charged to the production on top, and we're always transparent about it."}}, {"@type": "Question", "name": "How much can I earn?", "acceptedAnswer": {"@type": "Answer", "text": "You set your own day rate. What a shoot pays depends on the size of the shoot, how long they need the house and which rooms they use. We'll talk you through what similar homes charge when we set up your listing."}}, {"@type": "Question", "name": "Do I have to be at home on the shoot day?", "acceptedAnswer": {"@type": "Answer", "text": "No. A Sourced. agent meets you before the crew arrives, walks the house with you and runs the booking from start to finish. You're welcome to stay or head out for the day."}}, {"@type": "Question", "name": "What if something gets damaged?", "acceptedAnswer": {"@type": "Answer", "text": "Every production must show us valid public liability insurance before we confirm a booking, and a damage deposit can be agreed for every shoot. Floors, doorways and furniture are protected, and your home is returned exactly as we received it. It's also worth letting your home insurer know you're hosting shoots."}}, {"@type": "Question", "name": "Can I say no to a shoot?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. You approve every booking, and you can turn down any shoot you're not comfortable with, with no penalty. Rooms that are off limits, crew numbers, parking and timings are all agreed in writing before anyone arrives."}}, {"@type": "Question", "name": "What kind of shoots will I get?", "acceptedAnswer": {"@type": "Answer", "text": "Music videos, fashion and beauty shoots, adverts, brand content, films, TV and photography. We tell you what the shoot is before you agree to it."}}]}</script></head><style>.pform{max-width:760px;margin:24px 0}.pform label{display:block;margin:0 0 16px;color:var(--mist);font-size:15px}
 .pform input,.pform textarea,.pform select{display:block;width:100%;margin-top:6px;background:var(--ink);border:1px solid var(--steel);border-radius:10px;color:#fff;font:inherit;padding:12px}
 .pform .row{display:grid;grid-template-columns:1fr 1fr;gap:16px}@media(max-width:640px){.pform .row{grid-template-columns:1fr}}
@@ -121,4 +146,14 @@ document.getElementById('hf').addEventListener('submit', async function (ev) {
 <div><div class="logo" style="font-size:24px;color:#fff">Sourced.</div><p>See it. Say it. Sourced.<br>Production sourcing across London and the UK.</p></div>
 <div><strong style="color:#fff">Services</strong><br><a href="/location-houses-london/">Locations</a><br><a href="/supercar-hire-music-videos/">Cars</a><br><a href="/vip-sprinter-hire-london/">Transport</a><br><a href="/set-security-close-protection/">Security</a><br><a href="/film-crew-and-kit-hire-london/">Crew &amp; Kit</a><br><a href="/location-scouting/">Location scouting</a></div>
 <div><strong style="color:#fff">Contact</strong><br><a href="mailto:sourced.admin@gmail.com">sourced.admin@gmail.com</a><br><a href="tel:+447590474421">07590 474421</a><br><a href="https://www.instagram.com/sourced_uk/" target="_blank" rel="noopener">Instagram</a><br><a href="/guides/">Guides</a><br><a href="/partners/">List with us</a><br><a href="/list-your-house-for-filming/">List your house</a></div>
-</div><div class="wrap"><p>© 2026 Sourced. · <a href="/privacy/">Privacy policy</a> · <a href="/privacy/#cookies">Cookies</a></p></div></footer></body></html>
+</div><div class="wrap"><p>© 2026 Sourced. · <a href="/privacy/">Privacy policy</a> · <a href="/privacy/#cookies">Cookies</a></p></div></footer><script>(function(){var rm=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+function split(h){if(h.dataset.fx)return;h.dataset.fx=1;var only=true;h.childNodes.forEach(function(n){if(n.nodeType!==3&&n.nodeName!=='BR')only=false});
+if(only){var i=0;var out=[];h.childNodes.forEach(function(n){if(n.nodeName==='BR'){out.push('<br>');return}
+n.textContent.split(/(\s+)/).forEach(function(t){if(!t)return;if(/^\s+$/.test(t)){out.push(' ');return}
+var s=document.createElement('span');s.textContent=t;out.push('<span class="w"><span style="transition-delay:'+(i++*70)+'ms">'+s.innerHTML+'</span></span>')})});h.innerHTML=out.join('')}
+h.classList.add('fx');if(h.tagName==='H2')h.classList.add('fx-line')}
+function go(){var hs=document.querySelectorAll('h1,h2');if(rm||!('IntersectionObserver' in window))return;
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.2});
+hs.forEach(function(h){split(h);io.observe(h)});
+new MutationObserver(function(){document.querySelectorAll('h1:not([data-fx]),h2:not([data-fx])').forEach(function(h){split(h);io.observe(h)})}).observe(document.body,{childList:true,subtree:true})}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',go);else go()})();</script></body></html>
