@@ -37,7 +37,7 @@ export function footerHtml({ unsub = false } = {}) {
   return `<table role="presentation" cellpadding="0" cellspacing="0" border="0" style="max-width:600px;width:100%;margin-top:18px;font-family:Arial,sans-serif">`
     + `<tr><td style="font-size:15px;line-height:1.5;color:#000;padding:0 0 14px">Kind regards,</td></tr>`
     + `<tr><td style="border-left:3px solid #000;padding:2px 0 2px 14px">`
-    + `<img src="${SITE}/media/email/sourced-logo-black.png" width="110" alt="SOURCED." style="display:block;margin:0 0 8px;border:0">`
+    + `<img src="${SITE}/media/email/sourced-logo-black-v2.png" width="110" alt="SOURCED." style="display:block;margin:0 0 8px;border:0">`
     + `<p style="margin:0;font-size:15px;font-weight:bold;color:#000">Benjamin Peagam T/A Benji</p>`
     + `<p style="margin:0 0 6px;font-size:13px;color:#555">Director, SOURCED.</p>`
     + `<p style="margin:0;font-size:13px;line-height:1.6;color:#000">`
@@ -49,7 +49,7 @@ export function footerHtml({ unsub = false } = {}) {
     + `<tr><td style="padding:22px 0 0;border-bottom:1px solid #e5e5e5"></td></tr>`
     + `<tr><td style="padding:14px 0 0">` + legal.map(p => `<p style="${small}">${p}</p>`).join('')
     + (unsub ? `<p style="${small}">${esc(UNSUB)}</p>` : '') + `</td></tr>`
-    + `<tr><td align="center" style="padding:18px 0 4px"><img src="${SITE}/media/email/sourced-logo-watermark-v2.png" width="190" alt="" style="display:block;margin:0 auto;border:0"></td></tr>`
+    + `<tr><td align="center" style="padding:18px 0 4px"><img src="${SITE}/media/email/sourced-logo-watermark-v3.png" width="190" alt="" style="display:block;margin:0 auto;border:0"></td></tr>`
     + `</table>`;
 }
 
