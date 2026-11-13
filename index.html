@@ -462,6 +462,25 @@ h1.fx.in .w>span{background:linear-gradient(100deg,#fff 0%,#fff 42%,#8d8d8d 50%,
 .fx-line:after{content:"";display:block;height:1px;width:0;margin-top:14px;background:linear-gradient(90deg,#cfcfcf,transparent);transition:width 1.4s cubic-bezier(.16,.84,.24,1) .3s}
 .fx-line.in:after{width:min(180px,40%)}
 @media (prefers-reduced-motion:reduce){.fx .w>span{transform:none!important;opacity:1!important;filter:none!important;transition:none}h1.fx .w>span{animation:none!important}}
+
+/* holographic G-Wagon behind hero */
+.hero{position:relative;overflow:hidden}
+.hero>.wrap{position:relative;z-index:1}
+.holo-car{position:absolute;z-index:0;pointer-events:none;right:-4%;top:50%;width:min(68vw,1080px);aspect-ratio:1600/903;transform:translateY(-46%);opacity:.34;
+  -webkit-mask-image:radial-gradient(ellipse 62% 60% at 55% 55%,#000 45%,transparent 78%);mask-image:radial-gradient(ellipse 62% 60% at 55% 55%,#000 45%,transparent 78%)}
+.holo-car .rig{position:absolute;inset:0;animation:holoDrive 7s ease-in-out infinite}
+.holo-car .body{position:absolute;inset:0;animation:holoIdle .9s ease-in-out infinite alternate}
+.holo-car img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;mix-blend-mode:screen;filter:grayscale(1) contrast(1.35) brightness(1.5) sepia(.25) hue-rotate(160deg) saturate(1.6);animation:holoFlicker 5s steps(1) infinite}
+.holo-car .ghost{opacity:.35;transform:translateX(4px);filter:grayscale(1) brightness(1.6) sepia(.4) hue-rotate(270deg) saturate(2.2);animation:none}
+.holo-car .scan{position:absolute;inset:0;mix-blend-mode:screen;background:repeating-linear-gradient(0deg,rgba(150,230,255,.10) 0 1px,transparent 1px 4px)}
+.holo-car .sweep{position:absolute;left:0;right:0;height:18%;top:-20%;mix-blend-mode:screen;background:linear-gradient(180deg,transparent,rgba(170,240,255,.22),transparent);animation:holoSweep 4.5s linear infinite}
+.holo-car canvas{position:absolute;inset:0;width:100%;height:100%}
+@keyframes holoDrive{0%,100%{transform:translateX(0)}50%{transform:translateX(2.2%)}}
+@keyframes holoIdle{from{transform:translateY(0)}to{transform:translateY(.35%)}}
+@keyframes holoSweep{to{top:110%}}
+@keyframes holoFlicker{0%,100%{opacity:1}42%{opacity:.82}43%{opacity:1}71%{opacity:.9}72%{opacity:1}}
+@media (max-width:900px){.holo-car{width:130vw;right:-38%;top:auto;bottom:4%;transform:none;opacity:.22}}
+@media (prefers-reduced-motion:reduce){.holo-car .rig,.holo-car .body,.holo-car img,.holo-car .sweep{animation:none}}
 </style>
 </head>
 <body>
@@ -482,6 +501,11 @@ h1.fx.in .w>span{background:linear-gradient(100deg,#fff 0%,#fff 42%,#8d8d8d 50%,
 <main id="top">
 <div class="view" id="view-home">
 <section class="hero" id="talk">
+  <div class="holo-car" aria-hidden="true"><div class="rig"><div class="body">
+    <img src="/media/hero/gwagon-holo.jpg" alt="" class="ghost" decoding="async">
+    <img src="/media/hero/gwagon-holo.jpg" alt="" decoding="async">
+    <div class="scan"></div><div class="sweep"></div></div>
+    <canvas id="holoSmoke"></canvas></div></div>
   <div class="wrap">
     <div>
       <h1>See it.<br>Say it.<br>Sourced.</h1>
@@ -1304,4 +1328,18 @@ var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isInter
 hs.forEach(function(h){split(h);io.observe(h)});
 new MutationObserver(function(){document.querySelectorAll('h1:not([data-fx]),h2:not([data-fx])').forEach(function(h){split(h);io.observe(h)})}).observe(document.body,{childList:true,subtree:true})}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',go);else go()})();</script>
+<script>
+(function(){var c=document.getElementById('holoSmoke');if(!c)return;var x=c.getContext('2d'),P=[],w,h,
+red=matchMedia('(prefers-reduced-motion: reduce)').matches;
+function sz(){var r=c.getBoundingClientRect(),d=Math.min(devicePixelRatio||1,2);w=c.width=r.width*d;h=c.height=r.height*d}
+sz();addEventListener('resize',sz);
+var EX=.165,EY=.715; /* exhaust, behind rear wheel */
+function emit(){P.push({x:EX*w,y:EY*h,vx:-(.25+Math.random()*.35)*w/1000,vy:-(.05+Math.random()*.12)*h/1000,r:(4+Math.random()*4)*w/1000,a:.32+Math.random()*.12,l:0})}
+var vis=true;new IntersectionObserver(function(e){vis=e[0].isIntersecting}).observe(c);
+function f(){requestAnimationFrame(f);if(!vis)return;if(Math.random()<.45)emit();x.clearRect(0,0,w,h);
+for(var i=P.length-1;i>=0;i--){var p=P[i];p.l++;p.x+=p.vx*(1+p.l/90);p.y+=p.vy+Math.sin(p.l/14)*.15;p.r+=w/5200;p.a*=.982;
+if(p.a<.01){P.splice(i,1);continue}var g=x.createRadialGradient(p.x,p.y,0,p.x,p.y,p.r);
+g.addColorStop(0,'rgba(190,235,255,'+p.a+')');g.addColorStop(1,'rgba(190,235,255,0)');x.fillStyle=g;x.beginPath();x.arc(p.x,p.y,p.r,0,7);x.fill()}}
+if(!red)f();})();
+</script>
 </body></html>
