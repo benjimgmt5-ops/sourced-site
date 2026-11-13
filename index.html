@@ -442,6 +442,16 @@ main h2:not(:first-child){padding-top:44px;background:linear-gradient(90deg,tran
 @keyframes vglow{0%,100%{box-shadow:0 0 0 1px rgba(200,200,200,.08),0 0 14px rgba(200,200,200,.10)}50%{box-shadow:0 0 0 1px rgba(230,230,230,.25),0 0 30px rgba(220,220,220,.28)}}
 .vcard{transition:transform .5s cubic-bezier(.2,.9,.25,1.2)}.vcard:hover{transform:scale(1.03)}
 @media (prefers-reduced-motion:reduce){.btn,.vcard video{animation:none!important}}
+/* amelia bubble */
+.globe-btn .bubble{position:absolute;top:-6%;right:-14%;z-index:6;padding:14px 18px;border-radius:18px 18px 18px 4px;background:linear-gradient(160deg,#3a3a3a,#262626);border:1px solid rgba(255,255,255,.35);color:#fff;font-family:var(--body);font-size:15px;line-height:1.35;text-align:left;white-space:nowrap;pointer-events:none;box-shadow:0 0 0 1px rgba(255,255,255,.06),0 0 24px rgba(255,255,255,.25),0 14px 30px -12px rgba(0,0,0,.9);opacity:0;transform:translateY(10px) scale(.9);transform-origin:0 100%;animation:bubin .7s cubic-bezier(.2,.9,.25,1.3) 1.2s forwards,bubfloat 3.6s ease-in-out 2s infinite,bubglow 2.8s ease-in-out 2s infinite}
+.globe-btn .bubble b{font-weight:700}
+.globe-btn .bubble:after{content:"";position:absolute;left:14px;bottom:-9px;width:16px;height:16px;background:#272727;border-right:1px solid rgba(255,255,255,.35);border-bottom:1px solid rgba(255,255,255,.35);transform:rotate(45deg) skew(8deg,8deg);border-radius:0 0 4px 0}
+@keyframes bubin{to{opacity:1;transform:none}}
+@keyframes bubfloat{0%,100%{translate:0 0}50%{translate:0 -8px}}
+@keyframes bubglow{0%,100%{box-shadow:0 0 0 1px rgba(255,255,255,.06),0 0 16px rgba(255,255,255,.18),0 14px 30px -12px rgba(0,0,0,.9)}50%{box-shadow:0 0 0 1px rgba(255,255,255,.18),0 0 34px rgba(255,255,255,.45),0 14px 30px -12px rgba(0,0,0,.9)}}
+.globe-btn[data-state="listening"] .bubble,.globe-btn[data-state="thinking"] .bubble{display:none}
+@media (max-width:900px){.globe-btn .bubble{right:-4%;top:-4%;font-size:13px;padding:10px 14px}}
+@media (prefers-reduced-motion:reduce){.globe-btn .bubble{animation:none;opacity:1;transform:none}}
 /* title animation */
 .fx .w{display:inline-block;overflow:hidden;vertical-align:top;padding:.04em .02em .24em;margin:-.04em -.02em -.24em}
 .fx .w>span{display:inline-block;transform:translateY(110%) skewY(4deg);opacity:0;filter:blur(6px);transition:transform 1s cubic-bezier(.16,.84,.24,1),opacity .9s ease,filter .9s ease}
@@ -485,6 +495,7 @@ h1.fx.in .w>span{background:linear-gradient(100deg,#fff 0%,#fff 42%,#8d8d8d 50%,
       <button class="globe-btn" id="globe" type="button" data-state="idle" aria-label="Talk to Amelia, the Sourced. AI assistant">
         <canvas id="globeCanvas" width="880" height="880"></canvas>
         <span class="ring" aria-hidden="true"></span>
+        <span class="bubble" aria-hidden="true">Hi, I'm Amelia.<br><b>Click here to get started.</b></span>
       </button>
       <div class="agent-intro">
         <span class="agent-tag"><span class="agent-dot" aria-hidden="true"></span>Meet Amelia, your AI assistant</span>
