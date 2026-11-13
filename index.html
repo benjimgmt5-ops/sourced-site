@@ -470,27 +470,23 @@ h1.fx.in .w>span{background:linear-gradient(100deg,#fff 0%,#fff 42%,#8d8d8d 50%,
   -webkit-mask-image:radial-gradient(ellipse 52% 56% at 50% 50%,#000 74%,transparent 100%);mask-image:radial-gradient(ellipse 52% 56% at 50% 50%,#000 74%,transparent 100%)}
 .holo-car .rig{position:absolute;inset:0;animation:holoDrive 7s ease-in-out infinite}
 .holo-car .body{position:absolute;inset:0;animation:holoIdle .9s ease-in-out infinite alternate}
-.holo-car img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;mix-blend-mode:screen;opacity:.42;filter:grayscale(1) contrast(1.35) brightness(1.6) sepia(.25) hue-rotate(160deg) saturate(1.6);animation:holoFlicker 5s steps(1) infinite}
-.holo-car .ghost{opacity:.14;transform:translateX(4px);filter:grayscale(1) brightness(1.6) sepia(.4) hue-rotate(270deg) saturate(2.2);animation:none}
-.holo-car .calipers{opacity:1;filter:saturate(4) brightness(2.2) contrast(1.2);animation:none;
-  -webkit-mask-image:radial-gradient(ellipse 2.6% 4.6% at 49% 66.5%,#000 40%,transparent 100%);mask-image:radial-gradient(ellipse 2.6% 4.6% at 49% 66.5%,#000 40%,transparent 100%)}
-.holo-car .cal-glow{position:absolute;left:49%;top:66.5%;width:7%;aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle,rgba(255,30,40,.55),rgba(255,0,20,0) 65%);mix-blend-mode:screen;animation:calPulse 2.4s ease-in-out infinite}
-.holo-car .lamp{position:absolute;transform:translate(-50%,-50%);border-radius:50%;mix-blend-mode:screen;animation:lampOn 4s ease-in-out infinite}
-.holo-car .lamp.main{left:67.8%;top:49%;width:9%;aspect-ratio:1;background:radial-gradient(circle,#fff 0 14%,rgba(220,240,255,.85) 24%,rgba(160,210,255,.25) 50%,transparent 70%)}
-.holo-car .lamp.far{left:85.3%;top:50%;width:4.5%;aspect-ratio:.6;background:radial-gradient(ellipse,#fff 0 12%,rgba(210,235,255,.7) 28%,transparent 70%)}
+.holo-car img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;mix-blend-mode:screen;opacity:.24;filter:grayscale(1) contrast(1.35) brightness(1.6);animation:holoFlicker 5s steps(1) infinite}
+.holo-car .ghost{opacity:.08;transform:translateX(4px);filter:grayscale(1) brightness(1.6);animation:none}
+.holo-car .lamp{opacity:.7;position:absolute;transform:translate(-50%,-50%);border-radius:50%;mix-blend-mode:screen;animation:lampOn 4s ease-in-out infinite}
+.holo-car .lamp.main{left:67.8%;top:49%;width:9%;aspect-ratio:1;background:radial-gradient(circle,#fff 0 14%,rgba(255,255,255,.6) 24%,rgba(255,255,255,.15) 50%,transparent 70%)}
+.holo-car .lamp.far{left:85.3%;top:50%;width:4.5%;aspect-ratio:.6;background:radial-gradient(ellipse,#fff 0 12%,rgba(255,255,255,.5) 28%,transparent 70%)}
 .holo-car .beam{position:absolute;left:68%;top:49%;width:42%;height:34%;transform:translateY(-50%);transform-origin:left center;mix-blend-mode:screen;
-  background:linear-gradient(90deg,rgba(220,240,255,.38),rgba(200,230,255,.12) 45%,transparent 85%);clip-path:polygon(0 44%,100% 0,100% 100%,0 56%);filter:blur(6px);animation:lampOn 4s ease-in-out infinite}
-.holo-car .scan{position:absolute;inset:0;mix-blend-mode:screen;opacity:.8;background:repeating-linear-gradient(0deg,rgba(150,230,255,.08) 0 1px,transparent 1px 4px)}
-.holo-car .sweep{position:absolute;left:0;right:0;height:18%;top:-20%;mix-blend-mode:screen;background:linear-gradient(180deg,transparent,rgba(170,240,255,.18),transparent);animation:holoSweep 4.5s linear infinite}
+  background:linear-gradient(90deg,rgba(255,255,255,.22),rgba(255,255,255,.07) 45%,transparent 85%);clip-path:polygon(0 44%,100% 0,100% 100%,0 56%);filter:blur(6px);animation:lampOn 4s ease-in-out infinite}
+.holo-car .scan{position:absolute;inset:0;mix-blend-mode:screen;opacity:.8;background:repeating-linear-gradient(0deg,rgba(255,255,255,.06) 0 1px,transparent 1px 4px)}
+.holo-car .sweep{position:absolute;left:0;right:0;height:18%;top:-20%;mix-blend-mode:screen;background:linear-gradient(180deg,transparent,rgba(255,255,255,.12),transparent);animation:holoSweep 4.5s linear infinite}
 .holo-car canvas{position:absolute;inset:0;width:100%;height:100%}
 @keyframes holoDrive{0%,100%{transform:translateX(0)}50%{transform:translateX(2.2%)}}
 @keyframes holoIdle{from{transform:translateY(0)}to{transform:translateY(.35%)}}
 @keyframes holoSweep{to{top:110%}}
-@keyframes holoFlicker{0%,100%{opacity:.42}42%{opacity:.34}43%{opacity:.42}71%{opacity:.37}72%{opacity:.42}}
-@keyframes lampOn{0%,100%{opacity:1}50%{opacity:.85}}
-@keyframes calPulse{0%,100%{opacity:.8}50%{opacity:1}}
-@media (max-width:900px){.holo-car{width:120vw;left:-10vw;top:auto;bottom:6%;transform:none}.holo-car img{opacity:.3}}
-@media (prefers-reduced-motion:reduce){.holo-car .rig,.holo-car .body,.holo-car img,.holo-car .sweep,.holo-car .lamp,.holo-car .beam,.holo-car .cal-glow{animation:none}}
+@keyframes holoFlicker{0%,100%{opacity:.24}42%{opacity:.18}43%{opacity:.24}71%{opacity:.2}72%{opacity:.24}}
+@keyframes lampOn{0%,100%{opacity:.7}50%{opacity:.55}}
+@media (max-width:900px){.holo-car{width:120vw;left:-10vw;top:auto;bottom:6%;transform:none}.holo-car img{opacity:.18}}
+@media (prefers-reduced-motion:reduce){.holo-car .rig,.holo-car .body,.holo-car img,.holo-car .sweep,.holo-car .lamp,.holo-car .beam{animation:none}}
 </style>
 </head>
 <body>
@@ -514,9 +510,8 @@ h1.fx.in .w>span{background:linear-gradient(100deg,#fff 0%,#fff 42%,#8d8d8d 50%,
   <div class="holo-car" aria-hidden="true"><div class="rig"><div class="body">
     <img src="/media/hero/gwagon-holo.jpg" alt="" class="ghost" decoding="async">
     <img src="/media/hero/gwagon-holo.jpg" alt="" decoding="async">
-    <img src="/media/hero/gwagon-holo.jpg" alt="" class="calipers" decoding="async">
     <div class="scan"></div><div class="sweep"></div>
-    <span class="cal-glow"></span><span class="beam"></span><span class="lamp main"></span><span class="lamp far"></span></div>
+    <span class="beam"></span><span class="lamp main"></span><span class="lamp far"></span></div>
     <canvas id="holoSmoke"></canvas></div></div>
   <div class="wrap">
     <div>
@@ -1351,7 +1346,7 @@ var vis=true;new IntersectionObserver(function(e){vis=e[0].isIntersecting}).obse
 function f(){requestAnimationFrame(f);if(!vis)return;if(Math.random()<.45)emit();x.clearRect(0,0,w,h);
 for(var i=P.length-1;i>=0;i--){var p=P[i];p.l++;p.x+=p.vx*(1+p.l/90);p.y+=p.vy+Math.sin(p.l/14)*.15;p.r+=w/5200;p.a*=.982;
 if(p.a<.01){P.splice(i,1);continue}var g=x.createRadialGradient(p.x,p.y,0,p.x,p.y,p.r);
-g.addColorStop(0,'rgba(190,235,255,'+p.a+')');g.addColorStop(1,'rgba(190,235,255,0)');x.fillStyle=g;x.beginPath();x.arc(p.x,p.y,p.r,0,7);x.fill()}}
+g.addColorStop(0,'rgba(230,230,230,'+p.a+')');g.addColorStop(1,'rgba(230,230,230,0)');x.fillStyle=g;x.beginPath();x.arc(p.x,p.y,p.r,0,7);x.fill()}}
 if(!red)f();})();
 </script>
 </body></html>
