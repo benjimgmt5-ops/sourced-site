@@ -453,7 +453,8 @@ main h2:not(:first-child){padding-top:44px;background:linear-gradient(90deg,tran
 @media (max-width:900px){.globe-btn .bubble{right:-4%;top:-4%;font-size:13px;padding:10px 14px}}
 @media (prefers-reduced-motion:reduce){.globe-btn .bubble{animation:none;opacity:1;transform:none}}
 /* title animation */
-.fx .w{display:inline-block;overflow:hidden;vertical-align:top;padding:.04em .02em .24em;margin:-.04em -.02em -.24em}
+.fx .w{display:inline-block;overflow:hidden;vertical-align:top;padding:.04em .02em .28em;margin:-.04em -.02em -.28em}
+.fx .w>span{padding:.04em .02em .28em;margin:-.04em -.02em -.28em}
 .fx .w>span{display:inline-block;transform:translateY(110%) skewY(4deg);opacity:0;filter:blur(6px);transition:transform 1s cubic-bezier(.16,.84,.24,1),opacity .9s ease,filter .9s ease}
 .fx.in .w>span{transform:none;opacity:1;filter:none}
 h1.fx.in .w>span{background:linear-gradient(100deg,#fff 0%,#fff 42%,#8d8d8d 50%,#fff 58%,#fff 100%);background-size:300% 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:sheen 7s ease-in-out 1.4s infinite}
