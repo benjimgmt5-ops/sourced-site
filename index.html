@@ -466,21 +466,31 @@ h1.fx.in .w>span{background:linear-gradient(100deg,#fff 0%,#fff 42%,#8d8d8d 50%,
 /* holographic G-Wagon behind hero */
 .hero{position:relative;overflow:hidden}
 .hero>.wrap{position:relative;z-index:1}
-.holo-car{position:absolute;z-index:0;pointer-events:none;right:-4%;top:50%;width:min(68vw,1080px);aspect-ratio:1600/903;transform:translateY(-46%);opacity:.34;
-  -webkit-mask-image:radial-gradient(ellipse 62% 60% at 55% 55%,#000 45%,transparent 78%);mask-image:radial-gradient(ellipse 62% 60% at 55% 55%,#000 45%,transparent 78%)}
+.holo-car{position:absolute;z-index:0;pointer-events:none;left:1%;top:52%;width:min(66vw,1060px);aspect-ratio:1600/903;transform:translateY(-50%);
+  -webkit-mask-image:radial-gradient(ellipse 52% 56% at 50% 50%,#000 74%,transparent 100%);mask-image:radial-gradient(ellipse 52% 56% at 50% 50%,#000 74%,transparent 100%)}
 .holo-car .rig{position:absolute;inset:0;animation:holoDrive 7s ease-in-out infinite}
 .holo-car .body{position:absolute;inset:0;animation:holoIdle .9s ease-in-out infinite alternate}
-.holo-car img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;mix-blend-mode:screen;filter:grayscale(1) contrast(1.35) brightness(1.5) sepia(.25) hue-rotate(160deg) saturate(1.6);animation:holoFlicker 5s steps(1) infinite}
-.holo-car .ghost{opacity:.35;transform:translateX(4px);filter:grayscale(1) brightness(1.6) sepia(.4) hue-rotate(270deg) saturate(2.2);animation:none}
-.holo-car .scan{position:absolute;inset:0;mix-blend-mode:screen;background:repeating-linear-gradient(0deg,rgba(150,230,255,.10) 0 1px,transparent 1px 4px)}
-.holo-car .sweep{position:absolute;left:0;right:0;height:18%;top:-20%;mix-blend-mode:screen;background:linear-gradient(180deg,transparent,rgba(170,240,255,.22),transparent);animation:holoSweep 4.5s linear infinite}
+.holo-car img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;mix-blend-mode:screen;opacity:.42;filter:grayscale(1) contrast(1.35) brightness(1.6) sepia(.25) hue-rotate(160deg) saturate(1.6);animation:holoFlicker 5s steps(1) infinite}
+.holo-car .ghost{opacity:.14;transform:translateX(4px);filter:grayscale(1) brightness(1.6) sepia(.4) hue-rotate(270deg) saturate(2.2);animation:none}
+.holo-car .calipers{opacity:1;filter:saturate(4) brightness(2.2) contrast(1.2);animation:none;
+  -webkit-mask-image:radial-gradient(ellipse 2.6% 4.6% at 49% 66.5%,#000 40%,transparent 100%);mask-image:radial-gradient(ellipse 2.6% 4.6% at 49% 66.5%,#000 40%,transparent 100%)}
+.holo-car .cal-glow{position:absolute;left:49%;top:66.5%;width:7%;aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle,rgba(255,30,40,.55),rgba(255,0,20,0) 65%);mix-blend-mode:screen;animation:calPulse 2.4s ease-in-out infinite}
+.holo-car .lamp{position:absolute;transform:translate(-50%,-50%);border-radius:50%;mix-blend-mode:screen;animation:lampOn 4s ease-in-out infinite}
+.holo-car .lamp.main{left:67.8%;top:49%;width:9%;aspect-ratio:1;background:radial-gradient(circle,#fff 0 14%,rgba(220,240,255,.85) 24%,rgba(160,210,255,.25) 50%,transparent 70%)}
+.holo-car .lamp.far{left:85.3%;top:50%;width:4.5%;aspect-ratio:.6;background:radial-gradient(ellipse,#fff 0 12%,rgba(210,235,255,.7) 28%,transparent 70%)}
+.holo-car .beam{position:absolute;left:68%;top:49%;width:42%;height:34%;transform:translateY(-50%);transform-origin:left center;mix-blend-mode:screen;
+  background:linear-gradient(90deg,rgba(220,240,255,.38),rgba(200,230,255,.12) 45%,transparent 85%);clip-path:polygon(0 44%,100% 0,100% 100%,0 56%);filter:blur(6px);animation:lampOn 4s ease-in-out infinite}
+.holo-car .scan{position:absolute;inset:0;mix-blend-mode:screen;opacity:.8;background:repeating-linear-gradient(0deg,rgba(150,230,255,.08) 0 1px,transparent 1px 4px)}
+.holo-car .sweep{position:absolute;left:0;right:0;height:18%;top:-20%;mix-blend-mode:screen;background:linear-gradient(180deg,transparent,rgba(170,240,255,.18),transparent);animation:holoSweep 4.5s linear infinite}
 .holo-car canvas{position:absolute;inset:0;width:100%;height:100%}
 @keyframes holoDrive{0%,100%{transform:translateX(0)}50%{transform:translateX(2.2%)}}
 @keyframes holoIdle{from{transform:translateY(0)}to{transform:translateY(.35%)}}
 @keyframes holoSweep{to{top:110%}}
-@keyframes holoFlicker{0%,100%{opacity:1}42%{opacity:.82}43%{opacity:1}71%{opacity:.9}72%{opacity:1}}
-@media (max-width:900px){.holo-car{width:130vw;right:-38%;top:auto;bottom:4%;transform:none;opacity:.22}}
-@media (prefers-reduced-motion:reduce){.holo-car .rig,.holo-car .body,.holo-car img,.holo-car .sweep{animation:none}}
+@keyframes holoFlicker{0%,100%{opacity:.42}42%{opacity:.34}43%{opacity:.42}71%{opacity:.37}72%{opacity:.42}}
+@keyframes lampOn{0%,100%{opacity:1}50%{opacity:.85}}
+@keyframes calPulse{0%,100%{opacity:.8}50%{opacity:1}}
+@media (max-width:900px){.holo-car{width:120vw;left:-10vw;top:auto;bottom:6%;transform:none}.holo-car img{opacity:.3}}
+@media (prefers-reduced-motion:reduce){.holo-car .rig,.holo-car .body,.holo-car img,.holo-car .sweep,.holo-car .lamp,.holo-car .beam,.holo-car .cal-glow{animation:none}}
 </style>
 </head>
 <body>
@@ -504,7 +514,9 @@ h1.fx.in .w>span{background:linear-gradient(100deg,#fff 0%,#fff 42%,#8d8d8d 50%,
   <div class="holo-car" aria-hidden="true"><div class="rig"><div class="body">
     <img src="/media/hero/gwagon-holo.jpg" alt="" class="ghost" decoding="async">
     <img src="/media/hero/gwagon-holo.jpg" alt="" decoding="async">
-    <div class="scan"></div><div class="sweep"></div></div>
+    <img src="/media/hero/gwagon-holo.jpg" alt="" class="calipers" decoding="async">
+    <div class="scan"></div><div class="sweep"></div>
+    <span class="cal-glow"></span><span class="beam"></span><span class="lamp main"></span><span class="lamp far"></span></div>
     <canvas id="holoSmoke"></canvas></div></div>
   <div class="wrap">
     <div>
