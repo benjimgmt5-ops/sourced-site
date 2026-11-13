@@ -453,6 +453,9 @@ main h2:not(:first-child){padding-top:44px;background:linear-gradient(90deg,tran
 @media (max-width:900px){.globe-btn .bubble{right:-4%;top:-4%;font-size:13px;padding:10px 14px}}
 @media (prefers-reduced-motion:reduce){.globe-btn .bubble{animation:none;opacity:1;transform:none}}
 /* title animation */
+.fx.in .w{animation:unclip 0s linear 1.6s forwards}
+@keyframes unclip{to{overflow:visible}}
+@media (hover:none),(max-width:820px){h1.fx.in .w>span{background:none!important;-webkit-text-fill-color:#fff!important;animation:none!important}}
 .fx .w{display:inline-block;overflow:hidden;vertical-align:top;padding:.04em .02em .28em;margin:-.04em -.02em -.28em}
 .fx .w>span{padding:.04em .02em .28em;margin:-.04em -.02em -.28em}
 .fx .w>span{display:inline-block;transform:translateY(110%) skewY(4deg);opacity:0;filter:blur(6px);transition:transform 1s cubic-bezier(.16,.84,.24,1),opacity .9s ease,filter .9s ease}
@@ -1468,7 +1471,7 @@ n.textContent.split(/(\s+)/).forEach(function(t){if(!t)return;if(/^\s+$/.test(t)
 var s=document.createElement('span');s.textContent=t;out.push('<span class="w"><span style="transition-delay:'+(i++*70)+'ms">'+s.innerHTML+'</span></span>')})});h.innerHTML=out.join('')}
 h.classList.add('fx');if(h.tagName==='H2')h.classList.add('fx-line')}
 function go(){var hs=document.querySelectorAll('h1,h2');if(rm||!('IntersectionObserver' in window))return;
-var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.2});
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){var t=e.target;t.classList.add('in');io.unobserve(t);setTimeout(function(){t.querySelectorAll('.w').forEach(function(w){w.style.overflow='visible'})},1800)}})},{threshold:.2});
 hs.forEach(function(h){split(h);io.observe(h)});
 new MutationObserver(function(){document.querySelectorAll('h1:not([data-fx]),h2:not([data-fx])').forEach(function(h){split(h);io.observe(h)})}).observe(document.body,{childList:true,subtree:true})}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',go);else go()})();</script>
