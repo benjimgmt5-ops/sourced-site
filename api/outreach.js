@@ -76,6 +76,13 @@ export default async function handler(req, res) {
     blobs = blobs.concat(r.blobs); cursor = r.hasMore ? r.cursor : null;
   } while (cursor);
   const task = (req.query && req.query.task) || new URL(req.url, 'http://x').searchParams.get('task');
+  if (task === 'stats') {
+    // Counts only (no addresses): how many outreach emails were recorded per UK day.
+    const byDay = {};
+    for (const b of blobs) { const d = new Date(b.uploadedAt).toLocaleDateString('en-CA', { timeZone: 'Europe/London' }); byDay[d] = (byDay[d] || 0) + 1; }
+    const days = Object.keys(byDay).sort().slice(-7);
+    return res.status(200).json({ ok: true, totalRecorded: blobs.length, lastRecorded: blobs.map(b => b.uploadedAt).sort().pop() || null, byDay: Object.fromEntries(days.map(d => [d, byDay[d]])) });
+  }
   if (task === 'requeue') return res.status(200).json({ ok: true, ...(await requeueLimited(blobs, Number((req.query && req.query.from) || new URL(req.url, 'http://x').searchParams.get('from') || 0))) });
   const sentAt = new Map(blobs.map(b => [b.pathname.replace('outreach/sent/', '').replace('.json', ''), new Date(b.uploadedAt).getTime()]));
   const done = new Set(sentAt.keys());
