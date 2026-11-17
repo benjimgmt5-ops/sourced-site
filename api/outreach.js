@@ -90,7 +90,8 @@ export default async function handler(req, res) {
         const h = new Date(b.uploadedAt).toLocaleString('en-GB', { timeZone: 'Europe/London', hour: '2-digit', hour12: false, day: '2-digit' }); hours[h] = (hours[h] || 0) + 1;
       }));
     }
-    return res.status(200).json({ ok: true, last48h: { statuses, byHour: hours }, totalRecorded: blobs.length, lastRecorded: blobs.map(b => b.uploadedAt).sort().pop() || null, byDay: Object.fromEntries(days.map(d => [d, byDay[d]])) });
+    let limit = null; try { const lb = (await list({ prefix: 'outreach/limit/' })).blobs[0]; if (lb) limit = await (await fetch(lb.url + '?t=' + Date.now())).json(); } catch (e) {}
+    return res.status(200).json({ ok: true, lastSendingLimit: limit, last48h: { statuses, byHour: hours }, totalRecorded: blobs.length, lastRecorded: blobs.map(b => b.uploadedAt).sort().pop() || null, byDay: Object.fromEntries(days.map(d => [d, byDay[d]])) });
   }
   if (task === 'requeue') return res.status(200).json({ ok: true, ...(await requeueLimited(blobs, Number((req.query && req.query.from) || new URL(req.url, 'http://x').searchParams.get('from') || 0))) });
   const sentAt = new Map(blobs.map(b => [b.pathname.replace('outreach/sent/', '').replace('.json', ''), new Date(b.uploadedAt).getTime()]));
@@ -134,7 +135,7 @@ export default async function handler(req, res) {
         }),
         signal: AbortSignal.timeout(10000)
       });
-      if (!r.ok) { status = 'failed'; detail = (await r.text()).slice(0, 300); if (r.status === 429) status = 'limit'; }
+      if (!r.ok) { status = 'failed'; detail = (await r.text()).slice(0, 300); if (r.status === 429) { status = 'limit'; await put('outreach/limit/latest.json', JSON.stringify({ at: new Date().toISOString(), detail }), { access: 'public', contentType: 'application/json', addRandomSuffix: false, allowOverwrite: true }).catch(() => {}); } }
     } catch (e) { status = 'failed'; detail = String(e).slice(0, 300); }
     // Resend's sending limit reached: nothing was sent, so clear the claim (it retries on a later run) and stop this run.
     if (status === 'limit') { await del(`outreach/sent/${m.id}.json`).catch(() => {}); results.push({ id: m.id, to: m.to, status: 'waiting (sending limit)' }); break; }
