@@ -204,7 +204,7 @@ def footer():
     return f"""<footer><div class="wrap cols">
 <div><div class="logo"><span class="wordmark">Sourced.</span></div><p>See it. Say it. Sourced.<br>Production sourcing across London and the UK.</p></div>
 <div><strong style="color:#fff">Services</strong><br>{svc}<br><a href="/location-scouting/">Location scouting</a></div>
-<div><strong style="color:#fff">Contact</strong><br><a href="mailto:{EMAIL}">{EMAIL}</a><br><a href="tel:{PHONE_INTL}">{PHONE_DISPLAY}</a><br><a href="https://www.instagram.com/sourced_uk/" target="_blank" rel="noopener">Instagram</a><br><a href="/guides/">Guides</a><br><a href="/partners/">List with us</a><br><a href="/list-your-house-for-filming/">List your house</a></div>
+<div><strong style="color:#fff">Contact</strong><br><a href="mailto:{EMAIL}">{EMAIL}</a><br><a href="tel:{PHONE_INTL}">{PHONE_DISPLAY}</a><br><a href="https://www.instagram.com/sourced_uk_/" target="_blank" rel="noopener">Instagram</a><br><a href="/guides/">Guides</a><br><a href="/partners/">List with us</a><br><a href="/list-your-house-for-filming/">List your house</a></div>
 </div><div class="wrap"><p>© {datetime.date.today().year} Sourced. · <a href="/privacy/">Privacy policy</a> · <a href="/privacy/#cookies">Cookies</a></p></div></footer><script>(function(){{var rm=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
 function split(h){{if(h.dataset.fx)return;h.dataset.fx=1;var only=true;h.childNodes.forEach(function(n){{if(n.nodeType!==3&&n.nodeName!=='BR')only=false}});
 if(only){{var i=0;var out=[];h.childNodes.forEach(function(n){{if(n.nodeName==='BR'){{out.push('<br>');return}}
@@ -272,7 +272,7 @@ def build_service(s):
                   "serviceType": s["nav"], "description": s["description"], "url": SITE + path,
                   "areaServed": [{"@type": "City", "name": "London"}, {"@type": "Country", "name": "United Kingdom"}],
                   "provider": {"@type": "ProfessionalService", "name": "Sourced.", "url": SITE + "/",
-                               "telephone": PHONE_INTL, "email": EMAIL, "sameAs": ["https://www.instagram.com/sourced_uk/"]}}
+                               "telephone": PHONE_INTL, "email": EMAIL, "sameAs": ["https://www.instagram.com/sourced_uk_/"]}}
     ld = [service_ld, breadcrumb_ld([("Home", "/"), (s["nav"], path)])]
     if s.get("faqs"):
         ld.append(faq_ld(s["faqs"]))
@@ -400,7 +400,7 @@ def build_vehicle(v, gals, imgs):
                "url": SITE + path, "image": SITE + hero,
                "areaServed": [{"@type": "City", "name": "London"}, {"@type": "Country", "name": "United Kingdom"}],
                "provider": {"@type": "ProfessionalService", "name": "Sourced.", "url": SITE + "/", "telephone": PHONE_INTL,
-                            "email": EMAIL, "sameAs": ["https://www.instagram.com/sourced_uk/"]}}
+                            "email": EMAIL, "sameAs": ["https://www.instagram.com/sourced_uk_/"]}}
     ld = [product, breadcrumb_ld([("Home", "/"), (parent["nav"], f"/{parent['slug']}/"), (v["name"], path)]), faq_ld(v["faqs"])]
     doc = head(v["title"], v["description"], path, hero, ld) + f"""<body>{nav()}
 <section class="hero"><img src="{E(hero)}" alt="{E(v['name'])}" fetchpriority="high">

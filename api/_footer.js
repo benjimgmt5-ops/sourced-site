@@ -14,7 +14,7 @@ export function stripSignoff(text) {
     .replace(/\s+$/, '');
 }
 
-const SIGN = ['Kind regards,', '', 'Benjamin Peagam T/A Benji', 'Director, SOURCED.', `Email: ${EMAIL}`, `Phone: ${PHONE}`, 'Web: www.wearesourced.co.uk', 'Instagram: @sourced_uk', 'See it. Say it. Sourced.'];
+const SIGN = ['Kind regards,', '', 'Benjamin Peagam T/A Benji', 'Director, SOURCED.', `Email: ${EMAIL}`, `Phone: ${PHONE}`, 'Web: www.wearesourced.co.uk', 'Instagram: @sourced_uk_', 'See it. Say it. Sourced.'];
 
 const LEGAL = [
   'Confidentiality: This email and any attachments are confidential and meant only for the person they are addressed to. If you have received it by mistake, please tell us and delete it.',
@@ -44,7 +44,7 @@ export function footerHtml({ unsub = false } = {}) {
     + `Email: <a href="mailto:${EMAIL}" style="color:#000">${EMAIL}</a><br>`
     + `Phone: <a href="tel:+447590474421" style="color:#000">${PHONE}</a><br>`
     + `Web: <a href="${SITE}" style="color:#000">www.wearesourced.co.uk</a><br>`
-    + `Instagram: <a href="https://www.instagram.com/sourced_uk/" style="color:#000">@sourced_uk</a></p>`
+    + `Instagram: <a href="https://www.instagram.com/sourced_uk_/" style="color:#000">@sourced_uk_</a></p>`
     + `<p style="margin:6px 0 0;font-size:12px;color:#777;font-style:italic">See it. Say it. Sourced.</p></td></tr>`
     + `<tr><td style="padding:22px 0 0;border-bottom:1px solid #e5e5e5"></td></tr>`
     + `<tr><td style="padding:14px 0 0">` + legal.map(p => `<p style="${small}">${p}</p>`).join('')
