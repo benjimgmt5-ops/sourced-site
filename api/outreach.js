@@ -81,7 +81,16 @@ export default async function handler(req, res) {
     const byDay = {};
     for (const b of blobs) { const d = new Date(b.uploadedAt).toLocaleDateString('en-CA', { timeZone: 'Europe/London' }); byDay[d] = (byDay[d] || 0) + 1; }
     const days = Object.keys(byDay).sort().slice(-7);
-    return res.status(200).json({ ok: true, totalRecorded: blobs.length, lastRecorded: blobs.map(b => b.uploadedAt).sort().pop() || null, byDay: Object.fromEntries(days.map(d => [d, byDay[d]])) });
+    const recent = blobs.filter(b => Date.now() - new Date(b.uploadedAt).getTime() < 2 * 864e5);
+    const statuses = {}; const hours = {};
+    for (let i = 0; i < recent.length; i += 25) {
+      await Promise.all(recent.slice(i, i + 25).map(async b => {
+        try { const d = await (await fetch(b.url)).json(); statuses[d.status || '?'] = (statuses[d.status || '?'] || 0) + 1;
+          if (d.status === 'failed') { const k = (d.detail || '').slice(0, 80); statuses['why: ' + k] = (statuses['why: ' + k] || 0) + 1; } } catch (e) { statuses.unreadable = (statuses.unreadable || 0) + 1; }
+        const h = new Date(b.uploadedAt).toLocaleString('en-GB', { timeZone: 'Europe/London', hour: '2-digit', hour12: false, day: '2-digit' }); hours[h] = (hours[h] || 0) + 1;
+      }));
+    }
+    return res.status(200).json({ ok: true, last48h: { statuses, byHour: hours }, totalRecorded: blobs.length, lastRecorded: blobs.map(b => b.uploadedAt).sort().pop() || null, byDay: Object.fromEntries(days.map(d => [d, byDay[d]])) });
   }
   if (task === 'requeue') return res.status(200).json({ ok: true, ...(await requeueLimited(blobs, Number((req.query && req.query.from) || new URL(req.url, 'http://x').searchParams.get('from') || 0))) });
   const sentAt = new Map(blobs.map(b => [b.pathname.replace('outreach/sent/', '').replace('.json', ''), new Date(b.uploadedAt).getTime()]));
