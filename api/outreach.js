@@ -16,16 +16,16 @@ import { finish } from './_footer.js';
 
 // Follow-ups: sent automatically to anyone who hasn't replied (api/_replied.json) or asked to be removed.
 const FOLLOWUPS = [
-  { step: 'f1', days: 5, after: '' },
-  { step: 'f2', days: 12, after: 'f1' }
+  { step: 'f1', days: 2, after: '' },
+  { step: 'f2', days: 7, after: 'f1' }
 ];
 const SIG = "\n\nBest,\n\nBenji\nSourced.\nSee it. Say it. Sourced.\nwww.wearesourced.co.uk | 07590 474421 | sourced.admin@gmail.com\n\nIf you'd rather not hear from us, just reply \"remove\" and we won't contact you again.";
 function followText(m, step) {
   const greet = (m.text.split('\n')[0] || 'Hi,').trim();
   const supplier = /^Bookings|^Film and music video bookings|bookings for your/i.test(m.subject) || /Bookings from productions/i.test(m.subject);
   if (step === 'f1') return greet + '\n\n' + (supplier
-    ? "Just following up on my note last week. We're building our list of partners for upcoming shoots and events, and I'd love to include you. Your first 3 months are free, you set your own rates and you approve every booking.\n\nIt takes two minutes at www.wearesourced.co.uk/partners/ or just reply here."
-    : "Just following up on my email last week. If you've got any shoots, shows or events coming up, I'd be glad to quote on locations, cars, transport, security or anything else you need, even at short notice.\n\nA brief takes two minutes at www.wearesourced.co.uk, or just reply with what you need.") + SIG;
+    ? "Just following up on my note from the other day. We're building our list of partners for upcoming shoots and events, and I'd love to include you. Your first 3 months are free, you set your own rates and you approve every booking.\n\nIt takes two minutes at www.wearesourced.co.uk/partners/ or just reply here."
+    : "Just following up on my email from the other day. If you've got any shoots, shows or events coming up, I'd be glad to quote on locations, cars, transport, security or anything else you need, even at short notice.\n\nA brief takes two minutes at www.wearesourced.co.uk, or just reply with what you need.") + SIG;
   return greet + '\n\n' + (supplier
     ? "Last note from me. If working with Sourced. on future bookings is of interest, you can join at www.wearesourced.co.uk/partners/ whenever suits. Thanks for your time."
     : "Last note from me, I promise. Whenever a job comes up that needs a location, hero cars, talent transport or security sorted fast, we're one brief away at www.wearesourced.co.uk. Thanks for your time.") + SIG;
