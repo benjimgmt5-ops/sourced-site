@@ -606,6 +606,14 @@ footer.pro .f-cta .btn{text-decoration:none}
 .live .vcard figcaption:before{content:"";width:18px;height:1px;background:#fff;opacity:.7}
 @media (max-width:700px){.live>figure img{aspect-ratio:4/3}.live .vcard figcaption{left:12px;bottom:12px;font-size:10px!important;letter-spacing:.14em}.live .vcard figcaption:before{display:none}.live .vcard,.live .vcard video,.live .vcard:after{border-radius:14px!important}}
 @media (prefers-reduced-motion:reduce){.live .lx-kick i{animation:none}}
+/* brand film */
+.film{padding:clamp(56px,8vw,112px) 0;border-bottom:1px solid var(--graphite)}
+.film-frame{position:relative;aspect-ratio:16/9;background:var(--ink);border:1px solid var(--steel);overflow:hidden}
+.film-frame img,.film-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0;object-fit:cover}
+.film-play{position:absolute;inset:0;display:grid;place-items:center;background:linear-gradient(180deg,rgba(0,0,0,.05),rgba(0,0,0,.45));border:0;padding:0;cursor:pointer;color:var(--white)}
+.film-play span{display:inline-flex;align-items:center;gap:12px;min-height:56px;padding:0 28px;background:var(--white);color:var(--black);font-weight:700;font-size:15px;transition:transform .2s}
+.film-play:hover span,.film-play:focus-visible span{transform:scale(1.05)}
+.film-play svg{width:18px;height:18px}
 </style>
 </head>
 <body>
@@ -662,6 +670,24 @@ footer.pro .f-cta .btn{text-decoration:none}
       </div>
     </div>
   </div>
+</section>
+
+<section class="film" id="film">
+  <div class="wrap">
+    <div class="sec-head"><h2>Watch the film</h2><p>See what Sourced. pulls together for a production. Press play, sound on.</p></div>
+    <div class="film-frame" id="filmFrame">
+      <img src="https://i.ytimg.com/vi/lDc4Qlx4FDg/maxresdefault.jpg" alt="Sourced. brand film" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/lDc4Qlx4FDg/hqdefault.jpg'">
+      <button class="film-play" type="button" id="filmPlay" aria-label="Play the Sourced. film with sound"><span><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4v16l13-8z"/></svg>Play with sound</span></button>
+    </div>
+  </div>
+  <script>
+  document.getElementById('filmPlay').addEventListener('click',function(){
+    var f=document.getElementById('filmFrame'),i=document.createElement('iframe');
+    i.src='https://www.youtube-nocookie.com/embed/lDc4Qlx4FDg?autoplay=1&rel=0&playsinline=1&modestbranding=1';
+    i.title='Sourced. brand film';i.allow='autoplay; encrypted-media; picture-in-picture; fullscreen';i.allowFullscreen=true;
+    f.innerHTML='';f.appendChild(i);
+  });
+  </script>
 </section>
 
 <section class="about" id="about">
