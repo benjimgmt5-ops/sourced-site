@@ -608,13 +608,11 @@ footer.pro .f-cta .btn{text-decoration:none}
 @media (prefers-reduced-motion:reduce){.live .lx-kick i{animation:none}}
 /* brand film */
 .film{padding:clamp(56px,8vw,112px) 0;border-bottom:1px solid var(--graphite)}
-.film-frame{position:relative;aspect-ratio:16/9;background:var(--ink);border:1px solid var(--steel);overflow:hidden}
+.film-frame{position:relative;aspect-ratio:16/9;background:var(--ink);border:1px solid var(--steel);overflow:hidden;cursor:pointer}
 .film-frame img,.film-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0;object-fit:cover}
-.film-play{position:absolute;inset:0;z-index:2;display:grid;place-items:center;background:radial-gradient(120% 100% at 50% 50%,rgba(0,0,0,.1) 30%,rgba(0,0,0,.5) 100%);border:0;padding:0;cursor:pointer;color:var(--white)}
-.film-play span{display:inline-flex;align-items:center;gap:12px;min-height:56px;padding:0 28px;background:var(--white);color:var(--black);font-weight:700;font-size:15px;transition:transform .2s}
-.film-play:hover span,.film-play:focus-visible span{transform:scale(1.05)}
-.film-play svg{width:18px;height:18px}
-@media (max-width:600px){.film-play span{min-height:46px;padding:0 20px;font-size:14px}}
+.film-frame.playing{cursor:auto}
+.film-cta{display:flex;justify-content:center;margin-top:24px}
+.film-cta .btn svg{width:16px;height:16px}
 </style>
 </head>
 <body>
@@ -676,17 +674,20 @@ footer.pro .f-cta .btn{text-decoration:none}
 <section class="film" id="film">
   <div class="wrap">
     <div class="film-frame" id="filmFrame">
-      <img src="/media/film-poster.jpg" alt="Sourced. brand film" loading="lazy" decoding="async">
-      <button class="film-play" type="button" id="filmPlay" aria-label="Watch what we source, plays with sound"><span><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4v16l13-8z"/></svg>Watch what we source</span></button>
+      <img src="/media/film-poster.jpg" alt="Sourced. brand film, tap to play" loading="lazy" decoding="async">
     </div>
+    <div class="film-cta"><button class="btn" type="button" id="filmPlay" aria-label="Watch what we source, plays with sound"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4v16l13-8z"/></svg>Watch what we source</button></div>
   </div>
   <script>
-  document.getElementById('filmPlay').addEventListener('click',function(){
-    var f=document.getElementById('filmFrame'),i=document.createElement('iframe');
-    i.src='https://www.youtube-nocookie.com/embed/lDc4Qlx4FDg?autoplay=1&rel=0&playsinline=1&modestbranding=1';
-    i.title='Sourced. brand film';i.allow='autoplay; encrypted-media; picture-in-picture; fullscreen';i.allowFullscreen=true;
-    f.innerHTML='';f.appendChild(i);
-  });
+  (function(){
+    var f=document.getElementById('filmFrame'),b=document.getElementById('filmPlay'),done=false;
+    function play(){if(done)return;done=true;
+      var i=document.createElement('iframe');
+      i.src='https://www.youtube-nocookie.com/embed/lDc4Qlx4FDg?autoplay=1&rel=0&playsinline=1&modestbranding=1';
+      i.title='Sourced. brand film';i.allow='autoplay; encrypted-media; picture-in-picture; fullscreen';i.allowFullscreen=true;
+      f.innerHTML='';f.appendChild(i);f.classList.add('playing');b.parentNode.style.display='none';}
+    f.addEventListener('click',play);b.addEventListener('click',play);
+  })();
   </script>
 </section>
 
