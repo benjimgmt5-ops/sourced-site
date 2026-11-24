@@ -262,7 +262,7 @@ def para(text):
 
 def cta_block(heading):
     return f"""<section class="cta"><h2>{E(heading)}</h2>
-<p>Send one brief with your date, location and what you need. Fill in the form yourself, or talk to Amelia, our sourcer, and she writes it for you. We come back with one quote for the whole job.</p>
+<p>Send one brief with your date, location and what you need. Fill in the form yourself, or talk to Amelia, our personal sourcing agent, and she writes it for you. We come back with one quote for the whole job.</p>
 <div class="ctas"><a class="btn" href="/#brief">Send your brief</a><a class="btn ghost" href="/#/talk">Talk to Amelia</a><a class="btn ghost" href="tel:{PHONE_INTL}">Call {PHONE_DISPLAY}</a></div></section>"""
 
 

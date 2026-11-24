@@ -471,6 +471,7 @@ background:radial-gradient(ellipse 70% 60% at 0 0,rgba(150,80,255,.28),transpare
 @keyframes texdriftL{from{background-position:0 0,0 0,0 0}to{background-position:0 0,0 0,-16px 32px}}
 @media (max-width:700px){html:before{height:900px;width:100vw}}
 @media (prefers-reduced-motion:reduce){html:before{animation:none}}
+@media (max-width:520px){.agent-tag{white-space:nowrap;font-size:11px!important;letter-spacing:1.4px!important;padding-left:14px!important;padding-right:14px!important}}
 /* title animation */
 .fx.in .w{animation:unclip 0s linear 1.6s forwards}
 @keyframes unclip{to{overflow:visible}}
@@ -695,13 +696,13 @@ footer.pro .f-cta .btn{text-decoration:none}
     </div>
     <div class="globe-col">
       <div class="globe-bg" aria-hidden="true"></div>
-      <button class="globe-btn" id="globe" type="button" data-state="idle" aria-label="Talk to Amelia, your Sourced. sourcer">
+      <button class="globe-btn" id="globe" type="button" data-state="idle" aria-label="Talk to Amelia, your personal sourcing agent">
         <canvas id="globeCanvas" width="880" height="880"></canvas>
         <span class="ring" aria-hidden="true"></span>
         <span class="bubble" aria-hidden="true">Hi, I'm Amelia.<br><b>Click here to get started.</b></span>
       </button>
       <div class="agent-intro">
-        <span class="agent-tag"><span class="agent-dot" aria-hidden="true"></span>Meet Amelia, your sourcer</span>
+        <span class="agent-tag"><span class="agent-dot" aria-hidden="true"></span>Meet Amelia, your personal sourcing agent</span>
         <p class="agent-line">Tell Amelia what you need sourced, from a mansion for Saturday to three Maybachs and a security team. She asks the right questions, then writes your brief for you.</p>
       </div>
       <p class="globe-status" id="status" aria-live="polite">Tap the globe to talk to Amelia.</p>
@@ -1236,7 +1237,7 @@ async function send(text){text=text.trim();if(!text||busy)return;busy=true;convo
   try{const out=await askAI();const reply=(out&&out.reply)||'Got it. What else does the shoot need?';convo.push({role:'assistant',content:reply});add('ai',reply);fill(out&&out.fields);speak(reply);statusEl.textContent='Your brief is filling in below. Keep talking or tap the globe.';}
   catch(e){add('ai','Sorry, I missed that. Could you say it another way?');statusEl.textContent='Keep typing to Amelia.';}
   finally{globe.dataset.state='idle';busy=false;}}
-function openChat(){if(!chat.classList.contains('open')){chat.classList.add('open');const hi='Hi, I\'m Amelia, your Sourced. sourcer. How can I help? Tell me what you\'re shooting and what you need sourced.';convo.push({role:'assistant',content:hi});add('ai',hi);}}
+function openChat(){if(!chat.classList.contains('open')){chat.classList.add('open');const hi='Hi, I\'m Amelia, your personal sourcing agent. How can I help? Tell me what you\'re shooting and what you need sourced.';convo.push({role:'assistant',content:hi});add('ai',hi);}}
 
 /* speech recognition */
 const SR=window.SpeechRecognition||window.webkitSpeechRecognition;let rec=null,listening=false;
