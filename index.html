@@ -479,7 +479,9 @@ background:radial-gradient(ellipse 70% 60% at 0 0,rgba(150,80,255,.32),transpare
 .globe-status{position:relative;z-index:1}
 .globe-status{display:inline-block;padding:10px 22px;border-radius:999px;border:1px solid rgba(255,255,255,.4);background:rgba(20,20,22,.6);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);box-shadow:0 0 18px rgba(255,255,255,.12),inset 0 1px 0 rgba(255,255,255,.08);animation:ringglow 3.2s ease-in-out infinite}
 .hero .holo-car{display:none!important}
-.hero:after{content:"";position:absolute;top:0;left:0;width:min(800px,70vw);height:100%;pointer-events:none;z-index:0;mix-blend-mode:screen;background:radial-gradient(ellipse 60% 50% at 0 35%,rgba(140,70,255,.26),transparent 70%)}
+/* purple from top right */
+.hero:after{content:"";position:absolute;top:0;right:0;width:min(1100px,90vw);height:100%;pointer-events:none;z-index:0;mix-blend-mode:screen;background:radial-gradient(ellipse 75% 70% at 100% 0,rgba(150,80,255,.42),rgba(130,70,250,.16) 45%,transparent 75%);animation:pflare 7s ease-in-out infinite alternate}
+@media (prefers-reduced-motion:reduce){.hero:after{animation:none}}
 /* title animation */
 .fx.in .w{animation:unclip 0s linear 1.6s forwards}
 @keyframes unclip{to{overflow:visible}}
