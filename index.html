@@ -452,6 +452,11 @@ main h2:not(:first-child){padding-top:44px;background:linear-gradient(90deg,tran
 .globe-btn[data-state="listening"] .bubble,.globe-btn[data-state="thinking"] .bubble{display:none}
 @media (max-width:900px){.globe-btn .bubble{right:-4%;top:-4%;font-size:13px;padding:10px 14px}}
 @media (prefers-reduced-motion:reduce){.globe-btn .bubble{animation:none;opacity:1;transform:none}}
+/* photo behind globe */
+.globe-col{position:relative}
+.globe-col>.globe-btn{z-index:1}
+.globe-bg{position:absolute;left:50%;top:calc(min(440px,78vw)/2);width:min(900px,170vw);aspect-ratio:4/3;transform:translate(-50%,-50%);background:url(/media/hero/amelia-bg.jpg) center/cover no-repeat;opacity:.32;pointer-events:none;z-index:0;-webkit-mask:radial-gradient(ellipse 50% 50% at 50% 50%,#000 30%,transparent 100%);mask:radial-gradient(ellipse 50% 50% at 50% 50%,#000 30%,transparent 100%)}
+@media (max-width:900px){.globe-bg{top:calc(min(340px,80vw)/2)}}
 /* title animation */
 .fx.in .w{animation:unclip 0s linear 1.6s forwards}
 @keyframes unclip{to{overflow:visible}}
@@ -675,6 +680,7 @@ footer.pro .f-cta .btn{text-decoration:none}
       </div>
     </div>
     <div class="globe-col">
+      <div class="globe-bg" aria-hidden="true"></div>
       <button class="globe-btn" id="globe" type="button" data-state="idle" aria-label="Talk to Amelia, the Sourced. AI assistant">
         <canvas id="globeCanvas" width="880" height="880"></canvas>
         <span class="ring" aria-hidden="true"></span>
