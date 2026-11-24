@@ -457,6 +457,13 @@ main h2:not(:first-child){padding-top:44px;background:linear-gradient(90deg,tran
 .globe-col>.globe-btn{z-index:1}
 .globe-bg{--hole:calc(min(440px,78vw)/2 + 26px);position:absolute;left:50%;top:calc(min(440px,78vw)/2);width:min(1400px,230vw);aspect-ratio:2/1;transform:translate(-50%,-50%);background:url(/media/hero/amelia-bg.jpg) center 32%/cover no-repeat;opacity:.8;pointer-events:none;z-index:0;-webkit-mask:radial-gradient(circle at 50% 50%,transparent var(--hole),#000 calc(var(--hole) + 30px)),radial-gradient(ellipse 50% 50% at 50% 50%,#000 30%,transparent 100%);-webkit-mask-composite:source-in;mask:radial-gradient(circle at 50% 50%,transparent var(--hole),#000 calc(var(--hole) + 30px)),radial-gradient(ellipse 50% 50% at 50% 50%,#000 30%,transparent 100%);mask-composite:intersect}
 @media (max-width:900px){.globe-bg{top:calc(min(340px,80vw)/2 + 40px);width:190vw;aspect-ratio:4/3;background-position:center 28%;opacity:.85;--hole:calc(min(340px,80vw)/2 + 14px)}.globe-bg{-webkit-mask:radial-gradient(circle at 50% calc(50% - 40px),transparent var(--hole),#000 calc(var(--hole) + 18px)),radial-gradient(ellipse 50% 50% at 50% 50%,#000 45%,transparent 100%);-webkit-mask-composite:source-in;mask:radial-gradient(circle at 50% calc(50% - 40px),transparent var(--hole),#000 calc(var(--hole) + 18px)),radial-gradient(ellipse 50% 50% at 50% 50%,#000 45%,transparent 100%);mask-composite:intersect}}
+/* purple flare */
+.globe-bg:after{content:"";position:absolute;inset:0;mix-blend-mode:screen;background:radial-gradient(ellipse 30% 26% at 24% 40%,rgba(150,80,255,.55),transparent 70%),radial-gradient(ellipse 26% 22% at 80% 38%,rgba(170,90,255,.45),transparent 70%),radial-gradient(ellipse 60% 18% at 50% 72%,rgba(130,70,255,.28),transparent 75%);animation:pflare 6s ease-in-out infinite}
+.hero{position:relative}
+.hero:before{content:"";position:absolute;top:0;right:0;width:min(900px,80vw);height:100%;pointer-events:none;z-index:0;mix-blend-mode:screen;background:radial-gradient(ellipse 55% 45% at 100% 30%,rgba(140,70,255,.32),transparent 70%),radial-gradient(ellipse 40% 30% at 90% 85%,rgba(120,60,240,.18),transparent 70%);animation:pflare 7s ease-in-out infinite alternate}
+.hero>*{position:relative;z-index:1}
+@keyframes pflare{0%,100%{opacity:.75}50%{opacity:1}}
+@media (prefers-reduced-motion:reduce){.globe-bg:after,.hero:before{animation:none}}
 /* title animation */
 .fx.in .w{animation:unclip 0s linear 1.6s forwards}
 @keyframes unclip{to{overflow:visible}}
