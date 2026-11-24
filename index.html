@@ -490,6 +490,12 @@ background:repeating-radial-gradient(circle at 0 0,rgba(255,255,255,.05) 0 1px,t
 @media (max-width:900px){.globe-btn .bubble{font-size:10px!important;padding:7px 10px!important;right:-10%!important;top:-4%!important}}
 .hero .lede{color:#fff!important;font-weight:600!important;text-shadow:0 1px 2px rgba(0,0,0,.9),0 0 16px rgba(0,0,0,.85)}
 .about .about-lead,.about .about-lead+p{color:#fff!important;font-weight:600!important;text-shadow:0 1px 2px rgba(0,0,0,.9),0 0 14px rgba(0,0,0,.8)}
+/* film frame: thick round grey */
+.film-shell{padding:clamp(10px,1.4vw,16px)!important;border-radius:clamp(22px,3vw,34px)!important;background:linear-gradient(160deg,#5a5a5a 0%,#3a3a3a 40%,#2c2c2c 60%,#4a4a4a 100%)!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.25),inset 0 -1px 0 rgba(0,0,0,.6),0 30px 70px -30px rgba(0,0,0,.95),0 0 40px -10px rgba(255,255,255,.12)!important}
+.film-shell::before{display:none!important}
+.film-shell::after{display:none!important}
+.film-frame{border-radius:clamp(14px,2vw,22px)!important;box-shadow:none!important}
+.film-frame::after{border-radius:inherit;box-shadow:inset 0 0 0 1px rgba(0,0,0,.5),inset 0 0 40px rgba(0,0,0,.3)!important}
 /* title animation */
 .fx.in .w{animation:unclip 0s linear 1.6s forwards}
 @keyframes unclip{to{overflow:visible}}
