@@ -485,6 +485,9 @@ background:repeating-radial-gradient(circle at 0 0,rgba(255,255,255,.05) 0 1px,t
 @media (prefers-reduced-motion:reduce){.hero:after{animation:none}}
 .globe-vig{position:absolute;left:50%;top:calc(min(238px,44vw)/2);width:min(1400px,230vw);aspect-ratio:2/1;transform:translate(-50%,-50%);pointer-events:none;z-index:0;background:radial-gradient(ellipse 50% 50% at 50% 50%,transparent 38%,rgba(22,22,24,.35) 62%,rgba(18,18,20,.6) 80%,transparent 100%)}
 @media (max-width:900px){.globe-vig{top:calc(min(176px,43vw)/2 + 40px);width:190vw;aspect-ratio:4/3}}
+.globe-btn .bubble{font-size:11px!important;padding:8px 11px!important;border-radius:12px 12px 12px 3px!important;top:-2%!important;right:-6%!important}
+.globe-btn .bubble:after{width:10px!important;height:10px!important;bottom:-6px!important;left:10px!important}
+@media (max-width:900px){.globe-btn .bubble{font-size:10px!important;padding:7px 10px!important;right:-10%!important;top:-4%!important}}
 /* title animation */
 .fx.in .w{animation:unclip 0s linear 1.6s forwards}
 @keyframes unclip{to{overflow:visible}}
