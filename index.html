@@ -455,8 +455,8 @@ main h2:not(:first-child){padding-top:44px;background:linear-gradient(90deg,tran
 /* photo behind globe */
 .globe-col{position:relative}
 .globe-col>.globe-btn{z-index:1}
-.globe-bg{position:absolute;left:50%;top:calc(min(440px,78vw)/2);width:min(900px,170vw);aspect-ratio:4/3;transform:translate(-50%,-50%);background:url(/media/hero/amelia-bg.jpg) center/cover no-repeat;opacity:.32;pointer-events:none;z-index:0;-webkit-mask:radial-gradient(ellipse 50% 50% at 50% 50%,#000 30%,transparent 100%);mask:radial-gradient(ellipse 50% 50% at 50% 50%,#000 30%,transparent 100%)}
-@media (max-width:900px){.globe-bg{top:calc(min(340px,80vw)/2)}}
+.globe-bg{--hole:calc(min(440px,78vw)/2 + 26px);position:absolute;left:50%;top:calc(min(440px,78vw)/2);width:min(1400px,230vw);aspect-ratio:2/1;transform:translate(-50%,-50%);background:url(/media/hero/amelia-bg.jpg) center 32%/cover no-repeat;opacity:.6;pointer-events:none;z-index:0;-webkit-mask:radial-gradient(circle at 50% 50%,transparent var(--hole),#000 calc(var(--hole) + 30px)),radial-gradient(ellipse 50% 50% at 50% 50%,#000 30%,transparent 100%);-webkit-mask-composite:source-in;mask:radial-gradient(circle at 50% 50%,transparent var(--hole),#000 calc(var(--hole) + 30px)),radial-gradient(ellipse 50% 50% at 50% 50%,#000 30%,transparent 100%);mask-composite:intersect}
+@media (max-width:900px){.globe-bg{top:calc(min(340px,80vw)/2);--hole:calc(min(340px,80vw)/2 + 22px)}}
 /* title animation */
 .fx.in .w{animation:unclip 0s linear 1.6s forwards}
 @keyframes unclip{to{overflow:visible}}
