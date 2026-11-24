@@ -458,7 +458,7 @@ main h2:not(:first-child){padding-top:44px;background:linear-gradient(90deg,tran
 .globe-bg{--hole:calc(min(238px,44vw)/2 + 20px);position:absolute;left:50%;top:calc(min(238px,44vw)/2);width:min(1400px,230vw);aspect-ratio:2/1;transform:translate(-50%,-50%);background:url(/media/hero/amelia-bg.jpg?v=6) center 32%/cover no-repeat;opacity:.8;pointer-events:none;z-index:0;-webkit-mask:radial-gradient(circle at 50% 50%,transparent var(--hole),#000 calc(var(--hole) + 30px)),radial-gradient(ellipse 50% 50% at 50% 50%,#000 30%,transparent 100%);-webkit-mask-composite:source-in;mask:radial-gradient(circle at 50% 50%,transparent var(--hole),#000 calc(var(--hole) + 30px)),radial-gradient(ellipse 50% 50% at 50% 50%,#000 30%,transparent 100%);mask-composite:intersect}
 @media (max-width:900px){.globe-bg{top:calc(min(176px,43vw)/2 + 40px);width:190vw;aspect-ratio:4/3;background-position:center 28%;opacity:.85;--hole:calc(min(176px,43vw)/2 + 16px)}.globe-bg{-webkit-mask:radial-gradient(circle at 50% calc(50% - 40px),transparent var(--hole),#000 calc(var(--hole) + 18px)),radial-gradient(ellipse 50% 50% at 50% 50%,#000 45%,transparent 100%);-webkit-mask-composite:source-in;mask:radial-gradient(circle at 50% calc(50% - 40px),transparent var(--hole),#000 calc(var(--hole) + 18px)),radial-gradient(ellipse 50% 50% at 50% 50%,#000 45%,transparent 100%);mask-composite:intersect}}
 /* purple flare */
-.globe-bg:after{content:"";position:absolute;inset:0;mix-blend-mode:screen;background:radial-gradient(ellipse 30% 26% at 24% 40%,rgba(150,80,255,.55),transparent 70%),radial-gradient(ellipse 26% 22% at 80% 38%,rgba(170,90,255,.45),transparent 70%),radial-gradient(ellipse 60% 18% at 50% 72%,rgba(130,70,255,.28),transparent 75%);animation:pflare 6s ease-in-out infinite}
+.globe-bg:after{content:"";position:absolute;inset:0;mix-blend-mode:screen;background:radial-gradient(ellipse 26% 22% at 80% 38%,rgba(170,90,255,.45),transparent 70%),radial-gradient(ellipse 60% 18% at 50% 72%,rgba(130,70,255,.28),transparent 75%);animation:pflare 6s ease-in-out infinite}
 .hero{position:relative}
 .hero:before{content:"";position:absolute;top:0;right:0;width:min(900px,80vw);height:100%;pointer-events:none;z-index:0;mix-blend-mode:screen;background:radial-gradient(ellipse 55% 45% at 100% 30%,rgba(140,70,255,.32),transparent 70%),radial-gradient(ellipse 40% 30% at 90% 85%,rgba(120,60,240,.18),transparent 70%);animation:pflare 7s ease-in-out infinite alternate}
 .hero>*{position:relative;z-index:1}
@@ -466,7 +466,7 @@ main h2:not(:first-child){padding-top:44px;background:linear-gradient(90deg,tran
 @media (prefers-reduced-motion:reduce){.globe-bg:after,.hero:before{animation:none}}
 /* left corner texture, purple */
 html:before{content:"";position:absolute;top:0;left:0;width:min(1300px,90vw);height:1300px;pointer-events:none;z-index:3;mix-blend-mode:screen;
-background:radial-gradient(ellipse 70% 60% at 0 0,rgba(150,80,255,.32),transparent 70%),repeating-radial-gradient(circle at 0 0,rgba(200,170,255,.05) 0 1px,transparent 1px 22px),radial-gradient(rgba(210,180,255,.09) 1px,transparent 1.6px) 0 0/16px 16px;
+background:repeating-radial-gradient(circle at 0 0,rgba(255,255,255,.05) 0 1px,transparent 1px 22px),radial-gradient(rgba(255,255,255,.09) 1px,transparent 1.6px) 0 0/16px 16px;
 -webkit-mask:radial-gradient(ellipse 90% 85% at 0 0,#000 0%,rgba(0,0,0,.35) 30%,transparent 62%);mask:radial-gradient(ellipse 90% 85% at 0 0,#000 0%,rgba(0,0,0,.35) 30%,transparent 62%);animation:texdriftL 14s ease-in-out infinite alternate,texpulse 6s ease-in-out infinite}
 @keyframes texdriftL{from{background-position:0 0,0 0,0 0}to{background-position:0 0,0 0,-16px 32px}}
 @media (max-width:700px){html:before{height:900px;width:100vw}}
@@ -480,6 +480,7 @@ background:radial-gradient(ellipse 70% 60% at 0 0,rgba(150,80,255,.32),transpare
 .globe-status{display:inline-block;padding:10px 22px;border-radius:999px;border:1px solid rgba(255,255,255,.4);background:rgba(20,20,22,.6);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);box-shadow:0 0 18px rgba(255,255,255,.12),inset 0 1px 0 rgba(255,255,255,.08);animation:ringglow 3.2s ease-in-out infinite}
 .hero .holo-car{display:none!important}
 /* purple from top right */
+@media (max-width:900px){.hero:after{width:75vw}}
 .hero:after{content:"";position:absolute;top:0;right:0;width:min(1100px,90vw);height:100%;pointer-events:none;z-index:0;mix-blend-mode:screen;background:radial-gradient(ellipse 75% 70% at 100% 0,rgba(150,80,255,.42),rgba(130,70,250,.16) 45%,transparent 75%);animation:pflare 7s ease-in-out infinite alternate}
 @media (prefers-reduced-motion:reduce){.hero:after{animation:none}}
 /* title animation */

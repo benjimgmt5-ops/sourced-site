@@ -164,7 +164,7 @@ main h2:not(:first-child){padding-top:44px;background:linear-gradient(90deg,tran
 @media (prefers-reduced-motion:reduce){.btn,.vcard video{animation:none!important}}
 /* left corner texture, purple */
 html:before{content:"";position:absolute;top:0;left:0;width:min(1300px,90vw);height:1300px;pointer-events:none;z-index:3;mix-blend-mode:screen;
-background:radial-gradient(ellipse 70% 60% at 0 0,rgba(150,80,255,.32),transparent 70%),repeating-radial-gradient(circle at 0 0,rgba(200,170,255,.05) 0 1px,transparent 1px 22px),radial-gradient(rgba(210,180,255,.09) 1px,transparent 1.6px) 0 0/16px 16px;
+background:repeating-radial-gradient(circle at 0 0,rgba(255,255,255,.05) 0 1px,transparent 1px 22px),radial-gradient(rgba(255,255,255,.09) 1px,transparent 1.6px) 0 0/16px 16px;
 -webkit-mask:radial-gradient(ellipse 90% 85% at 0 0,#000 0%,rgba(0,0,0,.35) 30%,transparent 62%);mask:radial-gradient(ellipse 90% 85% at 0 0,#000 0%,rgba(0,0,0,.35) 30%,transparent 62%);animation:texdriftL 14s ease-in-out infinite alternate,texpulse 6s ease-in-out infinite}
 @keyframes texdriftL{from{background-position:0 0,0 0,0 0}to{background-position:0 0,0 0,-16px 32px}}
 @media (max-width:700px){html:before{height:900px;width:100vw}}
