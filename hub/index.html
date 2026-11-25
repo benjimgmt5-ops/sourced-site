@@ -328,6 +328,13 @@ details.tx pre{white-space:pre-wrap;font:12.5px/1.55 var(--mono);background:var(
 @media (max-width:860px){.inbox{grid-template-columns:1fr;height:calc(100vh - 170px)}.inbox.open .th-list{display:none}.inbox:not(.open) .chat{display:none}.msg{max-width:85%}}
 #navScrim{display:none;position:fixed;inset:0;background:rgba(0,0,0,.3);z-index:49}
 @media (forced-colors:active){.meter i,.chart .b{background:CanvasText;fill:CanvasText}}
+.finder-hero{min-height:326px;padding:clamp(24px,5vw,56px);border-radius:var(--r-lg);border:1px solid var(--border);color:#f3f3f1;background:linear-gradient(90deg,#0a0a0a 0%,#0a0a0aeb 28%,#0a0a0a62 75%),url('/media/hero/locations.jpg') center/cover,#0a0a0a}
+.finder-hero img{display:block;max-width:42%;height:auto;filter:brightness(0) invert(1);margin-bottom:25px}
+.finder-hero h2{font:400 clamp(2.6rem,6vw,5rem)/1 Georgia,serif;letter-spacing:-.065em;margin:0}
+.finder-hero h2 span{color:#a6a6a0}
+.finder-hero p{margin:15px 0 22px;color:#e3e3df;font-size:1rem}
+.finder-hero .btn{background:#f3f3f1;color:#0b0b0b;border:1px solid #f3f3f1;min-height:41px}
+.finder-hero .btn:hover{background:#d4d4cf}
 </style>
 </head>
 <body>
@@ -390,6 +397,7 @@ details.tx pre{white-space:pre-wrap;font:12.5px/1.55 var(--mono);background:var(
       <a href="#inbox" data-r="inbox" id="navInboxLink" hidden><svg class="i"><use href="#i-chat"/></svg>WhatsApp inbox<span class="badge" id="navInbox" hidden></span></a>
       <a href="#calendar" data-r="calendar"><svg class="i"><use href="#i-cal"/></svg>Calendar</a>
       <a href="#outreach" data-r="outreach"><svg class="i"><use href="#i-mail"/></svg>Outreach &amp; email</a>
+      <a href="#locations" data-r="locations"><svg class="i"><use href="#i-globe"/></svg>Location Finder</a>
       <a href="#website" data-r="website"><svg class="i"><use href="#i-globe"/></svg>Website</a>
       <a href="#partners" data-r="partners"><svg class="i"><use href="#i-hand"/></svg>Partners<span class="badge" id="navPartners" hidden></span></a>
     </nav>
@@ -466,7 +474,7 @@ let theme = (() => { try { return localStorage.getItem('hub.theme') || 'system';
 applyTheme(theme);
 $('#themeBtn').addEventListener('click', () => {
   const dark = document.documentElement.dataset.theme === 'dark' || (!document.documentElement.dataset.theme && matchMedia('(prefers-color-scheme: dark)').matches);
-  theme = dark ? 'light' : 'dark'; try { localStorage.setItem('hub.theme', theme); } catch (_) {} applyTheme(theme);
+  theme = dark ? 'light' : 'dark'; try { localStorage.setItem('hub.theme', theme); } catch (_) {} applyTheme(theme); if (cur() === 'locations') renderLocationFinder();
 });
 
 /* ---------------- auth ---------------- */
@@ -535,6 +543,7 @@ const ROUTES = {
   calendar: { t: 'Calendar', fn: renderCalendar },
   inbox: { t: 'WhatsApp inbox', fn: renderInbox },
   outreach: { t: 'Outreach & email', fn: renderOutreach },
+  locations: { t: 'Location Finder', fn: renderLocationFinder },
   website: { t: 'Website', fn: renderWebsite },
   partners: { t: 'Partners', fn: renderPartners },
   settings: { t: 'Settings', fn: renderSettings }
@@ -1063,6 +1072,18 @@ function outLists() {
   const box = (t, arr, s) => `<div class="card"><div class="ch"><h3>${t}</h3><div class="r faint">${arr.length}</div></div><div class="cb" style="padding:8px 0 4px"><div class="list">
     ${arr.length ? arr.map(a => `<div class="li" style="cursor:default"><span class="av-s">${esc(initials(String(a).replace(/[@._-]/g, ' ')))}</span><span class="m"><b>${esc(a)}</b><span>${s}</span></span></div>`).join('') : '<div class="empty">None</div>'}</div></div></div>`;
   $('#outBody').innerHTML = `<div class="note">${ico('info')}<div>Anyone here never gets automatic follow-ups. Opted-out addresses are never emailed again.</div></div><div class="grid g-main">${box('Replied', S.out.replied, 'Follow-ups stopped')}${box('Opted out', S.out.suppress, 'Never emailed')}</div>`;
+}
+
+/* ---------------- location finder ---------------- */
+function renderLocationFinder() {
+  const finder = new URL('https://sourced-location-finder.brainy-cake-9574.chatgpt.site');
+  finder.searchParams.set('theme', theme);
+  $('#view').innerHTML = `<section class="finder-hero" aria-labelledby="finder-title">
+    <img src="/media/email/sourced-logo-black-v2.png" width="144" alt="Sourced.">
+    <h2 id="finder-title">Location Finder<span>.</span></h2>
+    <p>Scout, shortlist and compare real filming locations for your next brief.</p>
+    <a class="btn" href="${finder.href}" target="_blank" rel="noopener">Open private location finder</a>
+  </section>`;
 }
 
 /* ---------------- website ---------------- */
