@@ -393,6 +393,7 @@ details.tx pre{white-space:pre-wrap;font:12.5px/1.55 var(--mono);background:var(
     <button class="search" id="openPal"><svg class="i"><use href="#i-search"/></svg><span>Search</span><kbd>⌘K</kbd></button>
     <nav class="main" aria-label="Main">
       <a href="#overview" data-r="overview"><svg class="i"><use href="#i-home"/></svg>Overview</a>
+      <a href="#agents" data-r="agents"><svg class="i"><use href="#i-board"/></svg>AI Workforce<span class="badge" id="navAgents" hidden></span></a>
       <a href="#leads" data-r="leads"><svg class="i"><use href="#i-leads"/></svg>Leads<span class="badge" id="navNew" hidden></span></a>
       <a href="#inbox" data-r="inbox" id="navInboxLink" hidden><svg class="i"><use href="#i-chat"/></svg>WhatsApp inbox<span class="badge" id="navInbox" hidden></span></a>
       <a href="#calendar" data-r="calendar"><svg class="i"><use href="#i-cal"/></svg>Calendar</a>
@@ -537,8 +538,84 @@ function sideStats() {
 }
 
 /* ---------------- router ---------------- */
+// ---------- AI Workforce (agents run on Sourced's Platform; nothing is sent without Approve) ----------
+async function loadAgents(force) {
+  if (S.ag && !force && Date.now() - S.agAt < 60000) return;
+  try { S.ag = await api('/api/agents'); S.agAt = Date.now(); S.agErr = null; } catch (e) { S.agErr = e.message; }
+}
+function agDay(t) { try { return new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/London' }).format(new Date(t)); } catch (_) { return ''; } }
+async function renderAgents() {
+  const el = $('#view');
+  $('#pgSub').textContent = 'Your AI team. Agents research and draft; you approve anything that goes out.';
+  $('#pgActs').innerHTML = `<button class="btn" id="agRefresh">${ico('refresh')}Refresh</button>`;
+  $('#agRefresh').onclick = async () => { await loadAgents(true); renderAgents(); };
+  if (!S.ag && !S.agErr) { el.innerHTML = `<div class="card cb">${skel(6)}</div>`; await loadAgents(); if (cur() !== 'agents') return; }
+  if (S.agErr && !S.ag) { el.innerHTML = `<div class="card cb"><div class="empty">${ico('alert')}<p>${esc(S.agErr)}</p></div></div>`; return; }
+  const d = S.ag, today = agDay(new Date());
+  const ctrl = d.controls || [], g = ctrl.find(c => c.Agent === 'GLOBAL STOP') || {}, agents = ctrl.filter(c => c.Agent !== 'GLOBAL STOP');
+  const audit = d.audit || [], todayA = audit.filter(a => agDay(a.Time) === today);
+  const cost = todayA.reduce((s, a) => s + (Number(a['Est Cost GBP']) || 0), 0);
+  const pending = (d.approvals || []).filter(a => a.Status === 'Pending');
+  const leadsToday = (d.leads || []).filter(l => agDay(l.Created) === today).length;
+  const errs = todayA.filter(a => a.Event === 'Error');
+  const openTasks = (d.tasks || []).filter(t => t.Status === 'Open' || t.Status === 'In Progress');
+  const last = name => audit.find(a => a.Agent === name && a.Event !== 'Run Started');
+  const spent = name => todayA.filter(a => a.Agent === name).reduce((s, a) => s + (Number(a['Est Cost GBP']) || 0), 0);
+  const on = g.Enabled === 'On';
+  el.innerHTML = `
+  <div class="card cb" style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:16px">
+    <span class="pill ${on ? 'st-won' : 'st-lost'}">${on ? 'Workforce running' : 'Workforce stopped'}</span>
+    <span class="faint" style="flex:1;min-width:200px">${on ? 'Agents run on their schedules. Outbound emails wait for you below.' : 'Every agent is halted until you start them again.'}</span>
+    <button class="btn ${on ? '' : 'primary'}" id="agStop">${on ? 'Stop all agents' : 'Start agents'}</button>
+  </div>
+  <div class="grid g4">
+    <div class="card stat"><div class="k"><span class="ico">${ico('check')}</span>Waiting for you</div><div class="v num">${pending.length}</div><div class="s">Drafts to approve</div></div>
+    <div class="card stat"><div class="k"><span class="ico">${ico('leads')}</span>New leads today</div><div class="v num">${leadsToday}</div><div class="s">${(d.leads || []).length} found by agents in total</div></div>
+    <div class="card stat"><div class="k"><span class="ico">${ico('pound')}</span>AI cost today</div><div class="v num">£${cost.toFixed(2)}</div><div class="s">Estimate · cap £${Number(g['Daily Budget GBP'] || 0).toFixed(2)}/day</div></div>
+    <div class="card stat"><div class="k"><span class="ico">${ico('alert')}</span>Problems today</div><div class="v num">${errs.length}</div><div class="s">${errs.length ? esc(errs[0].Detail || '') : 'All clear'}</div></div>
+  </div>
+  <div class="card" style="margin-top:16px"><div class="ch"><h3>Approval queue</h3><div class="r faint" style="font-size:12.5px">Edit if you like, then approve to send from hello@wearesourced.co.uk</div></div>
+    <div class="cb">${pending.length ? pending.map(a => `
+      <div class="card cb" style="margin-bottom:12px;box-shadow:none" data-ap="${esc(a.id)}">
+        <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:10px"><span class="pill plain">${esc(a.Type)}</span><span class="faint">${esc(a.Agent)} · to <b style="color:var(--ink)">${esc(a.To)}</b></span>${a.Urgent === 'Yes' ? '<span class="pill st-lost">Urgent</span>' : ''}</div>
+        <div class="field"><input class="input ap-subj" value="${esc(a.Subject)}" aria-label="Subject"></div>
+        <div class="field"><textarea class="input ap-body" rows="9" aria-label="Message">${esc(a.Body)}</textarea></div>
+        <div class="faint" style="font-size:12px;margin-bottom:10px">${esc(a.Context || '')}. Your signature and legal footer are added automatically.</div>
+        <div style="display:flex;gap:8px"><button class="btn primary ap-ok">${ico('send')}Approve &amp; send</button><button class="btn ap-no">${ico('x')}Reject</button></div>
+      </div>`).join('') : '<div class="empty">Nothing waiting. New drafts appear here as the Email Manager writes them.</div>'}</div></div>
+  <div class="card" style="margin-top:16px"><div class="ch"><h3>Agents</h3></div><div class="cb tbl-wrap"><table class="tbl"><thead><tr><th>Agent</th><th>Schedule</th><th>Model</th><th>Today</th><th>Last result</th><th></th></tr></thead><tbody>
+    ${agents.map(c => { const l = last(c.Agent); return `<tr style="cursor:default"><td><b>${esc(c.Agent)}</b></td><td class="faint">${esc(c.Schedule || '')}</td><td class="faint" style="font-family:var(--mono);font-size:12px">${esc(String(c.Model || '').split('/').pop())}</td>
+      <td class="num">£${spent(c.Agent).toFixed(2)} <span class="faint">/ £${Number(c['Daily Budget GBP'] || 0).toFixed(2)}</span></td><td class="faint" style="max-width:340px">${l ? esc(ago(l.Time) + ' · ' + (l.Detail || l.Event)) : 'Not run yet'}</td>
+      <td><button class="btn sm ag-tg" data-agent="${esc(c.Agent)}" data-to="${c.Enabled === 'On' ? 'Off' : 'On'}">${c.Enabled === 'On' ? 'Pause' : 'Turn on'}</button></td></tr>`; }).join('')}
+  </tbody></table></div></div>
+  <div class="grid g-main" style="margin-top:16px">
+    <div class="card"><div class="ch"><h3>Open tasks</h3><div class="r faint" style="font-size:12.5px">From the Operations Director</div></div><div class="cb">
+      ${openTasks.length ? openTasks.slice(0, 25).map(t => `<div style="display:flex;gap:10px;align-items:flex-start;padding:10px 0;border-bottom:1px solid var(--border)"><div style="flex:1"><b>${esc(t.Title)}</b><div class="faint" style="font-size:12.5px">${esc(t['Assigned Agent'])} · ${esc(t.Priority)}${t.Detail ? ' · ' + esc(String(t.Detail).slice(0, 160)) : ''}</div></div><button class="btn sm tk-done" data-id="${esc(t.id)}">${ico('check')}Done</button></div>`).join('') : '<div class="empty">No open tasks.</div>'}
+    </div></div>
+    <div class="card"><div class="ch"><h3>Activity</h3></div><div class="cb" style="max-height:520px;overflow:auto">
+      ${audit.filter(a => a.Event !== 'Run Started').slice(0, 50).map(a => `<div style="padding:8px 0;border-bottom:1px solid var(--border);font-size:13px"><span class="faint">${esc(ago(a.Time))}</span> · <b>${esc(a.Agent)}</b> <span class="faint">${esc(a.Event)}</span><div>${esc(a.Detail || '')}</div></div>`).join('') || '<div class="empty">No activity yet.</div>'}
+    </div></div>
+  </div>
+  <div class="card" style="margin-top:16px"><div class="ch"><h3>Leads found by agents</h3></div><div class="cb tbl-wrap"><table class="tbl"><thead><tr><th>Company</th><th>Segment</th><th>Score</th><th>Email</th><th>Status</th></tr></thead><tbody>
+    ${(d.leads || []).slice(0, 60).map(l => `<tr style="cursor:default"><td><b>${esc(l.Company || l.Name)}</b>${l.Source ? ` <a href="${esc(l.Source)}" target="_blank" rel="noopener" class="faint">${ico('ext')}</a>` : ''}<div class="faint" style="font-size:12px">${esc(String(l.Need || '').slice(0, 120))}</div></td><td>${esc(l.Segment)}</td><td class="num">${esc(l.Score)}</td><td class="faint">${esc(l.Email || '–')}</td>
+      <td><select class="input ld-st" data-id="${esc(l.id)}" style="height:32px;min-width:130px">${['New','Qualified','Contacted','Replied','Quoted','Booked','Lost','Do Not Contact'].map(s => `<option${s === l.Status ? ' selected' : ''}>${s}</option>`).join('')}</select></td></tr>`).join('') || '<tr><td colspan="5" class="empty">No leads yet.</td></tr>'}
+  </tbody></table></div></div>`;
+  const busy = (b, on) => { b.disabled = on; b.style.opacity = on ? .6 : 1; };
+  const act = async (b, body, okMsg) => { busy(b, true); try { await api('/api/agents', { method: 'POST', body }); toast(okMsg); await loadAgents(true); renderAgents(); } catch (e) { toast(e.message, true); busy(b, false); } };
+  $('#agStop').onclick = e => { if (on && !confirm('Stop every agent now?')) return; act(e.currentTarget, { action: 'toggle', agent: 'GLOBAL STOP', enabled: on ? 'Off' : 'On' }, on ? 'All agents stopped' : 'Agents started'); };
+  el.querySelectorAll('.ag-tg').forEach(b => b.onclick = () => act(b, { action: 'toggle', agent: b.dataset.agent, enabled: b.dataset.to }, `${b.dataset.agent} ${b.dataset.to === 'On' ? 'on' : 'paused'}`));
+  el.querySelectorAll('[data-ap]').forEach(c => {
+    const id = c.dataset.ap;
+    c.querySelector('.ap-ok').onclick = e => { if (!confirm('Send this email now?')) return; act(e.currentTarget, { action: 'approve', id, subject: c.querySelector('.ap-subj').value, body: c.querySelector('.ap-body').value }, 'Sent'); };
+    c.querySelector('.ap-no').onclick = e => act(e.currentTarget, { action: 'reject', id }, 'Rejected');
+  });
+  el.querySelectorAll('.tk-done').forEach(b => b.onclick = () => act(b, { action: 'task', id: b.dataset.id, status: 'Done' }, 'Task done'));
+  el.querySelectorAll('.ld-st').forEach(s => s.onchange = () => act(s, { action: 'lead', id: s.dataset.id, status: s.value }, 'Lead updated'));
+}
+
 const ROUTES = {
   overview: { t: 'Overview', fn: renderOverview },
+  agents: { t: 'AI Workforce', fn: renderAgents },
   leads: { t: 'Leads', fn: renderLeads },
   calendar: { t: 'Calendar', fn: renderCalendar },
   inbox: { t: 'WhatsApp inbox', fn: renderInbox },
