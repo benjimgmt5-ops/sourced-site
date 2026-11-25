@@ -572,6 +572,14 @@ section.live>figure:after{left:calc(var(--pad) + 10px);right:calc(var(--pad) + 1
 .med-box h3{margin:10px 0 10px;font-size:clamp(22px,2.2vw,30px);color:#fff}
 .med-tag{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:999px;border:1px solid rgba(255,255,255,.35);background:rgba(255,255,255,.06);font-size:11px;letter-spacing:.25em;text-transform:uppercase;font-weight:700;color:#fff}
 .med-tag:before{content:"";width:7px;height:7px;border-radius:50%;background:#fff;box-shadow:0 0 10px #fff;animation:pflare 2.4s ease-in-out infinite}
+/* credits + how texture */
+.credits,.how{overflow:hidden;isolation:isolate}
+.credits>.wrap,.how>.wrap{position:relative;z-index:1}
+.credits:after,.how:after{content:"";position:absolute;top:0;right:0;width:min(1100px,100%);height:100%;z-index:0;pointer-events:none;mix-blend-mode:screen;background:radial-gradient(ellipse 70% 70% at 100% 0,rgba(90,90,95,.30) 0%,rgba(170,170,175,.22) 35%,transparent 70%),repeating-radial-gradient(circle at 100% 0,rgba(255,255,255,.12) 0 1px,transparent 1px 22px),radial-gradient(rgba(255,255,255,.26) 1.1px,transparent 1.7px) 0 0/16px 16px;-webkit-mask:radial-gradient(ellipse 100% 90% at 100% 0,#000,rgba(0,0,0,.5) 40%,transparent 75%);mask:radial-gradient(ellipse 100% 90% at 100% 0,#000,rgba(0,0,0,.5) 40%,transparent 75%);animation:credrift 14s ease-in-out infinite alternate,credpulse 6s ease-in-out infinite}
+@keyframes credrift{to{background-position:0 0,0 0,16px 32px}}@keyframes credpulse{0%,100%{opacity:.7}50%{opacity:1}}
+.cred-list .c-huncho{white-space:nowrap}
+@media (max-width:420px){.cred-list .c-huncho{font-size:20px;letter-spacing:.08em}}
+@media (prefers-reduced-motion:reduce){.credits:after,.how:after{animation:none}}
 /* title animation */
 .fx.in .w{animation:unclip 0s linear 1.6s forwards}
 @keyframes unclip{to{overflow:visible}}
