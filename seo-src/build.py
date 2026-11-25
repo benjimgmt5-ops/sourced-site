@@ -476,6 +476,53 @@ def build_tracked():
     write(path, doc)
     return path
 
+
+def build_medical():
+    path = "/film-events-ambulance/"
+    desc = "Film & Events Ambulance Service: on-set medics, paramedics, ambulances and medical risk assessment for film, TV, commercials and live events across the UK, booked through Sourced."
+    ld = [breadcrumb_ld([("Home", "/"), ("Miscellaneous", "/#/misc"), ("Film & Events Ambulance Service", path)])]
+    css = """<style>
+.tp{padding-top:clamp(48px,7vw,96px);padding-bottom:clamp(48px,7vw,96px)}
+.tp-box{position:relative;overflow:hidden;isolation:isolate;padding:clamp(28px,5vw,64px);border-radius:28px;background:linear-gradient(160deg,#2a2a2a,#1e1e1e 60%,#252525);border:1px solid #3a3a3a;box-shadow:inset 0 1px 0 rgba(255,255,255,.06),0 30px 60px -30px rgba(0,0,0,.9)}
+.tp-box:before{content:"";position:absolute;top:0;right:0;width:min(900px,100%);height:100%;z-index:-1;pointer-events:none;mix-blend-mode:screen;background:repeating-radial-gradient(circle at 100% 0,rgba(255,255,255,.12) 0 1px,transparent 1px 22px),radial-gradient(rgba(255,255,255,.26) 1.1px,transparent 1.7px) 0 0/16px 16px;-webkit-mask:radial-gradient(ellipse 100% 90% at 100% 0,#000,rgba(0,0,0,.5) 40%,transparent 75%);mask:radial-gradient(ellipse 100% 90% at 100% 0,#000,rgba(0,0,0,.5) 40%,transparent 75%);animation:tpdrift 14s ease-in-out infinite alternate,tppulse 6s ease-in-out infinite}
+.tp-box:after{content:"";position:absolute;top:0;right:0;width:70%;height:70%;z-index:-1;pointer-events:none;background:radial-gradient(ellipse at 100% 0,rgba(200,200,205,.14),transparent 70%)}
+@keyframes tpdrift{to{background-position:0 0,16px 32px}}@keyframes tppulse{0%,100%{opacity:.7}50%{opacity:1}}
+.tp-logo{display:block;width:min(440px,80%);height:auto;margin:0 0 clamp(28px,4vw,44px)}
+.tp-box h1{font-size:clamp(40px,6vw,72px);margin:0 0 .3em}
+.tp-box h2{font-size:clamp(26px,3vw,36px);margin:1.6em 0 .5em;padding-top:0!important;background:none!important}
+.tp-box p,.tp-box li{color:#e8e8e8;font-size:clamp(16px,1.3vw,18px);line-height:1.7;max-width:46em}
+.tp-box .lead{font-size:clamp(18px,1.6vw,22px);color:#fff;font-weight:500}
+.tp-box ul{margin:0 0 1em;padding-left:1.2em}.tp-box li::marker{color:#9a9a9a}
+.tp-tag{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:999px;border:1px solid rgba(255,255,255,.35);background:rgba(255,255,255,.06);font-size:11px;letter-spacing:.25em;text-transform:uppercase;font-weight:700;color:#fff;margin:0 0 18px}\n.tp-chips{list-style:none;padding:0!important;display:flex;flex-wrap:wrap;gap:10px}.tp-chips li{padding:8px 16px;border-radius:999px;border:1px solid #444;background:#262626;font-size:15px;font-weight:600}\n.tp-box .ctas{margin-top:2em;display:flex;gap:12px;flex-wrap:wrap}
+@media (prefers-reduced-motion:reduce){.tp-box:before{animation:none}}
+</style>"""
+    grades = ["First Responder (FREC 3/4)", "Emergency Care Assistant (ECA)", "Emergency Medical Technician (EMT)", "Paramedic (HCPC)", "Paramedic with controlled drugs", "Registered Nurse (NMC)", "Doctor (GMC)"]
+    services = ["On-set and unit medical cover", "Location and studio medical provision", "First Responders, Emergency Care Assistants, Emergency Medical Technicians and HCPC-registered Paramedics", "Ambulances and rapid response vehicles", "Production crew welfare and medical support", "Medical risk assessment and operational planning", "Specialist medical provision for complex and higher-risk productions"]
+    li = lambda xs: "".join(f"<li>{E(x)}</li>" for x in xs)
+    doc = head("Film & Events Ambulance Service | On-set Medical | Sourced.", desc, path, "/media/i/m1_pool.jpg", ld) + css + f"""<body>{nav()}
+<main class="wrap tp"><p class="crumbs"><a href="/">Home</a> / <a href="/#/misc">Miscellaneous</a> / Film &amp; Events Ambulance Service</p>
+<div class="tp-box">
+<p class="tp-tag">Our medical partner</p>
+<h1>Film &amp; Events Ambulance Service</h1>
+<p class="lead">Film &amp; Events Ambulance Service is an independent medical service provider specialising in the film, television, commercial production, and live events industries across the UK.</p>
+<p>We deliver professional, discreet, and reliable medical provision tailored to each production&rsquo;s requirements.</p>
+<h2>Services</h2>
+<ul>{li(services)}</ul>
+<h2>Clinicians available</h2>
+<ul class="tp-chips">{li(grades)}</ul>
+<p>Our service is supported by an established operational management and clinical governance structure, ensuring patient safety, confidentiality, professionalism and continuity of service remain central to everything we do.</p>
+<p>We pride ourselves on integrating seamlessly into production environments, working collaboratively with production managers, location managers and health and safety teams to minimise disruption and maintain a safe working environment.</p>
+<h2>Geographical Coverage</h2>
+<p>Film &amp; Events Ambulance Service operates nationwide, with established operational bases in East London and Swansea. We provide medical and welfare services across England, Wales, and the wider UK, supporting both studio-based and on-location productions.</p>
+<h2>Minimum Notice</h2>
+<p>Ideally, we would request 48&ndash;72 hours&rsquo; notice for standard production medical cover. However, we understand the fast-paced and ever-changing nature of the film and television industry and can accommodate short-notice and same-day bookings, subject to operational availability.</p>
+<p>For larger productions or those requiring specialist medical resources, we would welcome as much advance notice as possible.</p>
+<div class="ctas"><a class="btn" href="/#brief">Add medical to your brief</a><a class="btn ghost" href="tel:{PHONE_INTL}">Call {PHONE_DISPLAY}</a></div>
+</div></main>{footer()}</body></html>"""
+    write(path, doc)
+    return path
+
+
 def build_partners():
     path = "/partners/"
     desc = "List your location, cars, transport or services with Sourced. and get booked for music videos, films, fashion shows, photo shoots and events. First 3 months free."
@@ -754,6 +801,7 @@ if __name__ == "__main__":
     paths["services"].append(build_list_house())
     paths["services"].append(build_scouting(_g, _i))
     paths["services"].append(build_tracked())
+    paths["services"].append(build_medical())
     paths["services"].append(build_privacy())
     build_sitemap(paths)
     print(f"Built {len(paths['services'])} service pages, {len(paths['guides'])} guides, sitemap.xml")
