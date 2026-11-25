@@ -518,7 +518,48 @@ def build_medical():
 <h2>Minimum Notice</h2>
 <p>Ideally, we would request 48&ndash;72 hours&rsquo; notice for standard production medical cover. However, we understand the fast-paced and ever-changing nature of the film and television industry and can accommodate short-notice and same-day bookings, subject to operational availability.</p>
 <p>For larger productions or those requiring specialist medical resources, we would welcome as much advance notice as possible.</p>
-<div class="ctas"><a class="btn" href="/#brief">Add medical to your brief</a><a class="btn ghost" href="tel:{PHONE_INTL}">Call {PHONE_DISPLAY}</a></div>
+<div class="ctas"><a class="btn" href="/film-events-ambulance/in-action/">See our team in action</a><a class="btn ghost" href="/#brief">Add medical to your brief</a><a class="btn ghost" href="tel:{PHONE_INTL}">Call {PHONE_DISPLAY}</a></div>
+</div></main>{footer()}</body></html>"""
+    write(path, doc)
+    return path
+
+
+
+def build_medical_action():
+    path = "/film-events-ambulance/in-action/"
+    desc = "Film & Events Ambulance Service in action: medical teams, ambulances and first aid cover at live events and productions."
+    ld = [breadcrumb_ld([("Home", "/"), ("Film & Events Ambulance Service", "/film-events-ambulance/"), ("Our team in action", path)])]
+    css = """<style>
+.tp{padding-top:clamp(48px,7vw,96px);padding-bottom:clamp(48px,7vw,96px)}
+.tp-box{position:relative;overflow:hidden;isolation:isolate;padding:clamp(28px,5vw,64px);border-radius:28px;background:linear-gradient(160deg,#2a2a2a,#1e1e1e 60%,#252525);border:1px solid #3a3a3a;box-shadow:inset 0 1px 0 rgba(255,255,255,.06),0 30px 60px -30px rgba(0,0,0,.9)}
+.tp-box:before{content:"";position:absolute;top:0;right:0;width:min(900px,100%);height:100%;z-index:-1;pointer-events:none;mix-blend-mode:screen;background:repeating-radial-gradient(circle at 100% 0,rgba(255,255,255,.12) 0 1px,transparent 1px 22px),radial-gradient(rgba(255,255,255,.26) 1.1px,transparent 1.7px) 0 0/16px 16px;-webkit-mask:radial-gradient(ellipse 100% 90% at 100% 0,#000,rgba(0,0,0,.5) 40%,transparent 75%);mask:radial-gradient(ellipse 100% 90% at 100% 0,#000,rgba(0,0,0,.5) 40%,transparent 75%);animation:tpdrift 14s ease-in-out infinite alternate,tppulse 6s ease-in-out infinite}
+.tp-box:after{content:"";position:absolute;top:0;right:0;width:70%;height:70%;z-index:-1;pointer-events:none;background:radial-gradient(ellipse at 100% 0,rgba(200,200,205,.14),transparent 70%)}
+@keyframes tpdrift{to{background-position:0 0,16px 32px}}@keyframes tppulse{0%,100%{opacity:.7}50%{opacity:1}}
+.tp-logo{display:block;width:min(440px,80%);height:auto;margin:0 0 clamp(28px,4vw,44px)}
+.tp-box h1{font-size:clamp(40px,6vw,72px);margin:0 0 .3em}
+.tp-box h2{font-size:clamp(26px,3vw,36px);margin:1.6em 0 .5em;padding-top:0!important;background:none!important}
+.tp-box p,.tp-box li{color:#e8e8e8;font-size:clamp(16px,1.3vw,18px);line-height:1.7;max-width:46em}
+.tp-box .lead{font-size:clamp(18px,1.6vw,22px);color:#fff;font-weight:500}
+.tp-box ul{margin:0 0 1em;padding-left:1.2em}.tp-box li::marker{color:#9a9a9a}
+.tp-tag{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:999px;border:1px solid rgba(255,255,255,.35);background:rgba(255,255,255,.06);font-size:11px;letter-spacing:.25em;text-transform:uppercase;font-weight:700;color:#fff;margin:0 0 18px}\n.tp-chips{list-style:none;padding:0!important;display:flex;flex-wrap:wrap;gap:10px}.tp-chips li{padding:8px 16px;border-radius:999px;border:1px solid #444;background:#262626;font-size:15px;font-weight:600}\n.tp-box .ctas{margin-top:2em;display:flex;gap:12px;flex-wrap:wrap}
+@media (prefers-reduced-motion:reduce){.tp-box:before{animation:none}}
+</style>"""
+    css += """<style>.act-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:clamp(12px,1.6vw,20px);margin-top:clamp(24px,3vw,36px)}
+.act-grid figure{margin:0;padding:8px;border-radius:24px;background:linear-gradient(160deg,#5a5a5a 0%,#3a3a3a 40%,#2c2c2c 60%,#4a4a4a 100%);box-shadow:inset 0 1px 0 rgba(255,255,255,.25),0 24px 50px -28px rgba(0,0,0,.95);transition:transform .5s cubic-bezier(.2,.9,.25,1.2)}
+.act-grid figure:hover{transform:translateY(-4px)}
+.act-grid img{display:block;width:100%;height:100%;aspect-ratio:4/3;object-fit:cover;border-radius:17px}
+.act-grid .wide{grid-column:1/-1}.act-grid .wide img{aspect-ratio:16/8}
+@media (max-width:700px){.act-grid{grid-template-columns:1fr}.act-grid .wide img{aspect-ratio:4/3}}</style>"""
+    pics = [("action-1.jpg","Medical team on patrol at a live event","wide"),("action-3.jpg","Emergency ambulance on standby beside the first aid point",""),("action-5.jpg","Medic with response bag in the crowd at the main stage",""),("action-4.jpg","Ambulance and first aid point at night","wide"),("action-2.jpg","Event site ready before gates open","")]
+    figs = "".join(f'<figure class="{c}"><img src="/media/feas/{f}" alt="{E(a)}" loading="lazy" decoding="async"></figure>' for f,a,c in pics)
+    doc = head("Our Team in Action | Film & Events Ambulance Service | Sourced.", desc, path, "/media/feas/action-1.jpg", ld) + css + f"""<body>{nav()}
+<main class="wrap tp"><p class="crumbs"><a href="/">Home</a> / <a href="/film-events-ambulance/">Film &amp; Events Ambulance Service</a> / Our team in action</p>
+<div class="tp-box">
+<img class="tp-logo" src="/media/feas-logo.png" alt="Film &amp; Events Ambulance Service logo" style="width:min(260px,60%)">
+<h1>Our team in action</h1>
+<p class="lead">Medical teams, ambulances and first aid cover on the ground at live events and productions.</p>
+<div class="act-grid">{figs}</div>
+<div class="ctas"><a class="btn" href="/#brief">Add medical to your brief</a><a class="btn ghost" href="/film-events-ambulance/">Back to medical partner</a></div>
 </div></main>{footer()}</body></html>"""
     write(path, doc)
     return path
@@ -803,6 +844,7 @@ if __name__ == "__main__":
     paths["services"].append(build_scouting(_g, _i))
     paths["services"].append(build_tracked())
     paths["services"].append(build_medical())
+    paths["services"].append(build_medical_action())
     paths["services"].append(build_privacy())
     build_sitemap(paths)
     print(f"Built {len(paths['services'])} service pages, {len(paths['guides'])} guides, sitemap.xml")
