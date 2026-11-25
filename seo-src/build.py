@@ -432,6 +432,50 @@ def vehicle_links_html(service_slug):
         f'<li><a href="/{E(v["slug"])}/">{E(v["name"])}</a></li>' for v in vs) + "</ul>"
 
 
+
+def build_tracked():
+    path = "/tracked-protection/"
+    desc = "Tracked Protection: Close Protection, talent security and tailored security for private clients, high-profile individuals, talent and film and TV productions."
+    ld = [breadcrumb_ld([("Home", "/"), ("Security", "/#/security"), ("Tracked Protection", path)])]
+    css = """<style>
+.tp{padding-top:clamp(48px,7vw,96px);padding-bottom:clamp(48px,7vw,96px)}
+.tp-box{position:relative;overflow:hidden;isolation:isolate;padding:clamp(28px,5vw,64px);border-radius:28px;background:linear-gradient(160deg,#2a2a2a,#1e1e1e 60%,#252525);border:1px solid #3a3a3a;box-shadow:inset 0 1px 0 rgba(255,255,255,.06),0 30px 60px -30px rgba(0,0,0,.9)}
+.tp-box:before{content:"";position:absolute;top:0;right:0;width:min(900px,100%);height:100%;z-index:-1;pointer-events:none;mix-blend-mode:screen;background:repeating-radial-gradient(circle at 100% 0,rgba(255,255,255,.12) 0 1px,transparent 1px 22px),radial-gradient(rgba(255,255,255,.26) 1.1px,transparent 1.7px) 0 0/16px 16px;-webkit-mask:radial-gradient(ellipse 100% 90% at 100% 0,#000,rgba(0,0,0,.5) 40%,transparent 75%);mask:radial-gradient(ellipse 100% 90% at 100% 0,#000,rgba(0,0,0,.5) 40%,transparent 75%);animation:tpdrift 14s ease-in-out infinite alternate,tppulse 6s ease-in-out infinite}
+.tp-box:after{content:"";position:absolute;top:0;right:0;width:70%;height:70%;z-index:-1;pointer-events:none;background:radial-gradient(ellipse at 100% 0,rgba(200,200,205,.14),transparent 70%)}
+@keyframes tpdrift{to{background-position:0 0,16px 32px}}@keyframes tppulse{0%,100%{opacity:.7}50%{opacity:1}}
+.tp-logo{display:block;width:min(440px,80%);height:auto;margin:0 0 clamp(28px,4vw,44px)}
+.tp-box h1{font-size:clamp(40px,6vw,72px);margin:0 0 .3em}
+.tp-box h2{font-size:clamp(26px,3vw,36px);margin:1.6em 0 .5em;padding-top:0!important;background:none!important}
+.tp-box p,.tp-box li{color:#e8e8e8;font-size:clamp(16px,1.3vw,18px);line-height:1.7;max-width:46em}
+.tp-box .lead{font-size:clamp(18px,1.6vw,22px);color:#fff;font-weight:500}
+.tp-box ul{margin:0 0 1em;padding-left:1.2em}.tp-box li::marker{color:#9a9a9a}
+.tp-box .ctas{margin-top:2em;display:flex;gap:12px;flex-wrap:wrap}
+@media (prefers-reduced-motion:reduce){.tp-box:before{animation:none}}
+</style>"""
+    doc = head("Tracked Protection | Close Protection & Talent Security | Sourced.", desc, path, "/media/tracked-protection-logo.png", ld) + css + f"""<body>{nav()}
+<main class="wrap tp"><p class="crumbs"><a href="/">Home</a> / <a href="/#/security">Security</a> / Tracked Protection</p>
+<div class="tp-box">
+<img class="tp-logo" src="/media/tracked-protection-logo.png" alt="Tracked Protection logo">
+<h1>Tracked Protection</h1>
+<p class="lead">Tracked Protection provides Close Protection and security support to private clients, high-profile individuals, talent and production teams.</p>
+<h2>Experience &amp; Expertise</h2>
+<p>With 19 years of experience across the military and Close Protection, including eight years serving in the British Army and nine years working in Close Protection, our background covers personal protection, international travel, security advances, high-profile clients and film and television productions.</p>
+<h2>Our Approach</h2>
+<p>Close Protection isn’t just about protecting someone when they’re out and about. It’s about understanding how they live and work, being one step ahead, handling the details and making sure security doesn’t become an inconvenience to the client.</p>
+<h2>Film, Television &amp; Talent Security</h2>
+<p>We provide Close Protection for everyday life, as well as talent security on and off set. Having worked within the film industry, we understand the demands of production and the importance of keeping things running smoothly. Our role is to manage the security, assist where needed and deal with issues before they become problems, allowing clients, talent and production teams to focus on what they’re there to do.</p>
+<h2>Our Services</h2>
+<p>Alongside Close Protection and talent security, we provide:</p>
+<ul><li>Residential security</li><li>Event security</li><li>Location security</li><li>Access control</li><li>Wider security support tailored to the client’s requirements.</li></ul>
+<p>No two assignments are the same, and our approach reflects that. We take the time to understand what’s required and adapt accordingly.</p>
+<h2>Our Commitment</h2>
+<p>We take pride in our work, look after the people we work with and go above and beyond what’s expected.</p>
+<p>Ultimately, the job is about being someone the client can rely on, not simply someone who turns up and stands there.</p>
+<div class="ctas"><a class="btn" href="/#brief">Send your brief</a><a class="btn ghost" href="tel:{PHONE_INTL}">Call {PHONE_DISPLAY}</a></div>
+</div></main>{footer()}</body></html>"""
+    write(path, doc)
+    return path
+
 def build_partners():
     path = "/partners/"
     desc = "List your location, cars, transport or services with Sourced. and get booked for music videos, films, fashion shows, photo shoots and events. First 3 months free."
@@ -709,6 +753,7 @@ if __name__ == "__main__":
     paths["services"].append(build_partners())
     paths["services"].append(build_list_house())
     paths["services"].append(build_scouting(_g, _i))
+    paths["services"].append(build_tracked())
     paths["services"].append(build_privacy())
     build_sitemap(paths)
     print(f"Built {len(paths['services'])} service pages, {len(paths['guides'])} guides, sitemap.xml")
